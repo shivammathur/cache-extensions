@@ -81,7 +81,7 @@ jobs:
     - name: Cache extensions
       uses: actions/cache@v1
       with:
-        path: ${{ steps.extensioninfo.outputs.ext_dir }}
+        path: ${{ steps.cache-extensions.outputs.ext_dir }}
         key: ${{ runner.os }}-ext-${{ matrix.php-versions }}-${{ steps.cache-extensions.outputs.ext_hash }}
         restore-keys: ${{ runner.os }}-ext-${{ matrix.php-versions }}-${{ steps.cache-extensions.outputs.ext_hash }}
 
