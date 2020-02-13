@@ -1,0 +1,54 @@
+{
+  "name": "cache-extensions",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Cache extensions in GitHub Actions",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint **/*.ts --cache",
+    "format": "prettier --write **/*.ts && git add .",
+    "format-check": "prettier --check **/*.ts",
+    "release": "ncc build src/cache.ts -o dist && git add -f dist/",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivammathur/cache-extensions.git"
+  },
+  "keywords": [
+    "actions",
+    "php",
+    "setup"
+  ],
+  "author": "shivammathur",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.2",
+    "@actions/exec": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.1.2",
+    "@types/node": "^13.7.1",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "@zeit/ncc": "^0.21.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.7.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
+    "jest": "^25.1.0",
+    "jest-circus": "^25.1.0",
+    "prettier": "^1.19.1",
+    "ts-jest": "^25.2.0",
+    "typescript": "^3.7.5"
+  },
+  "husky": {
+    "skipCI": true,
+    "hooks": {
+      "pre-commit": "npm run format && npm run lint && npm run build && npm run release"
+    }
+  }
+}

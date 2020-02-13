@@ -1,0 +1,19 @@
+name: 'Cache PHP Extensions'
+author: shivammathur
+description: 'Cache PHP Extensions in GitHub Actions'
+branding:
+  color: 'purple'
+  icon: 'box'
+inputs:
+  php-version:
+    description: 'PHP version you are setting up.'
+    required: true
+  extensions:
+    description: 'Extensions you want to cache.'
+    required: true
+  key:
+    description: 'Key to version the cache hash.'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
