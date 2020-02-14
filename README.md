@@ -65,13 +65,13 @@ jobs:
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     env:
       extensions: intl, pcov
-      key: cache # can be any string
+      key: cache-v1 # can be any string, change to clear the extension cache.
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
     - name: Setup cache environment
-      id: cache-extensions
+      id: cache-env
       uses: shivammathur/cache-extensions@v1
       with:
         php-version: ${{ matrix.php-versions }}
@@ -81,14 +81,14 @@ jobs:
     - name: Cache extensions
       uses: actions/cache@v1
       with:
-        path: ${{ steps.cache-extensions.outputs.ext_dir }}
-        key: ${{ runner.os }}-ext-${{ matrix.php-versions }}-${{ steps.cache-extensions.outputs.ext_hash }}
-        restore-keys: ${{ runner.os }}-ext-${{ matrix.php-versions }}-${{ steps.cache-extensions.outputs.ext_hash }}
+        path: ${{ steps.cache-env.outputs.dir }}
+        key: ${{ steps.cache-env.outputs.key }}
+        restore-keys: ${{ steps.cache-env.outputs.key }}
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php-versions }}        
+        php-version: ${{ matrix.php-versions }}
         extensions: ${{ env.extensions }}
 ```
 
