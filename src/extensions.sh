@@ -1,5 +1,6 @@
 linux_extension_dir() {
   apiv=$1
+  old_versions_linux="5.[4-5]"
   if [ "$version" = "5.3" ]; then
     echo "/home/runner/php/5.3.29/lib/php/extensions/no-debug-non-zts-$apiv"
   elif [[ "$version" =~ $old_versions_linux ]]; then
@@ -13,6 +14,7 @@ linux_extension_dir() {
 
 darwin_extension_dir() {
   apiv=$1
+  old_versions_darwin="5.[3-5]"
   if [[ "$version" =~ $old_versions_darwin ]]; then
     echo "/opt/local/lib/php${version/./}/extensions/no-debug-non-zts-$apiv"
   else
@@ -22,30 +24,14 @@ darwin_extension_dir() {
 
 get_apiv() {
   case $version in
-    5.3)
-      echo "20090626"
-      ;;
-    5.4)
-      echo "20100525"
-      ;;
-    5.5)
-      echo "20121212"
-      ;;
-    5.6)
-      echo "20131226"
-      ;;
-    7.0)
-      echo "20151012"
-      ;;
-    7.1)
-      echo "20160303"
-      ;;
-    7.2)
-      echo "20170718"
-      ;;
-    7.3)
-      echo "20180731"
-      ;;
+    5.3) echo "20090626" ;;
+    5.4) echo "20100525" ;;
+    5.5) echo "20121212" ;;
+    5.6) echo "20131226" ;;
+    7.0) echo "20151012" ;;
+    7.1) echo "20160303" ;;
+    7.2) echo "20170718" ;;
+    7.3) echo "20180731" ;;
     *)
       if [ "$version" = "8.0" ]; then
         php_h="https://raw.githubusercontent.com/php/php-src/master/main/php.h"
@@ -59,21 +45,21 @@ get_apiv() {
 }
 
 version=$2
-old_versions_linux="5.[4-5]"
-old_versions_darwin="5.[3-5]"
+extensions=$1
 os=$(uname -s)
 if [ "$os" = "Linux" ]; then
   flags='-Po'
   apiv=$(get_apiv)
   dir=$(linux_extension_dir "$apiv")
-  sudo mkdir -p "$dir" && sudo chown -R "$USER":"$(id -g -n)" $(dirname "$dir")
+  sudo mkdir -p "$dir" && sudo chown -R "$USER":"$(id -g -n)" "$(dirname "$dir")"
 elif [ "$os" = "Darwin" ]; then
   flags='-Eo'
   apiv=$(get_apiv)
   dir=$(darwin_extension_dir "$apiv")
 else
+  os="Windows"
   dir='C:\\tools\\php\\ext'
 fi
-hash=$(echo -n "$1" | openssl dgst -sha256 | cut -d ' ' -f 2)
-echo "::set-output name=ext_dir::$dir"
-echo "::set-output name=ext_hash::$hash"
+key="$os"-ext-"$version"-$(echo -n "$extensions" | openssl dgst -sha256 | cut -d ' ' -f 2)
+echo "::set-output name=dir::$dir"
+echo "::set-output name=key::$key"
