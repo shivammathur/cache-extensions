@@ -8,7 +8,8 @@ import * as utils from './utils';
  */
 export async function run(): Promise<void> {
   try {
-    const version: string = await utils.getInput('php-version', true);
+    let version: string = await utils.getInput('php-version', true);
+    version = version.length > 1 ? version.slice(0, 3) : version + '.0';
     const extensions: string = await utils.getInput('extensions', true);
     const key: string = await utils.getInput('key', true);
     const script_path: string = path.join(__dirname, '../src/extensions.sh');
