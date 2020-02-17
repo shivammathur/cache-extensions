@@ -1,6 +1,6 @@
 {
   "name": "cache-extensions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "Cache extensions in GitHub Actions",
   "main": "dist/index.js",

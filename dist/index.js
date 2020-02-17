@@ -1550,7 +1550,8 @@ const utils = __importStar(__webpack_require__(163));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const version = yield utils.getInput('php-version', true);
+            let version = yield utils.getInput('php-version', true);
+            version = version.length > 1 ? version.slice(0, 3) : version + '.0';
             const extensions = yield utils.getInput('extensions', true);
             const key = yield utils.getInput('key', true);
             const script_path = path.join(__dirname, '../src/extensions.sh');
