@@ -49,6 +49,7 @@ key=$2
 version=$3
 os=$(uname -s)
 if [ "$os" = "Linux" ]; then
+  os=$os-$(lsb_release -s -c)
   flags='-Po'
   apiv=$(get_apiv)
   dir=$(linux_extension_dir "$apiv")
