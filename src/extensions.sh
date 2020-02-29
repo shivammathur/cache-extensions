@@ -44,8 +44,9 @@ get_apiv() {
   esac
 }
 
-version=$2
 extensions=$1
+key=$2
+version=$3
 os=$(uname -s)
 if [ "$os" = "Linux" ]; then
   flags='-Po'
@@ -68,6 +69,6 @@ else
   os="Windows"
   dir='C:\\tools\\php\\ext'
 fi
-key="$os"-ext-"$version"-$(echo -n "$extensions" | openssl dgst -sha256 | cut -d ' ' -f 2)
+key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)
 echo "::set-output name=dir::$dir"
 echo "::set-output name=key::$key"
