@@ -16,7 +16,7 @@ darwin_extension_dir() {
   apiv=$1
   old_versions_darwin="5.[3-5]"
   if [[ "$version" =~ $old_versions_darwin ]]; then
-    echo "/opt/local/lib/php${version/./}/extensions/no-debug-non-zts-$apiv"
+    echo "/usr/local/php5/lib/php/extensions/no-debug-non-zts-$apiv"
   else
     echo "/usr/local/lib/php/pecl/$apiv"
   fi
@@ -44,22 +44,32 @@ get_apiv() {
   esac
 }
 
-version=$2
 extensions=$1
+key=$2
+version=$3
 os=$(uname -s)
 if [ "$os" = "Linux" ]; then
+  os=$os-$(lsb_release -s -c)
   flags='-Po'
   apiv=$(get_apiv)
   dir=$(linux_extension_dir "$apiv")
   sudo mkdir -p "$dir" && sudo chown -R "$USER":"$(id -g -n)" "$(dirname "$dir")"
+  debconf_fix="DEBIAN_FRONTEND=noninteractive"
+  apt_install="sudo $debconf_fix apt-fast install -y"
+  IFS=' ' read -r -a extension_array <<< "${extensions//,/ }"
+  for extension in "${extension_array[@]}"; do
+    # shellcheck disable=SC2046
+    $apt_install $(apt-cache depends php"$version"-"$extension" 2>/dev/null | awk '/Depends:/{print$2}') >/dev/null 2>&1
+  done
 elif [ "$os" = "Darwin" ]; then
   flags='-Eo'
   apiv=$(get_apiv)
   dir=$(darwin_extension_dir "$apiv")
+  sudo mkdir -p "$dir" && sudo chown -R "$USER":"$(id -g -n)" "$(dirname "$dir")"
 else
   os="Windows"
   dir='C:\\tools\\php\\ext'
 fi
-key="$os"-ext-"$version"-$(echo -n "$extensions" | openssl dgst -sha256 | cut -d ' ' -f 2)
+key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)
 echo "::set-output name=dir::$dir"
 echo "::set-output name=key::$key"

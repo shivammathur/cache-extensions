@@ -14,7 +14,7 @@ export async function run(): Promise<void> {
     const key: string = await utils.getInput('key', true);
     const script_path: string = path.join(__dirname, '../src/extensions.sh');
     await exec(
-      'bash ' + script_path + ' "' + extensions + '-' + key + '" ' + version
+      'bash ' + script_path + ' "' + extensions + '" ' + key + ' ' + version
     );
   } catch (error) {
     core.setFailed(error.message);

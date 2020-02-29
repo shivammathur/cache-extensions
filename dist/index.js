@@ -1555,7 +1555,7 @@ function run() {
             const extensions = yield utils.getInput('extensions', true);
             const key = yield utils.getInput('key', true);
             const script_path = path.join(__dirname, '../src/extensions.sh');
-            yield exec_1.exec('bash ' + script_path + ' "' + extensions + '-' + key + '" ' + version);
+            yield exec_1.exec('bash ' + script_path + ' "' + extensions + '" ' + key + ' ' + version);
         }
         catch (error) {
             core.setFailed(error.message);

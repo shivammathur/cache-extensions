@@ -12,7 +12,7 @@ jest.mock('../src/cache', () => ({
       const script_path = 'extensions.sh';
 
       return (
-        'bash ' + script_path + ' "' + extensions + '-' + key + '" ' + version
+        'bash ' + script_path + ' "' + extensions + '" ' + key + ' ' + version
       );
     }
   )
@@ -42,13 +42,13 @@ describe('Install', () => {
     setEnv('7.0', 'xdebug, pcov', 'cache-v1');
     // @ts-ignore
     const script: string = await install.run();
-    expect(script).toContain('bash extensions.sh "xdebug, pcov-cache-v1" 7.0');
+    expect(script).toContain('bash extensions.sh "xdebug, pcov" cache-v1 7.0');
   });
 
   it('Test Run', async () => {
     setEnv('7.4', 'xdebug, zip', 'cache-v2');
     // @ts-ignore
     const script: string = await install.run();
-    expect(script).toContain('bash extensions.sh "xdebug, zip-cache-v2" 7.4');
+    expect(script).toContain('bash extensions.sh "xdebug, zip" cache-v2 7.4');
   });
 });
