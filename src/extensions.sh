@@ -16,7 +16,7 @@ darwin_extension_dir() {
   apiv=$1
   old_versions_darwin="5.[3-5]"
   if [[ "$version" =~ $old_versions_darwin ]]; then
-    echo "/usr/local/php5/lib/php/extensions/no-debug-non-zts-$apiv"
+    echo "/opt/local/lib/php${version/./}/extensions/no-debug-non-zts-$apiv"
   else
     echo "/usr/local/lib/php/pecl/$apiv"
   fi
