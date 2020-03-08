@@ -16,7 +16,7 @@ darwin_extension_dir() {
   apiv=$1
   old_versions_darwin="5.[3-5]"
   if [[ "$version" =~ $old_versions_darwin ]]; then
-    echo "/usr/local/php5/lib/php/extensions/no-debug-non-zts-$apiv"
+    echo "/opt/local/lib/php${version/./}/extensions/no-debug-non-zts-$apiv"
   else
     echo "/usr/local/lib/php/pecl/$apiv"
   fi
@@ -32,16 +32,41 @@ get_apiv() {
     7.1) echo "20160303" ;;
     7.2) echo "20170718" ;;
     7.3) echo "20180731" ;;
+    7.4) echo "20190902" ;;
     *)
-      if [ "$version" = "8.0" ]; then
-        php_h="https://raw.githubusercontent.com/php/php-src/master/main/php.h"
-      else
-        semver=$(curl -sSL --retry 5 https://github.com/php/php-src/releases | grep "$flags" "(php-$version.[0-9]+)".zip | head -n 1 | grep "$flags" '[0-9]+\.[0-9]+\.[0-9]+')
-        php_h="https://raw.githubusercontent.com/php/php-src/PHP-$semver/main/php.h"
-      fi
+      php_h="https://raw.githubusercontent.com/php/php-src/master/main/php.h"
       curl -sSL --retry 5 "$php_h" | grep "PHP_API_VERSION" | cut -d' ' -f 3
       ;;
   esac
+}
+
+setup_dependencies() {
+  exts=$1
+  release=$2
+  empty_reg="\s+|^$"
+  script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
+  exts=${exts//,/}
+  for ext in $exts; do
+    if grep -i -q -w "$ext" "$script_dir"/lists/"$release"-php"$version"-extensions; then
+      exts=${exts//$ext/}
+    fi
+  done
+  if [[ ! "$exts" =~ $empty_reg ]]; then
+    # shellcheck disable=SC2001,SC2086
+    exts=$(echo ${exts//pdo_} | sed "s/[^ ]* */php$version-&/g")
+    # shellcheck disable=SC2086
+    deps=$(apt-cache depends $exts 2>/dev/null | awk '/Depends: lib/{print$2}')
+    for dep in $deps; do
+      if grep -i -q -w "$dep" "$script_dir"/lists/"$release"-libs; then
+        deps=${deps//$dep/}
+      fi
+    done
+    if [[ ! "${deps[*]}" =~ $empty_reg ]]; then
+      echo "Adding ${deps[*]}"
+      # shellcheck disable=SC2068
+      sudo DEBIAN_FRONTEND=noninteractive apt-fast install --no-install-recommends --no-upgrade -y ${deps[@]}
+    fi
+  fi
 }
 
 extensions=$1
@@ -49,20 +74,13 @@ key=$2
 version=$3
 os=$(uname -s)
 if [ "$os" = "Linux" ]; then
-  os=$os-$(lsb_release -s -c)
-  flags='-Po'
+  release=$(lsb_release -s -c)
+  os=$os-$release
   apiv=$(get_apiv)
   dir=$(linux_extension_dir "$apiv")
   sudo mkdir -p "$dir" && sudo chown -R "$USER":"$(id -g -n)" "$(dirname "$dir")"
-  debconf_fix="DEBIAN_FRONTEND=noninteractive"
-  apt_install="sudo $debconf_fix apt-fast install -y"
-  IFS=' ' read -r -a extension_array <<< "${extensions//,/ }"
-  for extension in "${extension_array[@]}"; do
-    # shellcheck disable=SC2046
-    $apt_install $(apt-cache depends php"$version"-"$extension" 2>/dev/null | awk '/Depends:/{print$2}') >/dev/null 2>&1
-  done
+  setup_dependencies "$extensions" "$release"
 elif [ "$os" = "Darwin" ]; then
-  flags='-Eo'
   apiv=$(get_apiv)
   dir=$(darwin_extension_dir "$apiv")
   sudo mkdir -p "$dir" && sudo chown -R "$USER":"$(id -g -n)" "$(dirname "$dir")"
