@@ -1,6 +1,6 @@
 {
   "name": "cache-extensions",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": false,
   "description": "Cache extensions in GitHub Actions",
   "main": "dist/index.js",
@@ -29,9 +29,9 @@
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
-    "@types/node": "^13.9.0",
-    "@typescript-eslint/eslint-plugin": "^2.22.0",
-    "@typescript-eslint/parser": "^2.22.0",
+    "@types/node": "^13.9.1",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
     "@zeit/ncc": "^0.21.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
