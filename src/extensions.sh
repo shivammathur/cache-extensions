@@ -87,6 +87,9 @@ elif [ "$os" = "Darwin" ]; then
 else
   os="Windows"
   dir='C:\\tools\\php\\ext'
+  if [ "$version" = "8.0" ] && [[ "$extensions" == *pcov* ]]; then
+    key="$key-pcov_20200410"
+  fi
 fi
 key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)
 echo "::set-output name=dir::$dir"
