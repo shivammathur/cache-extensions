@@ -1,4 +1,5 @@
 import * as install from '../src/cache';
+import * as utils from '../src/utils';
 
 /**
  * Mock cache.ts
@@ -6,8 +7,11 @@ import * as install from '../src/cache';
 jest.mock('../src/cache', () => ({
   run: jest.fn().mockImplementation(
     async (): Promise<string> => {
-      const version: string = process.env['php-version'] || '';
-      const extensions: string = process.env['extensions'] || '';
+      let version: string = process.env['php-version'] || '';
+      version = version.length > 1 ? version.slice(0, 3) : version + '.0';
+      const extensions = await utils.filterExtensions(
+        process.env['extensions'] || ''
+      );
       const key: string = process.env['key'] || '';
       const script_path = 'extensions.sh';
 
@@ -22,10 +26,8 @@ jest.mock('../src/cache', () => ({
  * Function to set the process.env
  *
  * @param version
- * @param os
- * @param extension_csv
- * @param ini_values_csv
- * @param coverage_driver
+ * @param extensions
+ * @param key
  */
 function setEnv(
   version: string | number,
@@ -50,5 +52,12 @@ describe('Install', () => {
     // @ts-ignore
     const script: string = await install.run();
     expect(script).toContain('bash extensions.sh "xdebug, zip" cache-v2 7.4');
+  });
+
+  it('Test Run', async () => {
+    setEnv('7.4', 'xdebug, :zip', 'cache-v2');
+    // @ts-ignore
+    const script: string = await install.run();
+    expect(script).toContain('bash extensions.sh "xdebug" cache-v2 7.4');
   });
 });

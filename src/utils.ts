@@ -20,3 +20,17 @@ export async function getInput(
       return input;
   }
 }
+
+/**
+ * Function to filter extensions
+ *
+ * @param extension_csv
+ */
+export async function filterExtensions(extension_csv: string): Promise<string> {
+  return extension_csv
+    .split(',')
+    .filter(extension => {
+      return extension.trim()[0] != ':';
+    })
+    .join(',');
+}

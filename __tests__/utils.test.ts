@@ -1,5 +1,3 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import * as utils from '../src/utils';
 
 jest.mock('@actions/core', () => ({
@@ -18,5 +16,10 @@ describe('Utils tests', () => {
       'cache-extensions'
     );
     expect(await utils.getInput('DoesNotExist', false)).toBe('');
+  });
+
+  it('checking filterExtensions', async () => {
+    expect(await utils.filterExtensions('a,:b,c')).toBe('a,c');
+    expect(await utils.filterExtensions('a, :b, c')).toBe('a, c');
   });
 });
