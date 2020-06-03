@@ -1,6 +1,6 @@
 {
   "name": "cache-extensions",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "private": false,
   "description": "Cache extensions in GitHub Actions",
   "main": "dist/index.js",
@@ -28,27 +28,27 @@
     "@actions/exec": "^1.0.4"
   },
   "devDependencies": {
-    "@types/jest": "^25.2.1",
-    "@types/node": "^13.13.5",
-    "@typescript-eslint/eslint-plugin": "^2.31.0",
-    "@typescript-eslint/parser": "^2.31.0",
-    "@zeit/ncc": "^0.22.1",
-    "eslint": "^7.0.0",
+    "@types/jest": "^25.2.3",
+    "@types/node": "^14.0.9",
+    "@typescript-eslint/eslint-plugin": "^3.1.0",
+    "@typescript-eslint/parser": "^3.1.0",
+    "@zeit/ncc": "^0.22.3",
+    "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jest": "^23.10.0",
+    "eslint-plugin-jest": "^23.13.2",
     "eslint-plugin-prettier": "^3.1.3",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
     "jest-circus": "^26.0.1",
     "prettier": "^2.0.5",
-    "ts-jest": "^25.5.1",
-    "typescript": "^3.8.3"
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.3"
   },
   "husky": {
     "skipCI": true,
     "hooks": {
-      "pre-commit": "npm run format && npm run lint && npm run build && npm run release"
+      "pre-commit": "npm run format && npm run lint && npm run test && npm run build && npm run release"
     }
   }
 }
