@@ -1,41 +1,37 @@
 [PHP Modules]
+apc
+apcu
 bcmath
 bz2
-calendar
 Core
 ctype
 curl
 date
 dom
-enchant
+ereg
 exif
-FFI
 fileinfo
 filter
 ftp
 gd
-gettext
-gmp
 hash
 iconv
 intl
 json
 libxml
 mbstring
+mcrypt
+mysql
 mysqli
 mysqlnd
 openssl
 pcntl
-pcov
 pcre
 PDO
 pdo_mysql
-pdo_pgsql
 pdo_sqlite
-pgsql
 Phar
 posix
-pspell
 readline
 Reflection
 session
@@ -44,19 +40,19 @@ SimpleXML
 soap
 sockets
 SPL
+SQLite
 sqlite3
 standard
-sysvmsg
 sysvsem
 sysvshm
 tidy
 tokenizer
+xdebug
 xml
 xmlreader
 xmlrpc
 xmlwriter
 xsl
-Zend OPcache
 zip
 zlib
 phalcon3
@@ -64,5 +60,5 @@ phalcon4
 blackfire
 
 [Zend Modules]
-Zend OPcache
+Xdebug
 

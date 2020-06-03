@@ -1,4 +1,4 @@
-import * as install from '../src/cache';
+import * as cache from '../src/cache';
 import * as utils from '../src/utils';
 
 /**
@@ -42,22 +42,19 @@ function setEnv(
 describe('Install', () => {
   it('Test Run', async () => {
     setEnv('7.0', 'xdebug, pcov', 'cache-v1');
-    // @ts-ignore
-    const script: string = await install.run();
+    const script: string = '' + (await cache.run());
     expect(script).toContain('bash extensions.sh "xdebug, pcov" cache-v1 7.0');
   });
 
   it('Test Run', async () => {
     setEnv('7.4', 'xdebug, zip', 'cache-v2');
-    // @ts-ignore
-    const script: string = await install.run();
+    const script: string = '' + (await cache.run());
     expect(script).toContain('bash extensions.sh "xdebug, zip" cache-v2 7.4');
   });
 
   it('Test Run', async () => {
     setEnv('7.4', 'xdebug, :zip', 'cache-v2');
-    // @ts-ignore
-    const script: string = await install.run();
+    const script: string = '' + (await cache.run());
     expect(script).toContain('bash extensions.sh "xdebug" cache-v2 7.4');
   });
 });
