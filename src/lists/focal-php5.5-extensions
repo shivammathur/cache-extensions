@@ -1,4 +1,6 @@
 [PHP Modules]
+apc
+apcu
 bcmath
 bz2
 calendar
@@ -6,27 +8,29 @@ Core
 ctype
 curl
 date
+dba
 dom
-enchant
+ereg
 exif
-FFI
 fileinfo
 filter
 ftp
 gd
 gettext
-gmp
 hash
 iconv
+imagick
 intl
 json
 libxml
 mbstring
+mcrypt
+memcached
+mhash
+mysql
 mysqli
-mysqlnd
 openssl
 pcntl
-pcov
 pcre
 PDO
 pdo_mysql
@@ -35,8 +39,7 @@ pdo_sqlite
 pgsql
 Phar
 posix
-pspell
-readline
+redis
 Reflection
 session
 shmop
@@ -49,13 +52,12 @@ standard
 sysvmsg
 sysvsem
 sysvshm
-tidy
 tokenizer
+wddx
+xdebug
 xml
 xmlreader
-xmlrpc
 xmlwriter
-xsl
 Zend OPcache
 zip
 zlib
@@ -64,5 +66,6 @@ phalcon4
 blackfire
 
 [Zend Modules]
+Xdebug
 Zend OPcache
 
