@@ -14,9 +14,12 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 - [PHP Support](#tada-php-support)
 - [OS/Platform Support](#cloud-osplatform-support)
 - [Usage](#memo-usage)
+  - [Inputs](#inputs)
+  - [Workflow](#workflow)
 - [License](#scroll-license)
 - [Contributions](#1-contributions)
 - [Support this project](#sparkling_heart-support-this-project)
+- [Dependencies](#bookmark-dependencies)
 
 ## :tada: PHP Support
 
@@ -31,27 +34,43 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 |7.2|`Stable`|`Security fixes only`|
 |7.3|`Stable`|`Active`|
 |7.4|`Stable`|`Active`|
-|8.0|`Experimental`|`In development`|
+|8.0|`Nightly`|`In development`|
 
 ## :cloud: OS/Platform Support
 
-|Virtual environment|matrix.operating-system|
+|Virtual environment|YAML workflow label|
 |--- |--- |
 |Windows Server 2019|`windows-latest` or `windows-2019`|
+|Ubuntu 20.04|`ubuntu-20.04`|
 |Ubuntu 18.04|`ubuntu-latest` or `ubuntu-18.04`|
 |Ubuntu 16.04|`ubuntu-16.04`|
-|macOS X Catalina 10.15|`macos-latest` or `macOS-10.15`|
+|macOS Catalina 10.15|`macos-latest` or `macOS-10.15`|
 
 ## :memo: Usage
 
-Inputs supported by this GitHub Action.
+### Inputs
 
-- php-version `required`
-- extensions `required`
-- key `required`
+#### `php-version` (required)
+
+- Specify the PHP version you want to setup.
+- Accepts a `string`. For example `'7.4'`.
+- See [PHP support](#tada-php-support) for supported PHP versions.
+
+#### `extensions` (required)
+
+- Specify the extensions you want to add or remove.
+- Accepts a `string` in csv-format. For example `mbstring, , xdebug, :opcache`.
+- Extensions prefixed with `:` are ignored.
+
+#### `key` (required)
+
+- Specify the key to identify the cache version.
+- Accepts any `string`. For example `cache-v1`.
+- Changing this would reset the cache.
 
 See [action.yml](action.yml "Metadata for this GitHub Action") and usage below for more info.
 
+### Workflow
 > Cache extensions in a PHP workflow
 
 ```yaml
@@ -71,7 +90,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup cache environment
-      id: cache-env
+      id: extcache
       uses: shivammathur/cache-extensions@v1
       with:
         php-version: ${{ matrix.php-versions }}
@@ -81,9 +100,9 @@ jobs:
     - name: Cache extensions
       uses: actions/cache@v2
       with:
-        path: ${{ steps.cache-env.outputs.dir }}
-        key: ${{ steps.cache-env.outputs.key }}
-        restore-keys: ${{ steps.cache-env.outputs.key }}
+        path: ${{ steps.extcache.outputs.dir }}
+        key: ${{ steps.extcache.outputs.key }}
+        restore-keys: ${{ steps.extcache.outputs.key }}
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -104,7 +123,11 @@ Contributions are welcome! See [Contributor's Guide](.github/CONTRIBUTING.md "sh
 
 If this action helped you.
 
+- Sponsor the project by subscribing on [Patreon](https://www.patreon.com/shivammathur "Shivam Mathur Patreon") or by contributing using [Paypal](https://www.paypal.me/shivammathur "Shivam Mathur PayPal").
 - Please star the project and share it with the community.
-- If you blog, write about your experience while using this action.
-- I maintain this in my free time, please support me with a [Patreon](https://www.patreon.com/shivammathur "Shivam Mathur Patreon") subscription or a one time contribution using [Paypal](https://www.paypal.me/shivammathur "Shivam Mathur PayPal").
-- If you need any help using this, please contact me using [Codementor](https://www.codementor.io/shivammathur "Shivam Mathur Codementor")
+- If you blog, write about your experience of using this action.
+- If you need any help using this, please contact me using [Codementor](https://www.codementor.io/shivammathur "Shivam Mathur Codementor")u need any help using this, please contact me using [Codementor](https://www.codementor.io/shivammathur "Shivam Mathur Codementor")
+
+## :bookmark: Dependencies
+
+- [Node.js dependencies](https://github.com/shivammathur/setup-php/network/dependencies "Node.js dependencies")

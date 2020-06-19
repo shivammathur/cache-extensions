@@ -65,4 +65,5 @@ blackfire
 
 [Zend Modules]
 Zend OPcache
+Xdebug
 
