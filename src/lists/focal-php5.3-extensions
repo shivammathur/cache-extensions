@@ -16,6 +16,7 @@ ftp
 gd
 hash
 iconv
+ioncube
 intl
 json
 libxml
@@ -28,6 +29,8 @@ openssl
 pcntl
 pcre
 PDO
+oci8
+PDO_OCI
 pdo_mysql
 pdo_sqlite
 Phar
