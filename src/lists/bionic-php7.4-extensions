@@ -23,6 +23,7 @@ hash
 iconv
 igbinary
 imap
+ioncube
 intl
 json
 ldap
@@ -41,6 +42,8 @@ pcre
 PDO
 pdo_dblib
 PDO_Firebird
+oci8
+PDO_OCI
 pdo_mysql
 PDO_ODBC
 pdo_pgsql

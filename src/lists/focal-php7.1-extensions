@@ -15,6 +15,7 @@ gettext
 hash
 iconv
 igbinary
+ioncube
 intl
 json
 libxml

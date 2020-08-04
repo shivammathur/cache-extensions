@@ -20,6 +20,7 @@ gettext
 hash
 iconv
 imagick
+ioncube
 intl
 json
 libxml
@@ -33,6 +34,8 @@ openssl
 pcntl
 pcre
 PDO
+oci8
+PDO_OCI
 pdo_mysql
 pdo_pgsql
 pdo_sqlite

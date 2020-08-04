@@ -6,7 +6,7 @@ linux_extension_dir() {
   elif [[ "$version" =~ $old_versions_linux ]]; then
     echo "/usr/lib/php5/$apiv"
   elif [ "$version" = "8.0" ]; then
-    echo "/home/runner/php/8.0/lib/php/extensions/no-debug-non-zts-$apiv"
+    echo "/usr/local/php/8.0/lib/php/extensions/no-debug-non-zts-$apiv"
   else
     echo "/usr/lib/php/$apiv"
   fi

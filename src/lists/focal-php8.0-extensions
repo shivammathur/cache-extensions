@@ -18,6 +18,7 @@ gettext
 gmp
 hash
 iconv
+ioncube
 intl
 json
 libxml
@@ -29,6 +30,8 @@ pcntl
 pcov
 pcre
 PDO
+oci8
+PDO_OCI
 pdo_mysql
 pdo_pgsql
 pdo_sqlite
