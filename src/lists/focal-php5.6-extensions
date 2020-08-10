@@ -5,6 +5,7 @@ apcu
 calendar
 Core
 ctype
+cubrid
 curl
 date
 dom

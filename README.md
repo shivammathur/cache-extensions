@@ -16,10 +16,11 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 - [Usage](#memo-usage)
   - [Inputs](#inputs)
   - [Workflow](#workflow)
+  - [Thread Safe Setup](#thread-safe-setup)
 - [License](#scroll-license)
 - [Contributions](#1-contributions)
-- [Support this project](#sparkling_heart-support-this-project)
-- [Dependencies](#bookmark-dependencies)
+- [Support This Project](#sparkling_heart-support-this-project)
+- [Dependencies](#package-dependencies)
 
 ## :tada: PHP Support
 
@@ -48,6 +49,8 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 
 ## :memo: Usage
 
+Use this GitHub Action when the extensions you are adding in [setup-php](https://github.com/shivammathur/setup-php "setup-php GitHub Action") are installed and take a long time to setup. If you are using extensions which have the result `Installed and enabled` in the logs like `pecl` extensions on `Ubuntu` or extensions which have custom support, it is recommended to use this action to cache your extensions.
+
 ### Inputs
 
 #### `php-version` (required)
@@ -71,6 +74,7 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 See [action.yml](action.yml "Metadata for this GitHub Action") and usage below for more info.
 
 ### Workflow
+
 > Cache extensions in a PHP workflow
 
 ```yaml
@@ -111,6 +115,19 @@ jobs:
         extensions: ${{ env.extensions }}
 ```
 
+### Thread Safe Setup
+
+If you setup both `TS` and `NTS` PHP versions on `Windows` in your workflow, please add `${{ env.phpts }}` to `key` and `restore-keys` inputs in `actions/cache` step in the above workflow to avoid conflicting cache.
+
+```yaml
+- name: Cache extensions
+  uses: actions/cache@v2
+  with:
+    path: ${{ steps.extcache.outputs.dir }}
+    key: ${{ steps.extcache.outputs.key }}-${{ env.phpts }}
+    restore-keys: ${{ steps.extcache.outputs.key }}-${{ env.phpts }}
+```
+
 ## :scroll: License
 
 The scripts and documentation in this project are released under the [MIT License](LICENSE "License for shivammathur/cache-extensions"). This project has multiple [dependencies](https://github.com/shivammathur/cache-extensions/network/dependencies "Dependencies for this PHP Action"). Their licenses can be found in their respective repositories.
@@ -119,15 +136,14 @@ The scripts and documentation in this project are released under the [MIT Licens
 
 Contributions are welcome! See [Contributor's Guide](.github/CONTRIBUTING.md "shivammathur/cache-extensions contribution guide"). If you face any issues while using this or want to suggest a feature/improvement, create an issue [here](https://github.com/shivammathur/cache-extensions/issues "Issues reported").
 
-## :sparkling_heart: Support this project
+## :sparkling_heart: Support This Project
 
 If this action helped you.
 
 - Sponsor the project by subscribing on [Patreon](https://www.patreon.com/shivammathur "Shivam Mathur Patreon") or by contributing using [Paypal](https://www.paypal.me/shivammathur "Shivam Mathur PayPal").
 - Please star the project and share it with the community.
 - If you blog, write about your experience of using this action.
-- If you need any help using this, please contact me using [Codementor](https://www.codementor.io/shivammathur "Shivam Mathur Codementor")u need any help using this, please contact me using [Codementor](https://www.codementor.io/shivammathur "Shivam Mathur Codementor")
 
-## :bookmark: Dependencies
+## :package: Dependencies
 
 - [Node.js dependencies](https://github.com/shivammathur/setup-php/network/dependencies "Node.js dependencies")
