@@ -140,9 +140,10 @@ Contributions are welcome! See [Contributor's Guide](.github/CONTRIBUTING.md "sh
 
 If this action helped you.
 
-- Sponsor the project by subscribing on [Patreon](https://www.patreon.com/shivammathur "Shivam Mathur Patreon") or by contributing using [Paypal](https://www.paypal.me/shivammathur "Shivam Mathur PayPal").
-- Please star the project and share it with the community.
-- If you blog, write about your experience of using this action.
+- Please star the project and share it. If you blog, please share your experience of using this action.
+- Please consider supporting our work by sponsoring using [Open Collective](https://opencollective.com/setup-php), [Paypal](https://www.paypal.me/shivammathur "Shivam Mathur PayPal") or [Patreon](https://www.patreon.com/shivammathur "Shivam Mathur Patreon").
+- If you use this action at your company, please [reach out](mailto:contact@setup-php.com) to sponsor the project.
+
 
 ## :package: Dependencies
 
