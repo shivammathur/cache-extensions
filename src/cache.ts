@@ -8,9 +8,10 @@ import * as utils from './utils';
  */
 export async function run(): Promise<void> {
   try {
-    let version: string = await utils.getInput('php-version', true);
-    version = version.length > 1 ? version.slice(0, 3) : version + '.0';
-    const extensions = await utils.filterExtensions(
+    const version: string = await utils.parseVersion(
+      await utils.getInput('php-version', true)
+    );
+    const extensions: string = await utils.filterExtensions(
       await utils.getInput('extensions', true)
     );
     const key: string = await utils.getInput('key', true);

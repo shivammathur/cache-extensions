@@ -4,11 +4,10 @@ bz2
 calendar
 Core
 ctype
-cubrid
 curl
 date
+dba
 dom
-enchant
 exif
 FFI
 fileinfo
@@ -22,10 +21,12 @@ iconv
 ioncube
 intl
 json
+ldap
 libxml
 mbstring
 mysqli
 mysqlnd
+odbc
 openssl
 pcntl
 pcov
@@ -33,11 +34,14 @@ pcre
 PDO
 oci8
 PDO_OCI
+pdo_dblib
 pdo_mysql
+PDO_ODBC
 pdo_pgsql
 pdo_sqlite
 pgsql
 Phar
+phpdbg_webhelper
 posix
 pspell
 readline
@@ -47,6 +51,7 @@ shmop
 SimpleXML
 soap
 sockets
+sodium
 SPL
 sqlite3
 standard
@@ -55,9 +60,9 @@ sysvsem
 sysvshm
 tidy
 tokenizer
+xdebug
 xml
 xmlreader
-xmlrpc
 xmlwriter
 xsl
 Zend OPcache
