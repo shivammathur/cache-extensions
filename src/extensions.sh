@@ -1,12 +1,11 @@
 linux_extension_dir() {
   apiv=$1
-  old_versions_linux="5.[4-5]"
   if [ "$version" = "5.3" ]; then
     echo "/home/runner/php/5.3.29/lib/php/extensions/no-debug-non-zts-$apiv"
-  elif [[ "$version" =~ $old_versions_linux ]]; then
+  elif [[ "$version" =~ $old_versions ]]; then
     echo "/usr/lib/php5/$apiv"
-  elif [ "$version" = "8.0" ]; then
-    echo "/usr/local/php/8.0/lib/php/extensions/no-debug-non-zts-$apiv"
+  elif [[ "$version" =~ $nightly_versions ]]; then
+    echo "/usr/local/php/$version/lib/php/extensions/no-debug-non-zts-$apiv"
   else
     echo "/usr/lib/php/$apiv"
   fi
@@ -33,6 +32,7 @@ get_apiv() {
     7.2) echo "20170718" ;;
     7.3) echo "20180731" ;;
     7.4) echo "20190902" ;;
+    8.0) echo "20200930" ;;
     *)
       php_h="https://raw.githubusercontent.com/php/php-src/master/main/php.h"
       curl -sSL --retry 5 "$php_h" | grep "PHP_API_VERSION" | cut -d' ' -f 3
@@ -73,6 +73,8 @@ extensions=$1
 key=$2
 version=$3
 os=$(uname -s)
+old_versions="5.[4-5]"
+nightly_versions="8.[0-1]"
 if [ "$os" = "Linux" ]; then
   release=$(lsb_release -s -c)
   os=$os-$release
@@ -88,7 +90,7 @@ else
   os="Windows"
   dir='C:\\tools\\php\\ext'
 fi
-if [ "$version" = "8.0" ]; then
+if [[ "$version" =~ $nightly_versions ]]; then
   key="$key-20200930"
 fi
 key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)

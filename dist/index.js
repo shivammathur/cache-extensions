@@ -1054,8 +1054,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.filterExtensions = exports.getInput = void 0;
+exports.filterExtensions = exports.parseVersion = exports.getInput = exports.readEnv = void 0;
 const core = __importStar(__webpack_require__(470));
+/**
+ * Function to read environment variable and return a string value.
+ *
+ * @param property
+ */
+async function readEnv(property) {
+    const value = process.env[property];
+    switch (value) {
+        case undefined:
+            return '';
+        default:
+            return value;
+    }
+}
+exports.readEnv = readEnv;
 /**
  * Function to get inputs from both with and env annotations.
  *
@@ -1063,16 +1078,39 @@ const core = __importStar(__webpack_require__(470));
  * @param mandatory
  */
 async function getInput(name, mandatory) {
-    const input = process.env[name];
-    switch (input) {
-        case '':
-        case undefined:
-            return core.getInput(name, { required: mandatory });
-        default:
+    const input = core.getInput(name);
+    const env_input = await readEnv(name);
+    switch (true) {
+        case input != '':
             return input;
+        case input == '' && env_input != '':
+            return env_input;
+        case input == '' && env_input == '' && mandatory:
+            throw new Error(`Input required and not supplied: ${name}`);
+        default:
+            return '';
     }
 }
 exports.getInput = getInput;
+/**
+ * Function to parse PHP version.
+ *
+ * @param version
+ */
+async function parseVersion(version) {
+    switch (version) {
+        case 'latest':
+            return '7.4';
+        default:
+            switch (true) {
+                case version.length > 1:
+                    return version.slice(0, 3);
+                default:
+                    return version + '.0';
+            }
+    }
+}
+exports.parseVersion = parseVersion;
 /**
  * Function to filter extensions
  *
@@ -1687,8 +1725,7 @@ const utils = __importStar(__webpack_require__(163));
  */
 async function run() {
     try {
-        let version = await utils.getInput('php-version', true);
-        version = version.length > 1 ? version.slice(0, 3) : version + '.0';
+        const version = await utils.parseVersion(await utils.getInput('php-version', true));
         const extensions = await utils.filterExtensions(await utils.getInput('extensions', true));
         const key = await utils.getInput('key', true);
         const script_path = path.join(__dirname, '../src/extensions.sh');
