@@ -3,8 +3,8 @@
 <p align="center">
   <a href="https://github.com/shivammathur/cache-extensions" title="Cache PHP extensions in GitHub Actions"><img alt="GitHub Actions status" src="https://github.com/shivammathur/cache-extensions/workflows/Main%20workflow/badge.svg"></a>
   <a href="https://codecov.io/gh/shivammathur/cache-extensions" title="Code coverage"><img alt="Codecov Code Coverage" src="https://codecov.io/gh/shivammathur/cache-extensions/branch/master/graph/badge.svg"></a>
-  <a href="https://github.com/shivammathur/cache-extensions/blob/master/LICENSE" title="license"><img alt="LICENSE" src="https://img.shields.io/badge/license-MIT-428f7e.svg"></a>
-  <a href="#tada-php-support" title="PHP Versions Supported"><img alt="PHP Versions Supported" src="https://img.shields.io/badge/php-%3E%3D%205.3-8892BF.svg"></a>
+  <a href="https://github.com/shivammathur/cache-extensions/blob/master/LICENSE" title="license"><img alt="LICENSE" src="https://img.shields.io/badge/license-MIT-428f7e.svg?logo=open%20source%20initiative&logoColor=white&labelColor=555555"></a>
+  <a href="#tada-php-support" title="PHP Versions Supported"><img alt="PHP Versions Supported" src="https://img.shields.io/badge/php-5.3%20to%208.1-777bb3.svg?logo=php&logoColor=white&labelColor=555555"></a>
 </p>
 
 Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "GitHub Actions"). This action has to be used along with [shivammathur/setup-php](https://github.com/shivammathur/setup-php "Setup PHP") and [actions/cache](https://github.com/actions/cache "Cache in GitHub Actions") GitHub Actions. It configures the environment required to cache PHP extensions. Refer to [Usage](#memo-usage "How to use this") section to see how to use this.
@@ -36,6 +36,7 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 |7.3|`Stable`|`Active`|
 |7.4|`Stable`|`Active`|
 |8.0|`Nightly`|`In development`|
+|8.1|`Nightly`|`In development`|
 
 ## :cloud: OS/Platform Support
 
@@ -46,16 +47,17 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 |Ubuntu 18.04|`ubuntu-latest` or `ubuntu-18.04`|
 |Ubuntu 16.04|`ubuntu-16.04`|
 |macOS Catalina 10.15|`macos-latest` or `macOS-10.15`|
+|macOS Big Sur 11.0|`macOS-11.0`|
 
 ## :memo: Usage
 
-Use this GitHub Action when the extensions you are adding in [setup-php](https://github.com/shivammathur/setup-php "setup-php GitHub Action") are installed and take a long time to setup. If you are using extensions which have the result `Installed and enabled` in the logs like `pecl` extensions on `Ubuntu` or extensions which have custom support, it is recommended to use this action to cache your extensions.
+Use this GitHub Action when the extensions you are adding in [setup-php](https://github.com/shivammathur/setup-php "setup-php GitHub Action") are installed and take a long time to set up. If you are using extensions which have the result `Installed and enabled` in the logs like `pecl` extensions on `Ubuntu` or extensions which have custom support, it is recommended to use this action to cache your extensions.
 
 ### Inputs
 
 #### `php-version` (required)
 
-- Specify the PHP version you want to setup.
+- Specify the PHP version you want to set up.
 - Accepts a `string`. For example `'7.4'`.
 - See [PHP support](#tada-php-support) for supported PHP versions.
 
@@ -117,7 +119,7 @@ jobs:
 
 ### Thread Safe Setup
 
-If you setup both `TS` and `NTS` PHP versions on `Windows` in your workflow, please add `${{ env.phpts }}` to `key` and `restore-keys` inputs in `actions/cache` step in the above workflow to avoid conflicting cache.
+If you set up both `TS` and `NTS` PHP versions on `Windows` in your workflow, please add `${{ env.phpts }}` to `key` and `restore-keys` inputs in `actions/cache` step in the above workflow to avoid a conflicting cache.
 
 ```yaml
 - name: Cache extensions
@@ -130,7 +132,7 @@ If you setup both `TS` and `NTS` PHP versions on `Windows` in your workflow, ple
 
 ## :scroll: License
 
-The scripts and documentation in this project are released under the [MIT License](LICENSE "License for shivammathur/cache-extensions"). This project has multiple [dependencies](https://github.com/shivammathur/cache-extensions/network/dependencies "Dependencies for this PHP Action"). Their licenses can be found in their respective repositories.
+The scripts and documentation in this project are under the [MIT License](LICENSE "License for shivammathur/cache-extensions"). This project has multiple [dependencies](https://github.com/shivammathur/cache-extensions/network/dependencies "Dependencies for this PHP Action"). Their licenses can be found in their respective repositories.
 
 ## :+1: Contributions
 
