@@ -90,9 +90,7 @@ else
   os="Windows"
   dir='C:\\tools\\php\\ext'
 fi
-if [[ "$version" =~ $nightly_versions ]]; then
-  key="$key-20200930"
-fi
 key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)
+key="$key-20201126"
 echo "::set-output name=dir::$dir"
 echo "::set-output name=key::$key"

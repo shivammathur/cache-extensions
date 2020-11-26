@@ -32,10 +32,10 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 |5.6|`Stable`|`End of life`|
 |7.0|`Stable`|`End of life`|
 |7.1|`Stable`|`End of life`|
-|7.2|`Stable`|`Security fixes only`|
-|7.3|`Stable`|`Active`|
+|7.2|`Stable`|`End of life`|
+|7.3|`Stable`|`Security fixes only`|
 |7.4|`Stable`|`Active`|
-|8.0|`Nightly`|`In development`|
+|8.0|`Stable`|`Active`|
 |8.1|`Nightly`|`In development`|
 
 ## :cloud: OS/Platform Support
@@ -145,7 +145,6 @@ If this action helped you.
 - Please star the project and share it. If you blog, please share your experience of using this action.
 - Please consider supporting our work by sponsoring using [Open Collective](https://opencollective.com/setup-php), [Paypal](https://www.paypal.me/shivammathur "Shivam Mathur PayPal") or [Patreon](https://www.patreon.com/shivammathur "Shivam Mathur Patreon").
 - If you use this action at your company, please [reach out](mailto:contact@setup-php.com) to sponsor the project.
-
 
 ## :package: Dependencies
 
