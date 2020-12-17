@@ -1,4 +1,6 @@
 [PHP Modules]
+amqp
+apcu
 bcmath
 bz2
 calendar
@@ -8,6 +10,7 @@ curl
 date
 dba
 dom
+enchant
 exif
 FFI
 fileinfo
@@ -18,37 +21,43 @@ gettext
 gmp
 hash
 iconv
-ioncube
+igbinary
+imap
 intl
 json
 ldap
 libxml
 mbstring
+memcache
+memcached
+mongodb
+msgpack
 mysqli
 mysqlnd
 odbc
 openssl
 pcntl
-pcov
 pcre
 PDO
 oci8
 PDO_OCI
 pdo_dblib
+PDO_Firebird
 pdo_mysql
 PDO_ODBC
 pdo_pgsql
 pdo_sqlite
 pgsql
 Phar
-phpdbg_webhelper
 posix
 pspell
 readline
+redis
 Reflection
 session
 shmop
 SimpleXML
+snmp
 soap
 sockets
 sodium
@@ -65,13 +74,16 @@ xml
 xmlreader
 xmlwriter
 xsl
+yaml
 Zend OPcache
 zip
 zlib
+zmq
+ioncube
 phalcon3
 phalcon4
 blackfire
 
 [Zend Modules]
-Zend OPcache
 Xdebug
+Zend OPcache

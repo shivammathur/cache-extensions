@@ -74,7 +74,7 @@ key=$2
 version=$3
 os=$(uname -s)
 old_versions="5.[4-5]"
-nightly_versions="8.[0-1]"
+nightly_versions="8.[1-9]"
 if [ "$os" = "Linux" ]; then
   release=$(lsb_release -s -c)
   os=$os-$release
@@ -91,6 +91,6 @@ else
   dir='C:\\tools\\php\\ext'
 fi
 key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)
-key="$key-20201126"
+key="$key-20201217"
 echo "::set-output name=dir::$dir"
 echo "::set-output name=key::$key"
