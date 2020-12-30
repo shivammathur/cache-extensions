@@ -1,4 +1,5 @@
 [PHP Modules]
+amqp
 apc
 apcu
 bcmath
@@ -9,35 +10,45 @@ cubrid
 curl
 date
 dom
+enchant
 ereg
 exif
 fileinfo
 filter
 ftp
 gd
+gettext
+gmp
 hash
 iconv
 ioncube
 intl
 json
+ldap
 libxml
 mbstring
 mcrypt
+memcache
 memcached
 mongo
+mongodb
 mysql
 mysqli
 mysqlnd
 openssl
 pcntl
+pcov
 pcre
 PDO
 oci8
 PDO_OCI
 pdo_mysql
+pdo_pgsql
 pdo_sqlite
+pgsql
 Phar
 posix
+pspell
 readline
 redis
 Reflection
@@ -68,4 +79,3 @@ blackfire
 
 [Zend Modules]
 Xdebug
-
