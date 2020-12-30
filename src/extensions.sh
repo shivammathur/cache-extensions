@@ -1,10 +1,8 @@
 linux_extension_dir() {
   apiv=$1
-  if [ "$version" = "5.3" ]; then
-    echo "/home/runner/php/5.3.29/lib/php/extensions/no-debug-non-zts-$apiv"
-  elif [[ "$version" =~ $old_versions ]]; then
+  if [[ "$version" =~ $old_versions ]]; then
     echo "/usr/lib/php5/$apiv"
-  elif [[ "$version" =~ $nightly_versions ]]; then
+  elif [[ "$version" =~ 5.3|$nightly_versions ]]; then
     echo "/usr/local/php/$version/lib/php/extensions/no-debug-non-zts-$apiv"
   else
     echo "/usr/lib/php/$apiv"
@@ -17,7 +15,11 @@ darwin_extension_dir() {
   if [[ "$version" =~ $old_versions_darwin ]]; then
     echo "/opt/local/lib/php${version/./}/extensions/no-debug-non-zts-$apiv"
   else
-    echo "/usr/local/lib/php/pecl/$apiv"
+    if [[ "$(sysctl -n hw.optional.arm64 2>/dev/null)" = "1" ]]; then
+      echo "/opt/homebrew/lib/php/pecl/$apiv"
+    else
+      echo "/usr/local/lib/php/pecl/$apiv"
+    fi
   fi
 }
 
@@ -91,6 +93,6 @@ else
   dir='C:\\tools\\php\\ext'
 fi
 key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)
-key="$key-20201217"
+key="$key-20201231"
 echo "::set-output name=dir::$dir"
 echo "::set-output name=key::$key"
