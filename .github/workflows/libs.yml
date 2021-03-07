@@ -1,0 +1,62 @@
+name: Libs workflow
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 15 * * *'
+jobs:
+  update:
+    name: update
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, ubuntu-18.04, ubuntu-16.04]
+    steps:
+      - name: Update lists
+        run: |
+          . /etc/lsb-release
+          dpkg -l | awk '($1 == "ii") && ($2 ~ /^lib|lib$/) { print $2 }' | sed 's/:amd64//' > /tmp/"$DISTRIB_CODENAME"-libs
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: lists
+          path: |
+            /tmp/*-libs
+
+  sync:
+    name: sync
+    needs: update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+          fetch-depth: 0
+      - name: Download lists
+        uses: actions/download-artifact@v2
+        with:
+          name: lists
+          path: src/lists
+      - name: Update tags and branches
+        run: |
+          push_ref() {
+            ref=$1
+            git push -f https://${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git "$ref" || true
+          }
+          git config --local user.email "$bot_user_id+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "Updating lists"
+          push_ref develop
+          semver=$(git tag --sort=-refname | awk 'match($0, /^[0-9]+\.[0-9]+\.[0-9]+$/)' | head -n 1)
+          rolling=$(git tag --sort=-refname | awk 'match($0, /^v[0-9]/)' | head -n 1)
+          for branch in master releases/$rolling; do
+            git checkout $branch
+            git merge --allow-unrelated-histories develop
+            push_ref "$branch"
+          done
+          for tag in $semver $rolling; do
+            git tag -fa "$tag" -m "Update %1 tag"
+            push_ref "$tag"
+          done

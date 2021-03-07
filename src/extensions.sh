@@ -1,3 +1,8 @@
+step_log() {
+  message=$1
+  printf "\n\033[90;1m==> \033[0m\033[37;1m%s\033[0m\n" "$message"
+}
+
 add_log() {
   mark=$1
   shift
@@ -11,63 +16,64 @@ add_log() {
   done
 }
 
-# Function to backup and cleanup package lists.
-cleanup_lists() {
-  if [ ! -e /etc/apt/sources.list.d.save ]; then
-    sudo mv /etc/apt/sources.list.d /etc/apt/sources.list.d.save
-    sudo mkdir /etc/apt/sources.list.d
-    sudo mv /etc/apt/sources.list.d.save/*ondrej*.list /etc/apt/sources.list.d/
-    trap "sudo mv /etc/apt/sources.list.d.save/*.list /etc/apt/sources.list.d/ 2>/dev/null" exit
+fix_ownership() {
+  dir=$1
+  sudo chown -R "$USER":"$(id -g -n)" "$(dirname "$dir")"
+}
+
+link_apt_fast() {
+  if ! command -v apt-fast >/dev/null; then
+    sudo ln -sf /usr/bin/apt-get /usr/bin/apt-fast
   fi
 }
 
-# Function to add ppa:ondrej/php.
-add_ppa() {
-  if ! apt-cache policy | grep -q "ondrej/php"; then
-    cleanup_lists
-    LC_ALL=C.UTF-8 sudo apt-add-repository ppa:ondrej/php -y
-    if [ "$DISTRIB_RELEASE" = "16.04" ]; then
-      sudo DEBIAN_FRONTEND=noninteractive apt-get update
-    fi
+fetch_package() {
+  if ! [ -e /tmp/Packages ]; then
+    deb_build_arch=$(dpkg-architecture -q DEB_BUILD_ARCH)
+    curl -o /tmp/Packages.gz -sL "http://ppa.launchpad.net/ondrej/php/ubuntu/dists/$DISTRIB_CODENAME/main/binary-$deb_build_arch/Packages.gz"
+    gzip -df /tmp/Packages.gz
   fi
 }
 
-# Function to update the package lists.
-update_lists() {
-  if [ ! -e /tmp/setup_php ]; then
-    [ "$DISTRIB_RELEASE" = "20.04" ] && add_ppa ondrej/php >/dev/null 2>&1
-    cleanup_lists
-    sudo DEBIAN_FRONTEND=noninteractive apt-get update >/dev/null 2>&1
-    echo '' | sudo tee /tmp/setup_php >/dev/null 2>&1
-  fi
+get_dependencies() {
+  package=$1
+  prefix=$2
+  sed -e '/Package:\s'"$package$"'/,/^\s*$/!d' /tmp/Packages | grep -Eo "^Depends.*" | tr ',' '\n' | awk -v ORS='' '/^\s'"$prefix"'/{print$0}' | sed -e 's/([^()]*)//g' | sort | uniq | xargs echo -n
+}
+
+get_package_link() {
+  package=$1
+  trunk="http://ppa.launchpad.net/ondrej/php/ubuntu"
+  file=$(sed -e '/Package:\s'"$package$"'/,/^\s*$/!d' /tmp/Packages | grep -Eo "^Filename.*" | cut -d' ' -f 2 | tr -d '\r')
+  echo "$trunk/$file"
 }
 
 linux_extension_dir() {
-  apiv=$1
+  api_version=$1
   if [[ "$version" =~ $old_versions ]]; then
-    echo "/usr/lib/php5/$apiv"
+    echo "/usr/lib/php5/$api_version"
   elif [[ "$version" =~ 5.3|$nightly_versions ]]; then
-    echo "/usr/local/php/$version/lib/php/extensions/no-debug-non-zts-$apiv"
+    echo "/usr/local/php/$version/lib/php/extensions/no-debug-non-zts-$api_version"
   else
-    echo "/usr/lib/php/$apiv"
+    echo "/usr/lib/php/$api_version"
   fi
 }
 
 darwin_extension_dir() {
-  apiv=$1
+  api_version=$1
   old_versions_darwin="5.[3-5]"
   if [[ "$version" =~ $old_versions_darwin ]]; then
-    echo "/opt/local/lib/php${version/./}/extensions/no-debug-non-zts-$apiv"
+    echo "/opt/local/lib/php${version/./}/extensions/no-debug-non-zts-$api_version"
   else
     if [[ "$(sysctl -n hw.optional.arm64 2>/dev/null)" == "1" ]]; then
-      echo "/opt/homebrew/lib/php/pecl/$apiv"
+      echo "/opt/homebrew/lib/php/pecl/$api_version"
     else
-      echo "/usr/local/lib/php/pecl/$apiv"
+      echo "/usr/local/lib/php/pecl/$api_version"
     fi
   fi
 }
 
-get_apiv() {
+get_api_version() {
   case $version in
   5.3) echo "20090626" ;;
   5.4) echo "20100525" ;;
@@ -80,110 +86,128 @@ get_apiv() {
   7.4) echo "20190902" ;;
   8.0) echo "20200930" ;;
   *)
-    php_h="https://raw.githubusercontent.com/php/php-src/master/main/php.h"
-    curl -sSL --retry 5 "$php_h" | grep "PHP_API_VERSION" | cut -d' ' -f 3
+    php_header="https://raw.githubusercontent.com/php/php-src/master/main/php.h"
+    curl -sSL --retry 5 "$php_header" | grep "PHP_API_VERSION" | cut -d' ' -f 3
     ;;
   esac
 }
 
 add_config() {
-  local ext_name=$1
-  local dep_ext_name=$2
-  echo "$ext_name" | sudo tee "/tmp/extcache/$dep_ext_name/$ext_name" >/dev/null 2>&1
+  dependent_extension=$1
+  dependency_extension=$2
+  echo "$dependency_extension" | sudo tee "$cache_directory/$dependent_extension/$dependency_extension" >/dev/null 2>&1
 }
 
 setup_extension() {
-  local ext_name=$1
-  local dep_ext_name=$2
-  local ext_dir=$3
-  if ! [ -e "$ext_dir/$ext_name.so" ]; then
-    sudo dpkg-deb -R ./*"$ext_name"*.deb "$ext_name"
-    find "$ext_name" -name "*.so" -exec cp {} "$ext_dir" \;
-    sudo rm -rf "$ext_name"
-    if [ -e "$ext_dir/$ext_name.so" ]; then
-      add_config "$ext_name" "$dep_ext_name"
-    fi
+  dependent_extension=$1
+  dependency_extension=$2
+  extension_dir=$3
+  if ! [ -e "$extension_dir/$dependency_extension.so" ]; then
+    extension_package_link="$(get_package_link "php$version-$dependency_extension")"
+    sudo curl -H "User-Agent: Debian APT-HTTP/GHA(ce)" -o "$dependency_extension".deb -sL "$extension_package_link"
+    sudo dpkg-deb -x "$dependency_extension".deb /
+    fix_ownership "$dir"
+  fi
+  if [ -e "$extension_dir/$dependency_extension.so" ]; then
+    add_config "$dependent_extension" "$dependency_extension"
+    add_log "$tick" "$dependency_extension"
   else
-    add_config "$ext_name" "$dep_ext_name"
+    add_log "$cross" "$dependency_extension"
+  fi
+}
+
+filter_dependencies_libs() {  
+  libraries="$(echo "$1" | xargs -n1 | uniq | xargs)"
+  script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
+  for library in $libraries; do
+    if grep -i -q -w "$library" "$script_dir"/lists/"$DISTRIB_CODENAME"-libs; then
+      libraries=${libraries//$library/}
+    fi
+  done
+  echo "$libraries"
+}
+
+setup_dependencies_libs() {
+  libraries=$1
+  if [[ -n "${libraries// }" ]]; then
+    libraries=$(filter_dependencies_libs "$libraries")
+    if [[ -n "${libraries// }" ]]; then
+      step_log "Setup libraries"
+      IFS=' ' read -r -a libraries_array <<<"$libraries"
+      link_apt_fast
+      (
+        sudo DEBIAN_FRONTEND=noninteractive apt-fast install --no-install-recommends --no-upgrade -y "${libraries_array[@]}" >/dev/null 2>&1 &&
+        add_log "$tick" "${libraries_array[@]}"
+      ) || add_log "$cross" "${libraries_array[@]}"
+    fi
   fi
 }
 
 setup_dependencies_extensions() {
-  ext_dir=$1
+  extension_dir=$1
   shift
-  ext_array=("$@")
-  sudo rm -rf /tmp/extcache || true
-  for dep_ext in "${ext_array[@]}"; do
-    dep_ext_name="${dep_ext/php$version-/}"
-    if ! [ -d /tmp/extcache/"$dep_ext_name" ]; then
-      update_lists
-      ext_deps=$(apt-cache depends "$dep_ext" 2>/dev/null | awk -v ORS=' ' '/Depends: php'"$version"'-/{print$2}' | sort | uniq)
-      ext_deps="${ext_deps//php$version-common/}"
-      # shellcheck disable=SC2001
-      ext_deps_array=()
-      IFS=' ' read -r -a ext_deps_array <<<"$ext_deps"
-      sudo mkdir -p /tmp/extcache/"$dep_ext_name"
-      sudo chmod -R 777 /tmp/extcache/"$dep_ext_name"
-      (
-        cd /tmp/extcache || exit 1
-        sudo apt-fast download "${ext_deps_array[@]}" >/dev/null 2>&1 || true
-        for ext in "${ext_deps_array[@]}"; do
-          if [ "x$ext" != "x" ]; then
-            ext_name=${ext/php$version-/}
-            (setup_extension "$ext_name" "$dep_ext_name" "$ext_dir" && add_log "$tick" "$ext_name") || add_log "$cross" "$ext_name"
-          fi
-        done
-      )
+  extensions_array=("$@")
+  . /etc/lsb-release
+  cache_directory=/tmp/extcache
+  sudo rm -rf "$cache_directory" || true
+  libraries=""
+  for extension_package in "${extensions_array[@]}"; do
+    fetch_package
+    libraries="$libraries $(get_dependencies "$extension_package" "lib")"
+    extension="${extension_package/php$version-/}"
+    if ! [ -d "$cache_directory"/"$extension" ]; then
+      extension_dependencies=$(get_dependencies "$extension_package" "php$version-")
+      extension_dependencies="${extension_dependencies//php$version-common/}"
+      if [[ -n "${extension_dependencies// }" ]]; then
+        step_log "Setup extensions for $extension"
+        extension_dependencies_array=()
+        IFS=' ' read -r -a extension_dependencies_array <<<"$extension_dependencies"
+        sudo mkdir -p "$cache_directory"/"$extension"
+        (
+          cd "$cache_directory" || exit 1
+          to_wait=()
+          for extension_dependeny_package in "${extension_dependencies_array[@]}"; do
+            if [[ -n "${extension_dependeny_package// }" ]]; then
+              extension_dependency=${extension_dependeny_package/php$version-/}
+              setup_extension "$extension" "$extension_dependency" "$extension_dir" &
+              to_wait+=($!)
+            fi
+          done
+          wait "${to_wait[@]}"
+        )
+      fi
     fi
-  done    
+  done
+  setup_dependencies_libs "$libraries"
 }
 
 setup_dependencies() {
-  exts=$1
-  ext_dir=$2
-  exts=${exts// /}
-  exts=${exts//,/ }
-  exts=${exts//pdo_/}
-  IFS=' ' read -r -a ext_array <<<"$exts"
-  if [ "x${ext_array[0]}" != "x" ]; then
-    # shellcheck disable=SC2001
-    exts=$(echo "${ext_array[@]}" | sed "s/[^ ]* */php$version-&/g")
-    IFS=' ' read -r -a ext_array <<<"$exts"
-    if ! command -v apt-fast >/dev/null; then
-      sudo ln -sf /usr/bin/apt-get /usr/bin/apt-fast
-    fi
-    setup_dependencies_extensions "$ext_dir" "${ext_array[@]}"
-    deps=$(apt-cache depends "${ext_array[@]}" 2>/dev/null | awk -v ORS=' ' '/Depends: lib/{print$2}')
-    if [ "x${deps}" != "x" ]; then
-      IFS=' ' read -r -a deps_array <<<"$deps"
-      (
-        sudo DEBIAN_FRONTEND=noninteractive apt-fast install --no-install-recommends --no-upgrade -y "${deps_array[@]}" >/dev/null 2>&1 &&
-        add_log "$tick" "${deps_array[@]}"
-      ) || add_log "$cross" "${deps_array[@]}"
-    fi
+  extensions=$1
+  extension_dir=$2
+  if [[ -n "${extensions// }" ]]; then
+    IFS=' ' read -r -a extensions_array <<<"$(echo "$extensions" | sed -e "s/pdo[_-]//g" -Ee "s/^|,\s*/ php$version-/g")"
+    setup_dependencies_extensions "$extension_dir" "${extensions_array[@]}"
   fi
 }
 
-tick="✓"
-cross="✗"
 extensions=$1
 key=$2
 version=$3
+tick="✓"
+cross="✗"
 os=$(uname -s)
 old_versions="5.[4-5]"
 nightly_versions="8.[1-9]"
 if [ "$os" = "Linux" ]; then
-  . /etc/lsb-release
-  release=$DISTRIB_CODENAME
-  os=$os-$release
-  apiv=$(get_apiv)
-  dir=$(linux_extension_dir "$apiv")
-  sudo mkdir -p "$dir" && sudo chown -R "$USER":"$(id -g -n)" "$(dirname "$dir")"
+  os=$os-$DISTRIB_CODENAME
+  api_version=$(get_api_version)
+  dir=$(linux_extension_dir "$api_version")
+  sudo mkdir -p "$dir" && fix_ownership "$dir"
   setup_dependencies "$extensions" "$dir"
 elif [ "$os" = "Darwin" ]; then
-  apiv=$(get_apiv)
-  dir=$(darwin_extension_dir "$apiv")
-  sudo mkdir -p "$dir" && sudo chown -R "$USER":"$(id -g -n)" "$(dirname "$dir")"
+  api_version=$(get_api_version)
+  dir=$(darwin_extension_dir "$api_version")
+  sudo mkdir -p "$dir" && fix_ownership "$dir"
 else
   os="Windows"
   dir='C:\\tools\\php\\ext'
