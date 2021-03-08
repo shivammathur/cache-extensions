@@ -46,14 +46,18 @@ jobs:
           }
           git config --local user.email "$bot_user_id+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add .
-          git commit -m "Updating lists"
+          if [ "$(git status --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
+            git add .
+            git commit -m "Updating lists"
+          fi
           push_ref develop
           semver=$(git tag --sort=-refname | awk 'match($0, /^[0-9]+\.[0-9]+\.[0-9]+$/)' | head -n 1)
           rolling=$(git tag --sort=-refname | awk 'match($0, /^v[0-9]/)' | head -n 1)
           for branch in master releases/$rolling; do
             git checkout $branch
-            git merge --allow-unrelated-histories develop
+            if [ "$(git rev-parse "$branch")" != "$(git rev-parse develop)" ]; then
+              git merge --allow-unrelated-histories develop || true
+            fi  
             push_ref "$branch"
           done
           for tag in $semver $rolling; do
