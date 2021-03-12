@@ -43,8 +43,8 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 |Virtual environment|YAML workflow label|
 |--- |--- |
 |Windows Server 2019|`windows-latest` or `windows-2019`|
-|Ubuntu 20.04|`ubuntu-20.04`|
-|Ubuntu 18.04|`ubuntu-latest` or `ubuntu-18.04`|
+|Ubuntu 20.04|`ubuntu-latest` or `ubuntu-20.04`|
+|Ubuntu 18.04|`ubuntu-18.04`|
 |Ubuntu 16.04|`ubuntu-16.04`|
 |macOS Catalina 10.15|`macos-latest` or `macOS-10.15`|
 |macOS Big Sur 11.0|`macOS-11.0`|

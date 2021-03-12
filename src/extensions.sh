@@ -213,6 +213,6 @@ else
   dir='C:\\tools\\php\\ext'
 fi
 key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)
-key="$key-20201231"
+key="$key-20210313"
 echo "::set-output name=dir::$dir"
 echo "::set-output name=key::$key"
