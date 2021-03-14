@@ -199,6 +199,7 @@ os=$(uname -s)
 old_versions="5.[4-5]"
 nightly_versions="8.[1-9]"
 if [ "$os" = "Linux" ]; then
+  . /etc/lsb-release
   os=$os-$DISTRIB_CODENAME
   api_version=$(get_api_version)
   dir=$(linux_extension_dir "$api_version")
