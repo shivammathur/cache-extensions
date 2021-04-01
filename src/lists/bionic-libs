@@ -70,12 +70,8 @@ libcgi-fast-perl
 libcgi-pm-perl
 libcgroup1
 libcilkrts5
-libclang-common-6.0-dev
-libclang-common-8-dev
 libclang-common-9-dev
 libclang-cpp9
-libclang1-6.0
-libclang1-8
 libclang1-9
 libcolord2
 libcom-err2
@@ -153,7 +149,6 @@ libgbm1
 libgc1c2
 libgcc-10-dev
 libgcc-7-dev
-libgcc-8-dev
 libgcc-9-dev
 libgcc-s1
 libgcc1
@@ -170,7 +165,6 @@ libgeoip1
 libgflags2.2
 libgfortran-10-dev
 libgfortran-7-dev
-libgfortran-8-dev
 libgfortran-9-dev
 libgfortran4
 libgfortran5
@@ -274,7 +268,6 @@ libjs-jquery
 libjson-c3
 libjson-glib-1.0-0
 libjson-glib-1.0-common
-libjsoncpp1
 libjte1
 libk5crypto3
 libkeyutils1
@@ -291,12 +284,9 @@ liblcms2-dev
 libldap-2.4-2
 libldap-common
 libldb1
-liblldb-6.0
-liblldb-8
 liblldb-9
 libllvm10
 libllvm6.0
-libllvm8
 libllvm9
 liblmdb0
 liblocale-gettext-perl
@@ -639,7 +629,6 @@ libssl1.0.0
 libssl1.1
 libstdc++-10-dev
 libstdc++-7-dev
-libstdc++-8-dev
 libstdc++-9-dev
 libstdc++6
 libstemmer0d

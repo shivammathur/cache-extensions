@@ -14,7 +14,6 @@ libapt-pkg6.0
 libarchive13
 libargon2-1
 libaria2-0
-libasan4
 libasan5
 libasan6
 libasn1-8-heimdal
@@ -49,9 +48,12 @@ libbsd0
 libburn4
 libbz2-1.0
 libbz2-dev
-libc++-11-dev
-libc++1-11
-libc++abi1-11
+libc++-10-dev
+libc++-dev
+libc++1-10
+libc++abi-10-dev
+libc++abi-dev
+libc++abi1-10
 libc-ares2
 libc-bin
 libc-client2007e
@@ -72,17 +74,14 @@ libcc1-0
 libcgi-fast-perl
 libcgi-pm-perl
 libcgroup1
-libcilkrts5
 libclang-common-10-dev
 libclang-common-11-dev
-libclang-common-8-dev
 libclang-common-9-dev
 libclang-cpp10
 libclang-cpp11
 libclang-cpp9
 libclang1-10
 libclang1-11
-libclang1-8
 libcolord2
 libcom-err2
 libcrypt-dev
@@ -166,8 +165,6 @@ libgbm1
 libgc1c2
 libgcab-1.0-0
 libgcc-10-dev
-libgcc-7-dev
-libgcc-8-dev
 libgcc-9-dev
 libgcc-s1
 libgconf-2-4
@@ -182,7 +179,6 @@ libgdk-pixbuf2.0-common
 libgdk-pixbuf2.0-dev
 libgflags2.2
 libgfortran-10-dev
-libgfortran-8-dev
 libgfortran-9-dev
 libgfortran5
 libgif7
@@ -289,11 +285,9 @@ libldap-2.4-2
 libldap-common
 liblldb-10
 liblldb-11
-liblldb-8
 liblldb-9
 libllvm10
 libllvm11
-libllvm8
 libllvm9
 liblmdb0
 liblocale-gettext-perl
@@ -482,7 +476,6 @@ libmount1
 libmpc3
 libmpdec2
 libmpfr6
-libmpx2
 libmspack0
 libmysqlclient-dev
 libmysqlclient21
@@ -516,7 +509,6 @@ libnss-systemd
 libnss3
 libntfs-3g883
 libnuma1
-libobjc-8-dev
 libobjc-9-dev
 libobjc4
 libodbc1
@@ -637,8 +629,6 @@ libssh2-1
 libssl-dev
 libssl1.1
 libstdc++-10-dev
-libstdc++-7-dev
-libstdc++-8-dev
 libstdc++-9-dev
 libstdc++6
 libstemmer0d
@@ -674,7 +664,6 @@ libtry-tiny-perl
 libtsan0
 libtss2-esys0
 libu2f-udev
-libubsan0
 libubsan1
 libuchardet0
 libucl1

@@ -15,7 +15,6 @@ libapt-pkg5.0
 libarchive13
 libargon2-1
 libasan2
-libasan4
 libasan5
 libasn1-8-heimdal
 libasound2
@@ -76,12 +75,8 @@ libcgi-pm-perl
 libcgraph6
 libcgroup1
 libcilkrts5
-libclang-common-6.0-dev
-libclang-common-8-dev
 libclang-common-9-dev
 libclang-cpp9
-libclang1-6.0
-libclang1-8
 libcolord2
 libcomerr2
 libcroco3
@@ -154,8 +149,6 @@ libgbm-dev
 libgbm1
 libgc1c2
 libgcc-5-dev
-libgcc-7-dev
-libgcc-8-dev
 libgcc-9-dev
 libgcc1
 libgconf-2-4
@@ -169,7 +162,6 @@ libgdk-pixbuf2.0-dev
 libgeoip1
 libgflags2v5
 libgfortran-5-dev
-libgfortran-8-dev
 libgfortran-9-dev
 libgfortran3
 libgfortran5
@@ -260,7 +252,6 @@ libjs-jquery
 libjson-c2
 libjson-glib-1.0-0
 libjson-glib-1.0-common
-libjsoncpp1
 libjte1
 libk5crypto3
 libkeyutils1
@@ -276,11 +267,8 @@ liblcms2-2
 liblcms2-dev
 libldap-2.4-2
 libldb1
-liblldb-6.0
-liblldb-8
 liblldb-9
 libllvm6.0
-libllvm8
 libllvm9
 liblmdb0
 liblocale-gettext-perl
@@ -474,7 +462,6 @@ libmpc3
 libmpdec2
 libmpfr4
 libmpx0
-libmpx2
 libmspack0
 libmysqlclient-dev
 libmysqlclient20
@@ -617,8 +604,6 @@ libssl-doc
 libssl1.0.0
 libssl1.1
 libstdc++-5-dev
-libstdc++-7-dev
-libstdc++-8-dev
 libstdc++-9-dev
 libstdc++6
 libstemmer0d
