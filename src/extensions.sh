@@ -50,9 +50,7 @@ get_package_link() {
 
 linux_extension_dir() {
   api_version=$1
-  if [[ "$version" =~ $old_versions ]]; then
-    echo "/usr/lib/php5/$api_version"
-  elif [[ "$version" =~ 5.3|$nightly_versions ]]; then
+  if [[ "$version" =~ $old_versions|$nightly_versions ]]; then
     echo "/usr/local/php/$version/lib/php/extensions/no-debug-non-zts-$api_version"
   else
     echo "/usr/lib/php/$api_version"
@@ -60,9 +58,8 @@ linux_extension_dir() {
 }
 
 darwin_extension_dir() {
-  api_version=$1
-  old_versions_darwin="5.[3-5]"
-  if [[ "$version" =~ $old_versions_darwin ]]; then
+  api_version=$1  
+  if [[ "$version" =~ $old_versions ]]; then
     echo "/opt/local/lib/php${version/./}/extensions/no-debug-non-zts-$api_version"
   else
     if [[ "$(sysctl -n hw.optional.arm64 2>/dev/null)" == "1" ]]; then
@@ -196,7 +193,7 @@ version=$3
 tick="✓"
 cross="✗"
 os=$(uname -s)
-old_versions="5.[4-5]"
+old_versions="5.[3-5]"
 nightly_versions="8.[1-9]"
 if [ "$os" = "Linux" ]; then
   . /etc/lsb-release
