@@ -7,7 +7,7 @@
   <a href="#tada-php-support" title="PHP Versions Supported"><img alt="PHP Versions Supported" src="https://img.shields.io/badge/php-5.3%20to%208.1-777bb3.svg?logo=php&logoColor=white&labelColor=555555"></a>
 </p>
 
-Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "GitHub Actions"). This action has to be used along with [shivammathur/setup-php](https://github.com/shivammathur/setup-php "Setup PHP") and [actions/cache](https://github.com/actions/cache "Cache in GitHub Actions") GitHub Actions. It configures the environment required to cache PHP extensions. Refer to [Usage](#memo-usage "How to use this") section to see how to use this.
+Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "GitHub Actions"). This action has to be used along with [shivammathur/setup-php](https://github.com/shivammathur/setup-php "Setup PHP") and [actions/cache](https://github.com/actions/cache "Cache in GitHub Actions") GitHub Actions. It configures the environment required to cache PHP extensions. Refer to [Usage](#memo-usage "How to use this") section for details and example workflow.
 
 ## Contents
 
@@ -47,7 +47,7 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 |Ubuntu 18.04|`ubuntu-18.04`|
 |Ubuntu 16.04|`ubuntu-16.04`|
 |macOS Catalina 10.15|`macos-latest` or `macOS-10.15`|
-|macOS Big Sur 11.0|`macOS-11.0`|
+|macOS Big Sur 11.x|`macOS-11.0`|
 
 ## :memo: Usage
 
@@ -57,14 +57,14 @@ Use this GitHub Action when the extensions you are adding in [setup-php](https:/
 
 #### `php-version` (required)
 
-- Specify the PHP version you want to set up.
+- Specify the PHP version you want to set-up.
 - Accepts a `string`. For example `'7.4'`.
 - See [PHP support](#tada-php-support) for supported PHP versions.
 
 #### `extensions` (required)
 
-- Specify the extensions you want to add or remove.
-- Accepts a `string` in csv-format. For example `mbstring, , xdebug, :opcache`.
+- Specify the extensions you want to setup.
+- Accepts a `string` in csv-format. For example `mbstring, xdebug, :opcache`.
 - Extensions prefixed with `:` are ignored.
 
 #### `key` (required)
