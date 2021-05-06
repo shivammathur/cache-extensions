@@ -735,4 +735,5 @@ libz3-dev
 libzen0v5
 libzip4
 libzmq5
+libzstd1
 python3-oauthlib
