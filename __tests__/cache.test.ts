@@ -5,21 +5,19 @@ import * as utils from '../src/utils';
  * Mock cache.ts
  */
 jest.mock('../src/cache', () => ({
-  run: jest.fn().mockImplementation(
-    async (): Promise<string> => {
-      let version: string = process.env['php-version'] || '';
-      version = version.length > 1 ? version.slice(0, 3) : version + '.0';
-      const extensions = await utils.filterExtensions(
-        process.env['extensions'] || ''
-      );
-      const key: string = process.env['key'] || '';
-      const script_path = 'extensions.sh';
+  run: jest.fn().mockImplementation(async (): Promise<string> => {
+    let version: string = process.env['php-version'] || '';
+    version = version.length > 1 ? version.slice(0, 3) : version + '.0';
+    const extensions = await utils.filterExtensions(
+      process.env['extensions'] || ''
+    );
+    const key: string = process.env['key'] || '';
+    const script_path = 'extensions.sh';
 
-      return (
-        'bash ' + script_path + ' "' + extensions + '" ' + key + ' ' + version
-      );
-    }
-  )
+    return (
+      'bash ' + script_path + ' "' + extensions + '" ' + key + ' ' + version
+    );
+  })
 }));
 
 /**
