@@ -195,6 +195,7 @@ cross="✗"
 os=$(uname -s)
 old_versions="5.[3-5]"
 nightly_versions="8.[1-9]"
+date='20210313'
 if [ "$os" = "Linux" ]; then
   . /etc/lsb-release
   os=$os-$DISTRIB_CODENAME
@@ -209,8 +210,9 @@ elif [ "$os" = "Darwin" ]; then
 else
   os="Windows"
   dir='C:\\tools\\php\\ext'
+  [[ "$extensions" == *"imagick"* ]] && date='20210512'
 fi
 key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)
-key="$key-20210313"
+key="$key-$date"
 echo "::set-output name=dir::$dir"
 echo "::set-output name=key::$key"
