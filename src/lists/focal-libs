@@ -165,6 +165,7 @@ libgbm1
 libgc1c2
 libgcab-1.0-0
 libgcc-10-dev
+libgcc-11-dev
 libgcc-9-dev
 libgcc-s1
 libgconf-2-4
@@ -179,6 +180,7 @@ libgdk-pixbuf2.0-common
 libgdk-pixbuf2.0-dev
 libgflags2.2
 libgfortran-10-dev
+libgfortran-11-dev
 libgfortran-9-dev
 libgfortran5
 libgif7
@@ -629,6 +631,7 @@ libssh2-1
 libssl-dev
 libssl1.1
 libstdc++-10-dev
+libstdc++-11-dev
 libstdc++-9-dev
 libstdc++6
 libstemmer0d
