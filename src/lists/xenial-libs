@@ -79,6 +79,7 @@ libclang-common-9-dev
 libclang-cpp9
 libcolord2
 libcomerr2
+libcommon-sense-perl
 libcroco3
 libcryptsetup4
 libcups2
@@ -252,6 +253,8 @@ libjs-jquery
 libjson-c2
 libjson-glib-1.0-0
 libjson-glib-1.0-common
+libjson-perl
+libjson-xs-perl
 libjte1
 libk5crypto3
 libkeyutils1
@@ -635,6 +638,7 @@ libtinyxml2-2v5
 libtk8.6
 libtool
 libtsan0
+libtypes-serialiser-perl
 libubsan0
 libubsan1
 libucl1

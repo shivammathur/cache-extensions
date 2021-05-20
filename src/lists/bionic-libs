@@ -75,6 +75,7 @@ libclang-cpp9
 libclang1-9
 libcolord2
 libcom-err2
+libcommon-sense-perl
 libcroco3
 libcryptsetup12
 libcups2
@@ -270,6 +271,8 @@ libjs-jquery
 libjson-c3
 libjson-glib-1.0-0
 libjson-glib-1.0-common
+libjson-perl
+libjson-xs-perl
 libjte1
 libk5crypto3
 libkeyutils1
@@ -665,6 +668,7 @@ libtommath1
 libtool
 libtry-tiny-perl
 libtsan0
+libtypes-serialiser-perl
 libu2f-udev
 libubsan0
 libubsan1
