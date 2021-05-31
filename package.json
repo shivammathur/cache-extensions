@@ -3,13 +3,13 @@
   "version": "1.5.1",
   "private": false,
   "description": "Cache extensions in GitHub Actions",
-  "main": "dist/index.js",
+  "main": "lib/cache.js",
   "scripts": {
     "build": "tsc",
     "lint": "eslint **/*.ts --cache",
     "format": "prettier --write **/*.ts && git add .",
     "format-check": "prettier --check **/*.ts",
-    "release": "ncc build src/cache.ts -o dist && git add -f dist/",
+    "release": "ncc build -o dist && git add -f dist/",
     "test": "jest"
   },
   "repository": {
@@ -24,26 +24,26 @@
   "author": "shivammathur",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.7",
+    "@actions/core": "^1.3.0",
     "@actions/exec": "^1.0.4"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
-    "@types/node": "^15.0.2",
-    "@typescript-eslint/eslint-plugin": "^4.23.0",
-    "@typescript-eslint/parser": "^4.23.0",
-    "@zeit/ncc": "^0.22.3",
-    "eslint": "^7.26.0",
+    "@types/node": "^15.6.1",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
+    "@vercel/ncc": "^0.28.6",
+    "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^4.3.8",
-    "jest": "^26.6.3",
-    "jest-circus": "^26.6.3",
+    "jest": "^27.0.3",
+    "jest-circus": "^27.0.3",
     "prettier": "^2.3.0",
-    "ts-jest": "^26.5.6",
-    "typescript": "^4.2.4"
+    "ts-jest": "^27.0.1",
+    "typescript": "^4.3.2"
   },
   "husky": {
     "skipCI": true,
