@@ -207,6 +207,7 @@ elif [ "$os" = "Darwin" ]; then
   api_version=$(get_api_version)
   dir=$(darwin_extension_dir "$api_version")
   sudo mkdir -p "$dir" && fix_ownership "$dir"
+  [[ "$extensions" == *"imagick"* ]] && date='20210622'
 else
   os="Windows"
   dir='C:\\tools\\php\\ext'
