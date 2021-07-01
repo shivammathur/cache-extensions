@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import * as core from '@actions/core';
 
 /**
@@ -41,6 +42,16 @@ export async function getInput(
 }
 
 /**
+ * Function to get outputs
+ */
+export async function getOutput(output: string): Promise<string> {
+  return fs.readFileSync(
+    path.join(await readEnv('RUNNER_TEMP'), output),
+    'utf8'
+  );
+}
+
+/**
  * Function to parse PHP version.
  *
  * @param version
@@ -65,10 +76,26 @@ export async function parseVersion(version: string): Promise<string> {
  * @param extension_csv
  */
 export async function filterExtensions(extension_csv: string): Promise<string> {
-  return extension_csv
-    .split(',')
-    .filter(extension => {
-      return extension.trim()[0] != ':';
-    })
-    .join(',');
+  return JSON.stringify(
+    extension_csv
+      .split(',')
+      .filter(extension => {
+        return extension.trim()[0] != ':';
+      })
+      .join(',')
+  );
+}
+
+/**
+ * Function to get script call
+ *
+ * @param fn
+ * @param args
+ */
+export async function scriptCall(
+  fn: string,
+  ...args: string[]
+): Promise<string> {
+  const script: string = path.join(__dirname, '../src/scripts/cache.sh');
+  return ['bash', script, fn, ...args].join(' ');
 }

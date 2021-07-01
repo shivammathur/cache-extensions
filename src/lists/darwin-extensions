@@ -1,0 +1,12 @@
+amqp
+grpc
+imagick
+imap
+memcached
+pecl_http
+phalcon3
+phalcon4
+psr
+rdkafka
+redis
+zmq

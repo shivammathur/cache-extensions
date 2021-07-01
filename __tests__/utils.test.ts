@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import * as utils from '../src/utils';
 
 jest.mock('@actions/core', () => ({
@@ -5,6 +7,14 @@ jest.mock('@actions/core', () => ({
     return ['cache-extensions'].indexOf(key) !== -1 ? key : '';
   })
 }));
+
+async function cleanup(path: string): Promise<void> {
+  fs.unlink(path, error => {
+    if (error) {
+      console.log(error);
+    }
+  });
+}
 
 describe('Utils tests', () => {
   it('checking readEnv', async () => {
@@ -20,9 +30,17 @@ describe('Utils tests', () => {
       'cache-extensions'
     );
     expect(await utils.getInput('DoesNotExist', false)).toBe('');
-    expect(async () => {
+    await expect(async () => {
       await utils.getInput('DoesNotExist', true);
     }).rejects.toThrow('Input required and not supplied: DoesNotExist');
+  });
+
+  it('checking getOutput', async () => {
+    const temp_dir: string = process.env['RUNNER_TEMP'] || '';
+    const file_path: string = path.join(temp_dir, 'test');
+    fs.writeFileSync(file_path, 'test', {mode: 0o755});
+    expect(await utils.getOutput('test')).toBe('test');
+    await cleanup(file_path);
   });
 
   it('checking parseVersion', async () => {
@@ -32,7 +50,7 @@ describe('Utils tests', () => {
   });
 
   it('checking filterExtensions', async () => {
-    expect(await utils.filterExtensions('a,:b,c')).toBe('a,c');
-    expect(await utils.filterExtensions('a, :b, c')).toBe('a, c');
+    expect(await utils.filterExtensions('a,:b,c')).toBe('"a,c"');
+    expect(await utils.filterExtensions('a, :b, c')).toBe('"a, c"');
   });
 });

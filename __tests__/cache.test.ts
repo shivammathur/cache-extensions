@@ -1,3 +1,4 @@
+import path from 'path';
 import * as cache from '../src/cache';
 import * as utils from '../src/utils';
 
@@ -6,17 +7,14 @@ import * as utils from '../src/utils';
  */
 jest.mock('../src/cache', () => ({
   run: jest.fn().mockImplementation(async (): Promise<string> => {
-    let version: string = process.env['php-version'] || '';
-    version = version.length > 1 ? version.slice(0, 3) : version + '.0';
+    const version: string = await utils.parseVersion(
+      process.env['php-version'] || ''
+    );
     const extensions = await utils.filterExtensions(
       process.env['extensions'] || ''
     );
     const key: string = process.env['key'] || '';
-    const script_path = 'extensions.sh';
-
-    return (
-      'bash ' + script_path + ' "' + extensions + '" ' + key + ' ' + version
-    );
+    return await utils.scriptCall('test', extensions, key, version);
   })
 }));
 
@@ -38,21 +36,22 @@ function setEnv(
 }
 
 describe('Install', () => {
+  const spath: string = path.join(__dirname, '../src/scripts/cache.sh');
   it('Test Run', async () => {
     setEnv('7.0', 'xdebug, pcov', 'cache-v1');
     const script: string = '' + (await cache.run());
-    expect(script).toContain('bash extensions.sh "xdebug, pcov" cache-v1 7.0');
+    expect(script).toContain(`bash ${spath} test "xdebug, pcov" cache-v1 7.0`);
   });
 
   it('Test Run', async () => {
     setEnv('7.4', 'xdebug, zip', 'cache-v2');
     const script: string = '' + (await cache.run());
-    expect(script).toContain('bash extensions.sh "xdebug, zip" cache-v2 7.4');
+    expect(script).toContain(`bash ${spath} test "xdebug, zip" cache-v2 7.4`);
   });
 
   it('Test Run', async () => {
     setEnv('7.4', 'xdebug, :zip', 'cache-v2');
     const script: string = '' + (await cache.run());
-    expect(script).toContain('bash extensions.sh "xdebug" cache-v2 7.4');
+    expect(script).toContain(`bash ${spath} test "xdebug" cache-v2 7.4`);
   });
 });
