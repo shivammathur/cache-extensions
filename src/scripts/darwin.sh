@@ -113,6 +113,11 @@ setup_dependencies() {
   fi
 }
 
+export HOMEBREW_CHANGE_ARCH_TO_ARM=1
+export HOMEBREW_NO_INSTALL_CLEANUP=1
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+
 brew_prefix="$(brew --prefix)"
 brew_cellar="$brew_prefix/Cellar"
 tap_dir="$(brew --repository)"/Library/Taps
