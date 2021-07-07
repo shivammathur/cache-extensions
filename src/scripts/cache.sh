@@ -89,7 +89,7 @@ data() {
     api_version=$(get_api_version)
     dir=$(extension_dir_darwin "$api_version")
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
-    [[ "$extensions" == *"imagick"* ]] && date='20210703'
+    date='20210707'
   else
     os="Windows"
     dir='C:\\tools\\php\\ext'

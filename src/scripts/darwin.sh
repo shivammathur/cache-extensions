@@ -63,6 +63,59 @@ setup_extensions() {
   add_log "${tick:?}" "${dependency_extensions_array[@]}"
 }
 
+add_library_helper() {
+  dep_name=$1
+  cache_dir=$2
+  sudo cp -R "$brew_cellar/$dep_name" "$cache_dir/"
+  sudo chmod -R 777 "$cache_dir/$dep_name"
+  echo "$dep_name" | sudo tee -a "$cache_dir"/list >/dev/null 2>&1
+  (
+    cd "$cache_dir" || exit 1
+    if command -v gtar >/dev/null; then
+      sudo gtar -I "zstd -T0" -cf "$cache_dir"/"$dep_name".tar.zst "$dep_name"
+    else
+      sudo tar -cf - "$dep_name" | zstd -T0 > "$cache_dir"/"$dep_name".tar.zst
+    fi
+  )
+}
+
+add_library() {
+  lib=$1
+  cache_dir=$2
+  brew list "$lib" &>/dev/null || brew install "$lib"
+  IFS=' ' read -r -a deps_array <<<"$(brew deps "$lib" | tr '\n' ' ')"
+  to_wait=()
+  for dep_name in "$lib" "${deps_array[@]}"; do
+    add_library_helper "$dep_name" "$cache_dir" &
+    to_wait+=($!)
+  done
+  wait "${to_wait[@]}"
+  sudo rm -R -- "${cache_dir:?}"/*/
+}
+
+restore_library_helper() {
+  dep_name=$1
+  cache_dir=$2
+  if command -v gtar >/dev/null; then
+    sudo gtar -I "zstd -d" -xf "$cache_dir"/"$dep_name".tar.zst -C "$brew_cellar"
+  else
+    sudo zstd -dq "$cache_dir"/"$dep_name".tar.zst && sudo tar -xf "$cache_dir"/"$dep_name".tar -C "$brew_cellar"
+  fi
+  if ! [ -d "$brew_prefix/opt/$dep_name" ]; then
+    brew link --force --overwrite "$dep_name" 2>/dev/null || true
+  fi
+}
+
+restore_library() {
+  cache_dir=$1
+  to_wait=()
+  while read -r dep_name; do
+    restore_library_helper "$dep_name" "$cache_dir" &
+    to_wait+=($!)
+  done <"$cache_dir"/list
+  wait "${to_wait[@]}"
+}
+
 setup_libraries() {
   extension=$1
   shift 1
@@ -70,20 +123,15 @@ setup_libraries() {
   ext_deps_dir="$deps_cache_directory/$extension"
   sudo cp -a "$tap_dir"/shivammathur/homebrew-extensions/.github/deps/"$extension"/*.rb "$tap_dir"/homebrew/homebrew-core/Formula/
   sudo mkdir -p "$ext_deps_dir"
-  libs_count="$(find "$ext_deps_dir" -maxdepth 1 -name "*.dylib" | wc -l | sed 's/^ *//')"
-  if [ "$libs_count" = "0" ]; then
-    echo "::group::Logs to set up libraries required for $extension"
-    for lib in "${libraries_array[@]}"; do
-      brew list "$lib" &>/dev/null || brew install "$lib"
-      IFS=' ' read -r -a deps_array <<<"$(brew deps "$lib" | tr '\n' ' ')"
-      for dep in "$lib" "${deps_array[@]}"; do
-        sudo find "$brew_cellar/$dep" -name "*.dylib" -exec cp "{}" "$ext_deps_dir/" \;
-      done
-    done
-    echo "::endgroup::"
-  else
-    sudo find "$ext_deps_dir" -name "*.dylib" -exec cp "{}" "$brew_prefix/lib/" \;
-  fi
+  echo "::group::Logs to set up libraries required for $extension"
+  for lib in "${libraries_array[@]}"; do
+    if ! [ -e "$ext_deps_dir"/list ]; then
+      add_library "$lib" "$ext_deps_dir"
+    else
+      restore_library "$ext_deps_dir"
+    fi
+  done
+  echo "::endgroup::"
   add_log "$tick" "${libraries_array[@]}"
 }
 
