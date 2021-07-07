@@ -66,11 +66,9 @@ setup_extensions() {
 add_library_helper() {
   dep_name=$1
   cache_dir=$2
-  sudo cp -R "$brew_cellar/$dep_name" "$cache_dir/"
-  sudo chmod -R 777 "$cache_dir/$dep_name"
   echo "$dep_name" | sudo tee -a "$cache_dir"/list >/dev/null 2>&1
   (
-    cd "$cache_dir" || exit 1
+    cd "$brew_cellar" || exit 1
     if command -v gtar >/dev/null; then
       sudo gtar -I "zstd -T0" -cf "$cache_dir"/"$dep_name".tar.zst "$dep_name"
     else
@@ -90,16 +88,17 @@ add_library() {
     to_wait+=($!)
   done
   wait "${to_wait[@]}"
-  sudo rm -R -- "${cache_dir:?}"/*/
 }
 
 restore_library_helper() {
   dep_name=$1
   cache_dir=$2
-  if command -v gtar >/dev/null; then
-    sudo gtar -I "zstd -d" -xf "$cache_dir"/"$dep_name".tar.zst -C "$brew_cellar"
-  else
-    sudo zstd -dq "$cache_dir"/"$dep_name".tar.zst && sudo tar -xf "$cache_dir"/"$dep_name".tar -C "$brew_cellar"
+  if ! [ -d "$brew_cellar/$dep_name" ]; then
+    if command -v gtar >/dev/null; then
+      sudo gtar -I "zstd -d" -xf "$cache_dir"/"$dep_name".tar.zst -C "$brew_cellar"
+    else
+      sudo zstd -dq "$cache_dir"/"$dep_name".tar.zst && sudo tar -xf "$cache_dir"/"$dep_name".tar -C "$brew_cellar"
+    fi
   fi
   if ! [ -d "$brew_prefix/opt/$dep_name" ]; then
     brew link --force --overwrite "$dep_name" 2>/dev/null || true
