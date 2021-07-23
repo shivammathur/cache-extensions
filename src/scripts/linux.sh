@@ -101,7 +101,7 @@ setup_dependencies() {
   if [[ -n "${libraries// /}" ]]; then
     setup_libraries "$libraries"
   fi
-  if [[ -n "${extension_packages// /}" ]]; then
+  if [[ -n "${extension_packages// /}" ]] && [ "${skip_dependency_extensions:=}" != "true" ]; then
     setup_extensions "$extension_dir" "${extension_packages//php$version-/}"
   fi
 }

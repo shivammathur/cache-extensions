@@ -152,7 +152,7 @@ setup_dependencies() {
         step_log "Setup libraries for $extension"
         setup_libraries "$extension" "${libraries_array[@]}"
       fi
-      if [[ -n "${extension_array[*]// /}" ]]; then
+      if [[ -n "${extension_array[*]// /}" ]] && [ "${skip_dependency_extensions:=}" != "true" ]; then
         step_log "Setup extensions for $extension"
         setup_extensions "$extension" "$extension_dir" "${extension_array[@]}"
       fi
