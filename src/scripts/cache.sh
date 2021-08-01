@@ -38,6 +38,7 @@ get_api_version() {
   7.3) echo "20180731" ;;
   7.4) echo "20190902" ;;
   8.0) echo "20200930" ;;
+  8.1) echo "20201009" ;;
   *) get_api_version_from_repo ;;
   esac
 }
