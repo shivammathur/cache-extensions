@@ -21,6 +21,7 @@ libasound2
 libasound2-data
 libaspell15
 libassuan0
+libatasmart4
 libatk-bridge2.0-0
 libatk1.0-0
 libatk1.0-data
@@ -39,6 +40,14 @@ libblas-dev
 libblas3
 libblkid-dev
 libblkid1
+libblockdev-crypto2
+libblockdev-fs2
+libblockdev-loop2
+libblockdev-part-err2
+libblockdev-part2
+libblockdev-swap2
+libblockdev-utils2
+libblockdev2
 libboost-context1.71.0
 libboost-filesystem1.71.0
 libboost-program-options1.71.0
@@ -258,6 +267,7 @@ libitm1
 libjansson4
 libjbig-dev
 libjbig0
+libjcat1
 libjemalloc2
 libjpeg-dev
 libjpeg-turbo8
@@ -536,6 +546,7 @@ libpangocairo-1.0-0
 libpangoft2-1.0-0
 libpaper-utils
 libpaper1
+libparted-fs-resize0
 libparted2
 libpcap0.8
 libpci3
@@ -674,6 +685,7 @@ libubsan1
 libuchardet0
 libucl1
 libudev1
+libudisks2-0
 libunistring2
 libunwind8
 liburcu6
@@ -683,6 +695,7 @@ libutempter0
 libutf8proc2
 libuuid1
 libuv1
+libvolume-key1
 libvorbis0a
 libvorbisfile3
 libvpx6
