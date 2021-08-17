@@ -69,7 +69,7 @@ extension_dir_darwin() {
 
 extension_dir_linux() {
   api_version=$1
-  if [[ "${version:?}" =~ ${old_versions:?}|${nightly_versions:?} ]]; then
+  if [[ "${version:?}" =~ ${old_versions:?} ]]; then
     echo "/usr/local/php/$version/lib/php/extensions/no-debug-non-zts-$api_version"
   else
     echo "/usr/lib/php/$api_version"
@@ -78,7 +78,6 @@ extension_dir_linux() {
 
 data() {
   old_versions="5.[3-5]"
-  nightly_versions="8.[1-9]"
   date='20210703'
   if [ "$os" = "Linux" ]; then
     . /etc/lsb-release
