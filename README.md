@@ -47,7 +47,7 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 |Ubuntu 18.04|`ubuntu-18.04`|
 |Ubuntu 16.04|`ubuntu-16.04`|
 |macOS Catalina 10.15|`macos-latest` or `macOS-10.15`|
-|macOS Big Sur 11.x|`macOS-11.0`|
+|macOS Big Sur 11.x|`macOS-11`|
 
 ## :memo: Usage
 
