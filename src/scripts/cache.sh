@@ -95,7 +95,7 @@ data() {
   else
     os="Windows"
     dir='C:\\tools\\php\\ext'
-    [[ "$extensions" == *"imagick"* ]] && date='20210512'
+    date='20210823'
   fi
   key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)
   key="$key-$date"
