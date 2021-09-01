@@ -1,4 +1,4 @@
-name: Libs workflow
+name: Release workflow
 on:
   workflow_dispatch:
   schedule:
@@ -38,6 +38,10 @@ jobs:
         with:
           name: lists
           path: src/lists
+      - name: Update darwin extensions list
+        run: |
+          brew tap shivammathur/extensions
+          find "$(brew --repository shivammathur/extensions)"/.github/deps -mindepth 1 -type d -name "*" -exec basename {} \; > src/lists/darwin-extensions
       - name: Update tags and branches
         run: |
           push_ref() {
