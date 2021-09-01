@@ -120,7 +120,7 @@ setup_libraries() {
   shift 1
   libraries_array=("$@")
   ext_deps_dir="$deps_cache_directory/$extension"
-  sudo cp -a "$tap_dir"/shivammathur/homebrew-extensions/.github/deps/"$extension"/*.rb "$tap_dir"/homebrew/homebrew-core/Formula/
+  sudo cp -a "$tap_dir"/"$ext_tap"/.github/deps/"$extension"/*.rb "$tap_dir"/"$core_tap"/Formula/
   sudo mkdir -p "$ext_deps_dir"
   echo "::group::Logs to set up libraries required for $extension"
   for lib in "${libraries_array[@]}"; do
@@ -142,10 +142,10 @@ setup_dependencies() {
   IFS=' ' read -r -a extensions_array <<<"$(echo "$extensions" | sed -e "s/pdo[_-]//g" -Ee "s/^|,\s*/ /g")"
   IFS=' ' read -r -a extensions_array <<<"$(filter_extensions "${extensions_array[@]}")"
   if [[ -n "${extensions_array[*]// /}" ]]; then
-    add_brew_tap "shivammathur/homebrew-php"
-    add_brew_tap "shivammathur/homebrew-extensions"
+    add_brew_tap "$php_tap"
+    add_brew_tap "$ext_tap"
     for extension in "${extensions_array[@]}"; do
-      IFS=' ' read -r -a dependency_array <<<"$(grep "depends_on" "$tap_dir/shivammathur/homebrew-extensions/Formula/$extension@$version.rb" | cut -d '"' -f 2 | tr '\n' ' ')"
+      IFS=' ' read -r -a dependency_array <<<"$(grep "depends_on" "$tap_dir/$ext_tap/Formula/$extension@$version.rb" | cut -d '"' -f 2 | tr '\n' ' ')"
       IFS=' ' read -r -a extension_array <<<"$(echo "${dependency_array[@]}" | grep -Eo "[a-z]*@" | sed 's/@//' | tr '\n' ' ')"
       IFS=' ' read -r -a libraries_array <<<"${dependency_array[@]//shivammathur*/}"
       if [[ -n "${libraries_array[*]// /}" ]]; then
@@ -168,3 +168,6 @@ export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 brew_prefix="$(brew --prefix)"
 brew_cellar="$brew_prefix/Cellar"
 tap_dir="$(brew --repository)"/Library/Taps
+core_tap=homebrew/homebrew-core
+php_tap=shivammathur/homebrew-php
+ext_tap=shivammathur/homebrew-extensions
