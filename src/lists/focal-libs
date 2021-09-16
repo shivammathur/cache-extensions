@@ -497,7 +497,6 @@ libmysqlclient21
 libncurses-dev
 libncurses5
 libncurses6
-libncursesw5
 libncursesw6
 libnet-dbus-perl
 libnet-http-perl
