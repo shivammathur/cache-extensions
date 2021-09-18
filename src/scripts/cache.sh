@@ -38,7 +38,7 @@ get_api_version() {
   7.3) echo "20180731" ;;
   7.4) echo "20190902" ;;
   8.0) echo "20200930" ;;
-  8.1) echo "20201009" ;;
+  8.1) echo "20210902" ;;
   *) get_api_version_from_repo ;;
   esac
 }
@@ -78,7 +78,7 @@ extension_dir_linux() {
 
 data() {
   old_versions="5.[3-5]"
-  date='20210703'
+  date='20210919'
   if [ "$os" = "Linux" ]; then
     . /etc/lsb-release
     os=$os-$DISTRIB_CODENAME
@@ -89,14 +89,10 @@ data() {
     api_version=$(get_api_version)
     dir=$(extension_dir_darwin "$api_version")
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
-    date='20210707'
-    [[ "$extensions" == *"imagick"* ]] && date='20210723'    
   else
     os="Windows"
     dir='C:\\tools\\php\\ext'
-    date='20210823'
   fi
-  [ "$version" = "8.1" ] && date='20210901'
   key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)
   key="$key-$date"
   echo "$dir" > "${RUNNER_TEMP:?}"/dir
