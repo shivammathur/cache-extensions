@@ -37,15 +37,17 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 |7.4|`Stable`|`Active`|
 |8.0|`Stable`|`Active`|
 |8.1|`Nightly`|`In development`|
+|8.2|`Nightly`|`In development`|
 
 ## :cloud: OS/Platform Support
 
 |Virtual environment|YAML workflow label|
 |--- |--- |
-|Windows Server 2019|`windows-latest` or `windows-2019`|
 |Ubuntu 20.04|`ubuntu-latest` or `ubuntu-20.04`|
 |Ubuntu 18.04|`ubuntu-18.04`|
 |Ubuntu 16.04|`ubuntu-16.04`|
+|Windows Server 2022|`windows-2022`|
+|Windows Server 2019|`windows-latest` or `windows-2019`|
 |macOS Catalina 10.15|`macos-latest` or `macOS-10.15`|
 |macOS Big Sur 11.x|`macOS-11`|
 
@@ -57,15 +59,18 @@ Use this GitHub Action when the extensions you are adding in [setup-php](https:/
 
 #### `php-version` (required)
 
-- Specify the PHP version you want to set-up.
-- Accepts a `string`. For example `'7.4'`.
+- Specify the PHP version you want to set up.
+- Accepts a `string`. For example `'8.0'`.
+- Accepts `latest` to set up the latest stable PHP version.
+- Accepts `nightly` to set up a nightly build from the master branch of PHP.
+- Accepts the format `d.x`, where `d` is the major version. For example `5.x`, `7.x` and `8.x`.  
 - See [PHP support](#tada-php-support) for supported PHP versions.
 
 #### `extensions` (required)
 
-- Specify the extensions you want to setup.
+- Specify the extensions you want to set up.
 - Accepts a `string` in csv-format. For example `mbstring, xdebug, :opcache`.
-- Extensions prefixed with `:` are ignored.
+- Extensions prefixed with `:` are ignored in output cache key.
 
 #### `key` (required)
 
