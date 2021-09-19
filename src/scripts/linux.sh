@@ -6,9 +6,9 @@ link_apt_fast() {
 
 fetch_package() {
   if ! [ -e /tmp/Packages ]; then
-    . /etc/lsb-release
+    . /etc/os-release
     deb_build_arch=$(dpkg-architecture -q DEB_BUILD_ARCH)
-    curl -o /tmp/Packages.gz -sL "http://ppa.launchpad.net/ondrej/php/ubuntu/dists/$DISTRIB_CODENAME/main/binary-$deb_build_arch/Packages.gz"
+    curl -o /tmp/Packages.gz -sL "http://ppa.launchpad.net/ondrej/php/ubuntu/dists/$VERSION_CODENAME/main/binary-$deb_build_arch/Packages.gz"
     gzip -df /tmp/Packages.gz
   fi
 }
@@ -16,7 +16,12 @@ fetch_package() {
 get_dependencies() {
   package=$1
   prefix=$2
-  sed -e '/Package:\s'"$package$"'/,/^\s*$/!d' /tmp/Packages | grep -Eo "^Depends.*" | tr ',' '\n' | awk -v ORS='' '/^\s'"$prefix"'/{print$0}' | sed -e 's/([^()]*)//g' | sort | uniq | xargs echo -n
+  list_deps="$(grep "${package#*-}" "${script_dir:?}"/../lists/linux-deps | cut -d '=' -f 2 | grep -Eo "$prefix.*")"
+  package_deps="$(sed -e '/Package:\s'"$package$"'/,/^\s*$/!d' /tmp/Packages | grep -Eo "^Depends.*" | tr ',' '\n' | awk -v ORS='' '/^\s'"$prefix"'/{print$0}' | sed -e 's/([^()]*)//g' | sort | uniq | xargs echo -n)"
+  deps=()
+  [[ -n "${list_deps[*]}" ]] && deps+=("${list_deps[@]}")
+  [[ -n "${package_deps[*]}" ]] && deps+=("${package_deps[@]}")
+  echo "${deps[@]}"
 }
 
 get_package_link() {
@@ -58,7 +63,7 @@ setup_extensions() {
 filter_libraries() {
   libraries="$(echo "$1" | xargs -n1 | sort | uniq | xargs)"
   for library in $libraries; do
-    if grep -i -q -w "$library" "${script_dir:?}"/../lists/"$DISTRIB_CODENAME"-libs; then
+    if grep -i -q -w "$library" "${script_dir:?}"/../lists/"$VERSION_CODENAME"-libs; then
       libraries=${libraries//$library/}
     fi
   done
@@ -88,7 +93,7 @@ setup_dependencies() {
   extension_dir=$2
   [[ -z "${extensions// }" ]] && return
   IFS=' ' read -r -a extensions_array <<<"$(echo "$extensions" | sed -e "s/pdo[_-]//g" -Ee "s/^|,\s*/ php$version-/g")"
-  . /etc/lsb-release
+  . /etc/os-release
   sudo rm -rf "${ext_config_directory:?}" || true
   libraries=""
   extension_packages=""

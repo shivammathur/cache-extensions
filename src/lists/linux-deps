@@ -1,0 +1,4 @@
+geos=libgeos-dev
+pdo_firebird=firebird-dev
+oci8=libaio-dev
+pdo_oci=libaio-dev

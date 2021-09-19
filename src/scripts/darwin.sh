@@ -23,6 +23,19 @@ add_brew_tap() {
   fi
 }
 
+get_dependencies() {
+  extension=$1
+  list_deps="$(grep "$extension" "${script_dir:?}"/../lists/darwin-deps | cut -d '=' -f 2)"
+  formula_file="$tap_dir/$ext_tap/Formula/$extension@${version:?}.rb"
+  if [ -e "$formula_file" ]; then
+    formula_deps="$(grep "depends_on" "$formula_file" | cut -d '"' -f 2 | tr '\n' ' ')"
+  fi
+  deps=()
+  [[ -n "${list_deps[*]}" ]] && deps+=("${list_deps[@]}")
+  [[ -n "${formula_deps[*]}" ]] && deps+=("${formula_deps[@]}")
+  echo "${deps[@]}"
+}
+
 filter_extensions() {
   extensions_array=("$@")
   filtered_extensions=()
@@ -40,7 +53,7 @@ setup_extensions_helper() {
   extension_dir=$3
   cached_extension="${deps_cache_directory:?}/$dependency_extension.so"
   if ! [ -e "$cached_extension" ]; then
-    brew install "$dependency_extension@${version:?}"
+    brew install "$dependency_extension@$version"
     sudo find "$brew_cellar/$dependency_extension@${version:?}" -name "$dependency_extension.so" -exec cp {} "$cached_extension" \;
   else
     echo "Found $dependency_extension extension in cache"
@@ -145,7 +158,7 @@ setup_dependencies() {
     add_brew_tap "$php_tap"
     add_brew_tap "$ext_tap"
     for extension in "${extensions_array[@]}"; do
-      IFS=' ' read -r -a dependency_array <<<"$(grep "depends_on" "$tap_dir/$ext_tap/Formula/$extension@$version.rb" | cut -d '"' -f 2 | tr '\n' ' ')"
+      IFS=' ' read -r -a dependency_array <<<"$(get_dependencies "$extension")"
       IFS=' ' read -r -a extension_array <<<"$(echo "${dependency_array[@]}" | grep -Eo "[a-z]*@" | sed 's/@//' | tr '\n' ' ')"
       IFS=' ' read -r -a libraries_array <<<"${dependency_array[@]//shivammathur*/}"
       if [[ -n "${libraries_array[*]// /}" ]]; then
