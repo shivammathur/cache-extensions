@@ -100,8 +100,13 @@ setup_dependencies() {
   for extension_package in "${extensions_array[@]}"; do
     fetch_package
     libraries="$libraries $(get_dependencies "$extension_package" "lib")"
-    extension_packages="$extension_packages $(get_dependencies "$extension_package" "php$version-")"
+    IFS=' ' read -r -a dependency_extension_packages_array <<<"$(get_dependencies "$extension_package" "php$version-")"
+    extension_packages="$extension_packages ${dependency_extension_packages_array[*]}"
     extension_packages="${extension_packages//php$version-common/}"
+    for dependency_extension in "${dependency_extension_packages_array[@]}"; do
+      mkdir -p "$ext_config_directory/${extension_package#*-}"
+      add_config "${extension_package#*-}" "$dependency_extension"
+    done
   done
   if [[ -n "${libraries// /}" ]]; then
     setup_libraries "$libraries"
