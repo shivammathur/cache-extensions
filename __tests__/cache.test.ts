@@ -1,4 +1,5 @@
 import path from 'path';
+import * as spu from 'setup-php/lib/utils';
 import * as cache from '../src/cache';
 import * as utils from '../src/utils';
 
@@ -7,7 +8,7 @@ import * as utils from '../src/utils';
  */
 jest.mock('../src/cache', () => ({
   run: jest.fn().mockImplementation(async (): Promise<string> => {
-    const version: string = await utils.parseVersion(
+    const version: string = await spu.parseVersion(
       process.env['php-version'] || ''
     );
     const extensions = await utils.filterExtensions(
