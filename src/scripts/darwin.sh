@@ -40,7 +40,8 @@ filter_extensions() {
   extensions_array=("$@")
   filtered_extensions=()
   for ext in "${extensions_array[@]}"; do
-    if grep -i -q -w "$ext" "${script_dir:?}"/../lists/darwin-extensions; then
+    if grep -i -q -w "$ext" "${script_dir:?}"/../lists/darwin-extensions ||
+      grep -q "$ext=" "${script_dir:?}"/../lists/darwin-deps; then
       filtered_extensions+=("$ext")
     fi
   done
