@@ -134,7 +134,7 @@ setup_libraries() {
   shift 1
   libraries_array=("$@")
   ext_deps_dir="$deps_cache_directory/$extension"
-  sudo cp -a "$tap_dir"/"$ext_tap"/.github/deps/"$extension"/*.rb "$tap_dir"/"$core_tap"/Formula/
+  sudo cp -a "$tap_dir"/"$ext_tap"/.github/deps/"$extension"/*.rb "$tap_dir"/"$core_tap"/Formula/ 2>/dev/null || true
   sudo mkdir -p "$ext_deps_dir"
   echo "::group::Logs to set up libraries required for $extension"
   for lib in "${libraries_array[@]}"; do
