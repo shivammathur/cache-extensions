@@ -10,12 +10,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, ubuntu-18.04, ubuntu-16.04]
+        os: [ubuntu-20.04, ubuntu-18.04]
     steps:
       - name: Update lists
         run: |
-          . /etc/lsb-release
-          dpkg -l | awk '($1 == "ii") && ($2 ~ /^lib|lib$/) { print $2 }' | sed 's/:amd64//' > /tmp/"$DISTRIB_CODENAME"-libs
+          . /etc/os-release
+          dpkg -l | awk '($1 == "ii") && ($2 ~ /^lib|lib$/) { print $2 }' | sed 's/:amd64//' > /tmp/"$VERSION_CODENAME"-libs
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
