@@ -136,7 +136,7 @@ If you set up both `TS` and `NTS` PHP versions on `Windows` in your workflow, pl
 
 ## :scroll: License
 
-The scripts and documentation in this project are under the [MIT License](LICENSE "License for shivammathur/cache-extensions"). This project has multiple [dependencies](https://github.com/shivammathur/cache-extensions/network/dependencies "Dependencies for this PHP Action"). Their licenses can be found in their respective repositories.
+The code and documentation in this project are under the [MIT License](LICENSE "License for shivammathur/cache-extensions"). This project has multiple [dependencies](https://github.com/shivammathur/cache-extensions/network/dependencies "Dependencies for this PHP Action"). Their licenses can be found in their respective repositories.
 
 ## :+1: Contributions
 
@@ -147,8 +147,8 @@ Contributions are welcome! See [Contributor's Guide](.github/CONTRIBUTING.md "sh
 If this action helped you.
 
 - Please star the project and share it. If you blog, please share your experience of using this action.
-- Please consider supporting our work by sponsoring using [GitHub sponsors](https://github.com/sponsors/shivammathur).
+- Please support our work by sponsoring using [GitHub sponsors](https://github.com/sponsors/shivammathur).
 
 ## :package: Dependencies
 
-- [Node.js dependencies](https://github.com/shivammathur/setup-php/network/dependencies "Node.js dependencies")
+- [Node.js dependencies](https://github.com/shivammathur/cache-extensions/network/dependencies "Node.js dependencies")
