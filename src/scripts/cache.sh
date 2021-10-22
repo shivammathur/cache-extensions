@@ -87,6 +87,7 @@ data() {
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
   elif [ "$os" = "Darwin" ]; then
     date='20211006'
+    [[ "$extensions" == *"imap"* ]] && date='20211022'
     api_version=$(get_api_version)
     dir=$(extension_dir_darwin "$api_version")
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
