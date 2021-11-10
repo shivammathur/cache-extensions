@@ -311,8 +311,6 @@ liblqr-1-0-dev
 liblsan0
 libltdl-dev
 libltdl7
-liblttng-ust-ctl4
-liblttng-ust0
 liblua5.2-0
 liblvm2cmd2.03
 liblwp-mediatypes-perl
@@ -631,6 +629,7 @@ libsm-dev
 libsm6
 libsmartcols1
 libsmbios-c2
+libsnappy1v5
 libsnmp-base
 libsnmp35
 libsodium23

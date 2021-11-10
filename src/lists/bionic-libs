@@ -298,8 +298,6 @@ liblqr-1-0-dev
 liblsan0
 libltdl-dev
 libltdl7
-liblttng-ust-ctl4
-liblttng-ust0
 liblua5.2-0
 liblvm2app2.2
 liblvm2cmd2.02
@@ -619,6 +617,7 @@ libslang2
 libsm-dev
 libsm6
 libsmartcols1
+libsnappy1v5
 libsnmp-base
 libsnmp30
 libsodium23
@@ -673,7 +672,6 @@ libucl1
 libudev1
 libunistring2
 libunwind8
-liburcu6
 liburi-perl
 libusb-1.0-0
 libutempter0
