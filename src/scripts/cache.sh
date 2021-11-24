@@ -94,6 +94,7 @@ data() {
   else
     os="Windows"
     dir='C:\\tools\\php\\ext'
+    [[ "${version:?}" =~ 8.[1-2] ]] && date='20211124'
   fi
   key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)
   key="$key-$date"
