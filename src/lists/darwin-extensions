@@ -12,6 +12,7 @@ psr
 rdkafka
 redis
 ssh2
+swoole
 vips
 yaml
 zmq
