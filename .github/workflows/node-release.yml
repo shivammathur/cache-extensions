@@ -1,4 +1,4 @@
-name: Publish Package
+name: Node release workflow
 on:
   release:
     types: [created]
