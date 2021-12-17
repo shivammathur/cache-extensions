@@ -15,5 +15,5 @@ inputs:
     description: 'Key to version the cache hash.'
     required: true
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
