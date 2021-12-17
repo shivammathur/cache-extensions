@@ -78,7 +78,7 @@ extension_dir_linux() {
 
 data() {
   old_versions="5.[3-5]"
-  date='20210919'
+  date='20211217'
   if [ "$os" = "Linux" ]; then
     . /etc/lsb-release
     os=$os-$DISTRIB_CODENAME
@@ -86,18 +86,16 @@ data() {
     dir=$(extension_dir_linux "$api_version")
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
   elif [ "$os" = "Darwin" ]; then
-    date='20211006'
-    [[ "$extensions" == *"imap"* ]] && date='20211022'
     api_version=$(get_api_version)
     dir=$(extension_dir_darwin "$api_version")
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
   else
     os="Windows"
     dir='C:\\tools\\php\\ext'
-    [[ "${version:?}" =~ 8.[1-2] ]] && date='20211124'
   fi
-  key="$os"-ext-"$version"-$(echo -n "$extensions-$key" | openssl dgst -sha256 | cut -d ' ' -f 2)
-  key="$key-$date"
+  job="${GITHUB_REPOSITORY}-${GITHUB_WORKFLOW}-${GITHUB_JOB}"
+  key="$(echo -n "$extensions-$key-$job" | openssl dgst -sha256 | cut -d ' ' -f 2)"
+  key="$os"-"$version"-"$key"-"$date"
   echo "$dir" > "${RUNNER_TEMP:?}"/dir
   echo "$key" > "${RUNNER_TEMP:?}"/key
   echo "::set-output name=dir::$dir"
