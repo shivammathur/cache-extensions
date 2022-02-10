@@ -1,6 +1,6 @@
 {
   "name": "cache-extensions",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "private": false,
   "description": "Cache PHP extensions in GitHub Actions",
   "main": "lib/cache.js",
