@@ -1,4 +1,4 @@
-import path from 'path';
+import * as path from 'path';
 import * as spu from 'setup-php/lib/utils';
 import * as cache from '../src/cache';
 import * as utils from '../src/utils';
