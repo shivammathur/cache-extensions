@@ -86,6 +86,7 @@ data() {
     dir=$(extension_dir_linux "$api_version")
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
   elif [ "$os" = "Darwin" ]; then
+    [[ "$extensions" == *"vips"* ]] && date='20220224'
     api_version=$(get_api_version)
     dir=$(extension_dir_darwin "$api_version")
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
