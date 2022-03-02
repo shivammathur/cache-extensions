@@ -97,7 +97,7 @@ jobs:
       key: cache-v1 # can be any string, change to clear the extension cache.
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup cache environment
       id: extcache
