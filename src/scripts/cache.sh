@@ -87,6 +87,7 @@ data() {
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
   elif [ "$os" = "Darwin" ]; then
     [[ "$extensions" == *"vips"* ]] && date='20220224'
+    [[ "$extensions" =~ .*((pecl_)?http|mongodb).* ]] && date='20220304'
     api_version=$(get_api_version)
     dir=$(extension_dir_darwin "$api_version")
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
