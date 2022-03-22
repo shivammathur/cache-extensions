@@ -28,7 +28,11 @@ export async function handleDependencies(
     );
     await exec(await utils.scriptCall('dependencies', extensions, version));
     if (!cache_hit) {
-      await cache.saveCache([cache_dir], cache_key);
+      try {
+        await cache.saveCache([cache_dir], cache_key);
+      } catch {
+        await cache.saveCache([cache_dir], cache_key + '-take-2');
+      }
     }
   }
 }
@@ -56,5 +60,11 @@ export async function run(): Promise<void> {
 (async () => {
   await run();
 })().catch(error => {
-  core.setFailed(error.message);
+  if (error.name === cache.ValidationError.name) {
+    core.setFailed(error.message);
+  } else if (error.name === cache.ReserveCacheError.name) {
+    core.info(error.message);
+  } else {
+    core.warning(error.message);
+  }
 });

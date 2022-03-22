@@ -44,7 +44,12 @@ async function handleDependencies(extensions, version) {
         const cache_hit = await cache.restoreCache([cache_dir], cache_key, [cache_key]);
         await (0, exec_1.exec)(await utils.scriptCall('dependencies', extensions, version));
         if (!cache_hit) {
-            await cache.saveCache([cache_dir], cache_key);
+            try {
+                await cache.saveCache([cache_dir], cache_key);
+            }
+            catch {
+                await cache.saveCache([cache_dir], cache_key + '-take-2');
+            }
         }
     }
 }
@@ -65,7 +70,15 @@ exports.run = run;
 (async () => {
     await run();
 })().catch(error => {
-    core.setFailed(error.message);
+    if (error.name === cache.ValidationError.name) {
+        core.setFailed(error.message);
+    }
+    else if (error.name === cache.ReserveCacheError.name) {
+        core.info(error.message);
+    }
+    else {
+        core.warning(error.message);
+    }
 });
 //# sourceMappingURL=cache.js.map
 
