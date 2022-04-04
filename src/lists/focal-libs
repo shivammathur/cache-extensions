@@ -168,6 +168,7 @@ libfuse2
 libfuse3-3
 libfwupd2
 libfwupdplugin1
+libfwupdplugin5
 libgbm-dev
 libgbm1
 libgc1c2
@@ -330,10 +331,13 @@ libmagickwand-6.q16-dev
 libmagickwand-dev
 libmailtools-perl
 libmaxminddb0
+libmbim-glib4
+libmbim-proxy
 libmcrypt4
 libmecab2
 libmediainfo0v5
 libmemcached11
+libmm-glib0
 libmms0
 libmnl0
 libmono-2.0-1
@@ -550,6 +554,7 @@ libpcre2-32-0
 libpcre2-8-0
 libpcre2-dev
 libpcre2-posix2
+libpcre2-posix3
 libpcre3
 libpcre3-dev
 libpcre32-3
@@ -584,6 +589,8 @@ libpython3.8-dev
 libpython3.8-minimal
 libpython3.8-stdlib
 libqdbm14
+libqmi-glib5
+libqmi-proxy
 libquadmath0
 librabbitmq4
 libre2-5
