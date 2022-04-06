@@ -4,6 +4,7 @@ gnupg
 grpc
 imagick
 imap
+mcrypt
 memcached
 mongodb
 pecl_http
