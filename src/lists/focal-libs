@@ -80,6 +80,8 @@ libcap2
 libcap2-bin
 libcbor0.6
 libcc1-0
+libcgi-fast-perl
+libcgi-pm-perl
 libcgroup1
 libclang-common-10-dev
 libclang-common-11-dev
@@ -146,6 +148,7 @@ libext2fs2
 libfakeroot
 libfastjson4
 libfbclient2
+libfcgi-perl
 libfdisk1
 libffi-dev
 libffi7
@@ -233,6 +236,7 @@ libhtml-form-perl
 libhtml-format-perl
 libhtml-parser-perl
 libhtml-tagset-perl
+libhtml-template-perl
 libhtml-tree-perl
 libhttp-cookies-perl
 libhttp-daemon-perl
@@ -300,7 +304,6 @@ liblldb-12
 libllvm10
 libllvm11
 libllvm12
-libllvm9
 liblmdb0
 liblocale-gettext-perl
 liblqr-1-0
