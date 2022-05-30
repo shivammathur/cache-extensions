@@ -2,6 +2,7 @@ import {exec} from '@actions/exec';
 import * as cache from '@actions/cache';
 import * as core from '@actions/core';
 import * as spu from 'setup-php/lib/utils';
+import * as fs from 'fs';
 import * as path from 'path';
 import * as utils from './utils';
 
@@ -27,7 +28,7 @@ export async function handleDependencies(
       [cache_key]
     );
     await exec(await utils.scriptCall('dependencies', extensions, version));
-    if (!cache_hit) {
+    if (!cache_hit && fs.existsSync(cache_dir)) {
       try {
         await cache.saveCache([cache_dir], cache_key);
       } catch {

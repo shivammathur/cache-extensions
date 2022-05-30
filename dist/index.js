@@ -35,6 +35,7 @@ const exec_1 = __nccwpck_require__(1514);
 const cache = __importStar(__nccwpck_require__(7799));
 const core = __importStar(__nccwpck_require__(2186));
 const spu = __importStar(__nccwpck_require__(2700));
+const fs = __importStar(__nccwpck_require__(7147));
 const path = __importStar(__nccwpck_require__(1017));
 const utils = __importStar(__nccwpck_require__(918));
 async function handleDependencies(extensions, version) {
@@ -43,7 +44,7 @@ async function handleDependencies(extensions, version) {
         const cache_dir = path.join(await spu.readEnv('RUNNER_TOOL_CACHE'), 'deps');
         const cache_hit = await cache.restoreCache([cache_dir], cache_key, [cache_key]);
         await (0, exec_1.exec)(await utils.scriptCall('dependencies', extensions, version));
-        if (!cache_hit) {
+        if (!cache_hit && fs.existsSync(cache_dir)) {
             try {
                 await cache.saveCache([cache_dir], cache_key);
             }
