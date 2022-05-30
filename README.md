@@ -41,14 +41,16 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 
 ## :cloud: OS/Platform Support
 
-|Virtual environment|YAML workflow label|
-|--- |--- |
-|Ubuntu 20.04|`ubuntu-latest` or `ubuntu-20.04`|
-|Ubuntu 18.04|`ubuntu-18.04`|
-|Windows Server 2022|`windows-2022`|
-|Windows Server 2019|`windows-latest` or `windows-2019`|
-|macOS Catalina 10.15|`macos-latest` or `macOS-10.15`|
-|macOS Big Sur 11.x|`macOS-11`|
+| Virtual environment  | YAML workflow label                |
+|----------------------|------------------------------------|
+| Ubuntu 22.04         | `ubuntu-22.04`                     |
+| Ubuntu 20.04         | `ubuntu-latest` or `ubuntu-20.04`  |
+| Ubuntu 18.04         | `ubuntu-18.04`                     |
+| Windows Server 2022  | `windows-2022`                     |
+| Windows Server 2019  | `windows-latest` or `windows-2019` |
+| macOS Big Sur 12.x   | `macOS-12`                         |
+| macOS Big Sur 11.x   | `macos-latest` or `macOS-11`       |
+| macOS Catalina 10.15 | `macOS-10.15`                      |
 
 ## :memo: Usage
 
