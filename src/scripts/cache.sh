@@ -110,6 +110,7 @@ dependencies() {
     export cross="✗"
     export ext_config_directory="/tmp/extcache"
     export deps_cache_directory="${RUNNER_TOOL_CACHE}"/deps
+    sudo mkdir -p "$deps_cache_directory"
     script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
     # shellcheck disable=SC1090
     . "$script_dir/$(echo "$os" | tr '[:upper:]' '[:lower:]').sh"
