@@ -145,6 +145,7 @@ libfreetype6
 libfreetype6-dev
 libfribidi0
 libfuse2
+libfuse3-3
 libgbm-dev
 libgbm1
 libgc1c2
