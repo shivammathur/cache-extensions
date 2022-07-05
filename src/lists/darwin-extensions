@@ -1,5 +1,6 @@
 amqp
 couchbase
+event
 expect
 gnupg
 grpc
