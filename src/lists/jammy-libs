@@ -30,7 +30,6 @@ libatspi2.0-0
 libattr1
 libaudit-common
 libaudit1
-libauthen-sasl-perl
 libavahi-client3
 libavahi-common-data
 libavahi-common3
@@ -101,7 +100,6 @@ libctf0
 libcups2
 libcurl3-gnutls
 libcurl4
-libdata-dump-perl
 libdatrie1
 libdav1d5
 libdb5.3
@@ -153,12 +151,7 @@ libffi-dev
 libffi8
 libfftw3-double3
 libfido2-1
-libfile-basedir-perl
-libfile-desktopentry-perl
-libfile-listing-perl
-libfile-mimeinfo-perl
 libflashrom1
-libfont-afm-perl
 libfontconfig-dev
 libfontconfig1
 libfontconfig1-dev
@@ -223,24 +216,17 @@ libgssapi-krb5-2
 libgstreamer1.0-0
 libgtk-3-0
 libgtk-3-common
-libgtkd-3-0
 libgudev-1.0-0
 libgusb2
 libharfbuzz0b
 libhavege2
 libheif1
 libhogweed6
-libhtml-form-perl
-libhtml-format-perl
 libhtml-parser-perl
 libhtml-tagset-perl
 libhtml-template-perl
-libhtml-tree-perl
-libhttp-cookies-perl
-libhttp-daemon-perl
 libhttp-date-perl
 libhttp-message-perl
-libhttp-negotiate-perl
 libhunspell-1.7-0
 libice-dev
 libice6
@@ -253,11 +239,8 @@ libinih1
 libintl-perl
 libintl-xs-perl
 libio-html-perl
-libio-socket-ssl-perl
-libio-stringy-perl
 libip4tc2
 libip6tc2
-libipc-system-simple-perl
 libisc-export1105
 libisl23
 libisns0
@@ -299,7 +282,6 @@ libldap-common
 liblldb-12
 liblldb-13
 liblldb-14
-libllvm11
 libllvm12
 libllvm13
 libllvm14
@@ -313,7 +295,6 @@ libltdl7
 liblua5.3-0
 liblvm2cmd2.03
 liblwp-mediatypes-perl
-liblwp-protocol-https-perl
 liblz4-1
 liblzma-dev
 liblzma5
@@ -331,7 +312,6 @@ libmagickwand-6-headers
 libmagickwand-6.q16-6
 libmagickwand-6.q16-dev
 libmagickwand-dev
-libmailtools-perl
 libmaxminddb0
 libmbim-glib4
 libmbim-proxy
@@ -355,10 +335,6 @@ libmysqlclient21
 libncurses-dev
 libncurses6
 libncursesw6
-libnet-dbus-perl
-libnet-http-perl
-libnet-smtp-ssl-perl
-libnet-ssleay-perl
 libnetfilter-conntrack3
 libnetplan0
 libnettle8
@@ -424,7 +400,6 @@ libpcrecpp0v5
 libperl5.34
 libpfm4
 libpgm-5.3-0
-libphobos2-ldc-shared98
 libpipeline1
 libpixman-1-0
 libpixman-1-dev
@@ -524,7 +499,6 @@ libtext-wrapi18n-perl
 libthai-data
 libthai0
 libtidy5deb1
-libtie-ixhash-perl
 libtiff-dev
 libtiff5
 libtiffxx5
@@ -538,7 +512,6 @@ libtirpc3
 libtk8.6
 libtommath1
 libtool
-libtry-tiny-perl
 libtsan0
 libtss2-esys-3.0.2-0
 libtss2-mu0
@@ -566,9 +539,6 @@ libutf8proc2
 libuuid1
 libuv1
 libvolume-key1
-libvte-2.91-0
-libvte-2.91-common
-libvted-3-0
 libvulkan1
 libwayland-client0
 libwayland-cursor0
@@ -582,12 +552,9 @@ libwmf-0.2-7
 libwmf-dev
 libwmflite-0.2-7
 libwrap0
-libwww-perl
-libwww-robotrules-perl
 libx11-6
 libx11-data
 libx11-dev
-libx11-protocol-perl
 libx11-xcb1
 libx265-199
 libxau-dev
@@ -599,7 +566,6 @@ libxcb-glx0
 libxcb-present0
 libxcb-render0
 libxcb-render0-dev
-libxcb-shape0
 libxcb-shm0
 libxcb-shm0-dev
 libxcb-sync1
@@ -623,11 +589,8 @@ libxkbfile-dev
 libxkbfile1
 libxml-libxml-perl
 libxml-namespacesupport-perl
-libxml-parser-perl
 libxml-sax-base-perl
 libxml-sax-perl
-libxml-twig-perl
-libxml-xpathengine-perl
 libxml2
 libxml2-dev
 libxmlb2
@@ -646,8 +609,6 @@ libxt-dev
 libxt6
 libxtables12
 libxtst6
-libxv1
-libxxf86dga1
 libxxf86vm1
 libxxhash0
 libyajl2
