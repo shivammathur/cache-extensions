@@ -31,7 +31,6 @@ libatspi2.0-0
 libattr1
 libaudit-common
 libaudit1
-libauthen-sasl-perl
 libavahi-client3
 libavahi-common-data
 libavahi-common3
@@ -81,7 +80,6 @@ libcryptsetup12
 libcups2
 libcurl3-gnutls
 libcurl4
-libdata-dump-perl
 libdatrie1
 libdb5.3
 libdbus-1-3
@@ -133,11 +131,6 @@ libfdisk1
 libffi-dev
 libffi6
 libfftw3-double3
-libfile-basedir-perl
-libfile-desktopentry-perl
-libfile-listing-perl
-libfile-mimeinfo-perl
-libfont-afm-perl
 libfontconfig1
 libfontconfig1-dev
 libfontenc1
@@ -216,17 +209,11 @@ libhcrypto4-heimdal
 libheimbase1-heimdal
 libheimntlm0-heimdal
 libhogweed4
-libhtml-form-perl
-libhtml-format-perl
 libhtml-parser-perl
 libhtml-tagset-perl
 libhtml-template-perl
-libhtml-tree-perl
-libhttp-cookies-perl
-libhttp-daemon-perl
 libhttp-date-perl
 libhttp-message-perl
-libhttp-negotiate-perl
 libhunspell-1.6-0
 libhx509-5-heimdal
 libice-dev
@@ -242,10 +229,8 @@ libidn2-0
 libilmbase-dev
 libilmbase12
 libio-html-perl
-libio-socket-ssl-perl
 libip4tc0
 libip6tc0
-libipc-system-simple-perl
 libiptc0
 libirs160
 libisc-export169
@@ -303,7 +288,6 @@ liblua5.2-0
 liblvm2app2.2
 liblvm2cmd2.02
 liblwp-mediatypes-perl
-liblwp-protocol-https-perl
 liblwres160
 liblxc-common
 liblxc1
@@ -324,7 +308,6 @@ libmagickwand-6-headers
 libmagickwand-6.q16-3
 libmagickwand-6.q16-dev
 libmagickwand-dev
-libmailtools-perl
 libmcrypt4
 libmediainfo0v5
 libmemcached11
@@ -485,10 +468,6 @@ libmysqlclient20
 libncurses5
 libncurses5-dev
 libncursesw5
-libnet-dbus-perl
-libnet-http-perl
-libnet-smtp-ssl-perl
-libnet-ssleay-perl
 libnet1
 libnetfilter-conntrack3
 libnetplan0
@@ -651,7 +630,6 @@ libtext-wrapi18n-perl
 libthai-data
 libthai0
 libtidy5deb1
-libtie-ixhash-perl
 libtiff-dev
 libtiff5
 libtiff5-dev
@@ -663,7 +641,6 @@ libtinyxml2-6
 libtk8.6
 libtommath1
 libtool
-libtry-tiny-perl
 libtsan0
 libtypes-serialiser-perl
 libu2f-udev
@@ -692,14 +669,11 @@ libwind0-heimdal
 libwmf-dev
 libwmf0.2-7
 libwrap0
-libwww-perl
-libwww-robotrules-perl
 libwxbase3.0-0v5
 libwxgtk3.0-0v5
 libx11-6
 libx11-data
 libx11-dev
-libx11-protocol-perl
 libx11-xcb1
 libxau-dev
 libxau6
@@ -710,7 +684,6 @@ libxcb-glx0
 libxcb-present0
 libxcb-render0
 libxcb-render0-dev
-libxcb-shape0
 libxcb-shm0
 libxcb-shm0-dev
 libxcb-sync1
@@ -734,11 +707,8 @@ libxkbfile-dev
 libxkbfile1
 libxml-libxml-perl
 libxml-namespacesupport-perl
-libxml-parser-perl
 libxml-sax-base-perl
 libxml-sax-perl
-libxml-twig-perl
-libxml-xpathengine-perl
 libxml2
 libxml2-dev
 libxmlrpc-epi0
@@ -757,8 +727,6 @@ libxt-dev
 libxt6
 libxtables12
 libxtst6
-libxv1
-libxxf86dga1
 libxxf86vm1
 libyajl2
 libyaml-0-2
