@@ -12,6 +12,7 @@ mongodb
 pecl_http
 phalcon3
 phalcon4
+phalcon5
 psr
 rdkafka
 redis
