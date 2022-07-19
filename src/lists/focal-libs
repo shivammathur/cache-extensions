@@ -82,6 +82,7 @@ libcc1-0
 libcgi-fast-perl
 libcgi-pm-perl
 libcgroup1
+libclamav9
 libclang-common-10-dev
 libclang-common-11-dev
 libclang-common-12-dev
@@ -643,6 +644,7 @@ libtext-charwidth-perl
 libtext-iconv-perl
 libtext-unidecode-perl
 libtext-wrapi18n-perl
+libtfm1
 libthai-data
 libthai0
 libtidy5deb1
