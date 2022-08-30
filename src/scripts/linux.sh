@@ -7,8 +7,8 @@ link_apt_fast() {
 fetch_package() {
   if ! [ -e /tmp/Packages ]; then
     . /etc/os-release
-    deb_build_arch=$(dpkg-architecture -q DEB_BUILD_ARCH)
-    curl -o /tmp/Packages.gz -sL "http://ppa.launchpad.net/ondrej/php/ubuntu/dists/$VERSION_CODENAME/main/binary-$deb_build_arch/Packages.gz"
+    arch=$(dpkg --print-architecture)
+    curl -o /tmp/Packages.gz -sL "http://ppa.launchpad.net/ondrej/php/ubuntu/dists/$VERSION_CODENAME/main/binary-$arch/Packages.gz"
     gzip -df /tmp/Packages.gz
   fi
 }
