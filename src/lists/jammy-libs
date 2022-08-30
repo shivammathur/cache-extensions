@@ -510,6 +510,8 @@ libnuma1
 libobjc-11-dev
 libobjc4
 libodbc2
+libodbccr2
+libodbcinst2
 libonig5
 libopenexr-dev
 libopenexr25
