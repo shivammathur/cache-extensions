@@ -98,7 +98,7 @@ setup_dependencies() {
   libraries=""
   extension_packages=""
   for extension_package in "${extensions_array[@]}"; do
-    [[ ! "$extension_package" =~ php[0-9]+\.[0-9]+-[a-zA-Z]+ ]] && continue
+    [[ ! "$extension_package" =~ php[0-9]+\.[0-9]+-[a-zA-Z]+$ ]] && continue
     fetch_package
     libraries="$libraries $(get_dependencies "$extension_package" "lib")"
     IFS=' ' read -r -a dependency_extension_packages_array <<<"$(get_dependencies "$extension_package" "php$version-")"
