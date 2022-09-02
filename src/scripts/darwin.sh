@@ -29,10 +29,12 @@ get_dependencies() {
   formula_file="$tap_dir/$ext_tap/Formula/$extension@${version:?}.rb"
   if [ -e "$formula_file" ]; then
     formula_deps="$(grep "depends_on" "$formula_file" | cut -d '"' -f 2 | tr '\n' ' ')"
+    formula_deps_from_macos="$(grep "uses_from_macos \"lib" "$formula_file" | cut -d '"' -f 2 | tr '\n' ' ')"
   fi
   deps=()
   [[ -n "${list_deps[*]}" ]] && deps+=("${list_deps[@]}")
   [[ -n "${formula_deps[*]}" ]] && deps+=("${formula_deps[@]}")
+  [[ -n "${formula_deps_from_macos[*]}" ]] && deps+=("${formula_deps_from_macos[@]}")
   echo "${deps[@]}"
 }
 
