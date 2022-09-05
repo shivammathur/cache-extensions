@@ -162,9 +162,7 @@ setup_dependencies() {
   IFS=' ' read -r -a extensions_array <<<"$(filter_extensions "${extensions_array[@]}")"
   if [[ -n "${extensions_array[*]// /}" ]]; then
     add_brew_tap "$php_tap"
-    add_brew_tap "$ext_tap"
-    # Remove once updated on the images
-    curl -o "$tap_dir"/"$core_tap"/Formula/ca-certificates.rb -sL https://raw.githubusercontent.com/"$core_tap"/master/Formula/ca-certificates.rb
+    add_brew_tap "$ext_tap"        
     for extension in "${extensions_array[@]}"; do
       IFS=' ' read -r -a dependency_array <<<"$(get_dependencies "$extension")"
       IFS=' ' read -r -a extension_array <<<"$(echo "${dependency_array[@]}" | grep -Eo "[a-z]*@" | sed 's/@//' | tr '\n' ' ')"
