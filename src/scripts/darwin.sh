@@ -120,7 +120,7 @@ restore_library_helper() {
     brew link --force --overwrite "$dep_name" 2>/dev/null || true
   fi
   if ! [ -d "$brew_prefix/opt/$dep_name" ]; then
-    sudo ln -sf "$brew_cellar"/"$dep_name"/* "$brew_prefix"/opt/libffi
+    sudo ln -sf "$brew_cellar"/"$dep_name"/* "$brew_prefix"/opt/"$dep_name"
   fi  
 }
 
