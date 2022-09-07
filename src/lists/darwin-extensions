@@ -19,5 +19,8 @@ redis
 ssh2
 swoole
 vips
+xdebug
+xdebug2
+xlswriter
 yaml
 zmq
