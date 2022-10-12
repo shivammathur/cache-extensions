@@ -17,7 +17,7 @@ jobs:
           . /etc/os-release
           dpkg -l | awk '($1 == "ii") && ($2 ~ /^lib|lib$/) { print $2 }' | sed 's/:amd64//' > /tmp/"$VERSION_CODENAME"-libs
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: lists
           path: |
@@ -34,7 +34,7 @@ jobs:
           ref: develop
           fetch-depth: 0
       - name: Download lists
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: lists
           path: src/lists

@@ -17,14 +17,6 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v1
-        with:
-          allowed-endpoints:
-            github.com:443
-            npm.pkg.github.com:443
-            registry.npmjs.org:443
-
       - name: Checkout release
         if: github.event_name != 'workflow_dispatch'
         uses: actions/checkout@v3
@@ -36,7 +28,7 @@ jobs:
           ref: ${{ github.event.inputs.tag }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           registry-url: https://registry.npmjs.org
@@ -54,7 +46,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Change to GitHub Packages registry
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           registry-url: https://npm.pkg.github.com
           scope: '@shivammathur'
