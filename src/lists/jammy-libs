@@ -1,7 +1,6 @@
 lib32gcc-s1
 lib32stdc++6
 lib32z1
-libabsl20210324
 libacl1
 libaio1
 libaom3
@@ -35,7 +34,6 @@ libavahi-client3
 libavahi-common-data
 libavahi-common3
 libavahi-glib1
-libavif13
 libbinutils
 libblas-dev
 libblas3
@@ -167,7 +165,6 @@ libftdi1-2
 libfuse3-3
 libfwupd2
 libfwupdplugin5
-libgav1-0
 libgbm-dev
 libgbm1
 libgc1
@@ -765,7 +762,6 @@ libxxf86vm1
 libxxhash0
 libyajl2
 libyaml-0-2
-libyuv0
 libz3-4
 libz3-dev
 libzen0v5
