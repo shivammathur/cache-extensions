@@ -2,13 +2,16 @@ amqp
 couchbase
 event
 expect
+gearman
 gnupg
 grpc
 imagick
 imap
+lua
 mcrypt
 memcached
 mongodb
+pdo_sqlsrv
 pecl_http
 phalcon3
 phalcon4
@@ -16,8 +19,10 @@ phalcon5
 psr
 rdkafka
 redis
+sqlsrv
 ssh2
 swoole
+v8js
 vips
 xdebug
 xdebug2
