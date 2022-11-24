@@ -16,6 +16,7 @@ libargon2-1
 libaria2-0
 libasan5
 libasan6
+libasan8
 libasound2
 libasound2-data
 libaspell15
@@ -171,6 +172,7 @@ libgc1
 libgcab-1.0-0
 libgcc-10-dev
 libgcc-11-dev
+libgcc-12-dev
 libgcc-9-dev
 libgcc-s1
 libgconf-2-4
@@ -630,6 +632,7 @@ libssl1.1
 libssl3
 libstdc++-10-dev
 libstdc++-11-dev
+libstdc++-12-dev
 libstdc++-9-dev
 libstdc++6
 libstemmer0d
@@ -662,6 +665,7 @@ libtk8.6
 libtommath1
 libtool
 libtsan0
+libtsan2
 libtss2-esys-3.0.2-0
 libtss2-mu0
 libtss2-sys1
