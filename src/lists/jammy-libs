@@ -72,6 +72,7 @@ libcairo-gobject2
 libcairo-script-interpreter2
 libcairo2
 libcairo2-dev
+libcanberra0
 libcap-ng0
 libcap2
 libcap2-bin
@@ -106,6 +107,8 @@ libdav1d5
 libdb5.3
 libdbus-1-3
 libdbus-glib-1-2
+libdbusmenu-glib4
+libdbusmenu-gtk3-4
 libdconf1
 libde265-0
 libdebconfclient0
@@ -514,6 +517,7 @@ libobjc4
 libodbc2
 libodbccr2
 libodbcinst2
+libogg0
 libonig5
 libopenexr-dev
 libopenexr25
@@ -642,6 +646,7 @@ libsystemd0
 libtalloc2
 libtasn1-6
 libtcl8.6
+libtdb1
 libterm-readkey-perl
 libtevent0
 libtext-charwidth-perl
@@ -692,6 +697,8 @@ libutf8proc2
 libuuid1
 libuv1
 libvolume-key1
+libvorbis0a
+libvorbisfile3
 libvulkan1
 libwayland-client0
 libwayland-cursor0
