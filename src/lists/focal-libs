@@ -755,6 +755,7 @@ libxtst6
 libxxf86vm1
 libyajl2
 libyaml-0-2
+libyaml-dev
 libz3-4
 libz3-dev
 libzen0v5

@@ -191,6 +191,7 @@ libgdk-pixbuf2.0-bin
 libgdk-pixbuf2.0-common
 libgfortran-10-dev
 libgfortran-11-dev
+libgfortran-12-dev
 libgfortran-9-dev
 libgfortran5
 libgif7
@@ -773,6 +774,7 @@ libxxf86vm1
 libxxhash0
 libyajl2
 libyaml-0-2
+libyaml-dev
 libz3-4
 libz3-dev
 libzen0v5
