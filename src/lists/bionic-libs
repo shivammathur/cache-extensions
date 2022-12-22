@@ -730,6 +730,7 @@ libxtst6
 libxxf86vm1
 libyajl2
 libyaml-0-2
+libyaml-dev
 libzen0v5
 libzip4
 libzmq5
