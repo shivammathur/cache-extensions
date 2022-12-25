@@ -50,7 +50,6 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 | Windows Server 2019  | `windows-latest` or `windows-2019` |
 | macOS Big Sur 12.x   | `macOS-12`                         |
 | macOS Big Sur 11.x   | `macos-latest` or `macOS-11`       |
-| macOS Catalina 10.15 | `macOS-10.15`                      |
 
 ## :memo: Usage
 
@@ -61,7 +60,7 @@ Use this GitHub Action when the extensions you are adding in [setup-php](https:/
 #### `php-version` (required)
 
 - Specify the PHP version you want to set up.
-- Accepts a `string`. For example `'8.1'`.
+- Accepts a `string`. For example `'8.2'`.
 - Accepts `latest` to set up the latest stable PHP version.
 - Accepts `nightly` to set up a nightly build from the master branch of PHP.
 - Accepts the format `d.x`, where `d` is the major version. For example `5.x`, `7.x` and `8.x`.  
@@ -92,7 +91,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        php-versions: ['7.4', '8.0', '8.1']
+        php-versions: ['7.4', '8.0', '8.1', '8.2']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     env:
       extensions: intl, pcov
@@ -125,7 +124,7 @@ jobs:
 
 ### Thread Safe Setup
 
-If you set up both `TS` and `NTS` PHP versions on `Windows` in your workflow, please add `${{ env.phpts }}` to `key` and `restore-keys` inputs in `actions/cache` step in the above workflow to avoid a conflicting cache.
+If you set up both `TS` and `NTS` PHP versions on `Ubuntu` or `Windows` in your workflow, please add `${{ env.phpts }}` to `key` and `restore-keys` inputs in `actions/cache` step in the above workflow to avoid a conflicting cache.
 
 ```yaml
 - name: Cache extensions
