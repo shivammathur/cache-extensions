@@ -11,6 +11,7 @@ lua
 mcrypt
 memcached
 mongodb
+newrelic
 pdo_sqlsrv
 pecl_http
 phalcon3
