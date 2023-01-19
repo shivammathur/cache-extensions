@@ -675,6 +675,7 @@ libtsan0
 libtsan2
 libtss2-esys-3.0.2-0
 libtss2-mu0
+libtss2-rc0
 libtss2-sys1
 libtss2-tcti-cmd0
 libtss2-tcti-device0
