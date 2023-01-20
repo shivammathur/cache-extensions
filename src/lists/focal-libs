@@ -737,6 +737,7 @@ libxml2
 libxml2-dev
 libxmlb1
 libxmlb2
+libxmlrpc-epi0
 libxmlsec1
 libxmlsec1-openssl
 libxmu6
