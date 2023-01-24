@@ -109,7 +109,7 @@ jobs:
         key: ${{ env.key }}
 
     - name: Cache extensions
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ${{ steps.extcache.outputs.dir }}
         key: ${{ steps.extcache.outputs.key }}
@@ -128,7 +128,7 @@ If you set up both `TS` and `NTS` PHP versions on `Ubuntu` or `Windows` in your 
 
 ```yaml
 - name: Cache extensions
-  uses: actions/cache@v2
+  uses: actions/cache@v3
   with:
     path: ${{ steps.extcache.outputs.dir }}
     key: ${{ steps.extcache.outputs.key }}-${{ env.phpts }}
