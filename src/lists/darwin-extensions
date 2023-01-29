@@ -23,6 +23,7 @@ redis
 sqlsrv
 ssh2
 swoole
+uuid
 v8js
 vips
 xdebug
