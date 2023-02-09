@@ -20,6 +20,7 @@ phalcon5
 psr
 rdkafka
 redis
+snmp
 sqlsrv
 ssh2
 swoole
