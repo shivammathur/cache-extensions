@@ -43,9 +43,7 @@ export async function handleDependencies(
  */
 export async function run(): Promise<void> {
   try {
-    const version: string = await spu.parseVersion(
-      await spu.getInput('php-version', true)
-    );
+    const version: string = await spu.parseVersion(await spu.readPHPVersion());
     const extensions: string = await utils.filterExtensions(
       await spu.getInput('extensions', true)
     );

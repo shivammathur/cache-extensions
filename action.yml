@@ -6,8 +6,11 @@ branding:
   icon: 'box'
 inputs:
   php-version:
-    description: 'PHP version you are setting up.'
-    required: true
+    description: 'Setup PHP version.'
+    required: false
+  php-version-file:
+    description: 'Setup PHP version from a file.'
+    required: false
   extensions:
     description: 'Extensions you want to cache.'
     required: true

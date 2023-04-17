@@ -98,8 +98,8 @@ data() {
   key="$os"-"$version"-"$key"-"$date"
   echo "$dir" > "${RUNNER_TEMP:?}"/dir
   echo "$key" > "${RUNNER_TEMP:?}"/key
-  echo "dir=$dir" >> ${GITHUB_OUTPUT:?}
-  echo "key=$key" >> ${GITHUB_OUTPUT:?}
+  echo "dir=$dir" >> "${GITHUB_OUTPUT:?}"
+  echo "key=$key" >> "${GITHUB_OUTPUT:?}"
 }
 
 dependencies() {
