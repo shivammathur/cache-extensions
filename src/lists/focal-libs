@@ -220,6 +220,7 @@ libgtk-3-common
 libgudev-1.0-0
 libgusb2
 libharfbuzz0b
+libhashkit2
 libhavege1
 libhcrypto4-heimdal
 libheimbase1-heimdal
