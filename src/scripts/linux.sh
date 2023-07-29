@@ -4,6 +4,12 @@ link_apt_fast() {
   fi
 }
 
+add_sudo() {
+  if ! command -v sudo >/dev/null; then
+    apt-get install -y sudo || (apt-get update && apt-get install -y sudo)
+  fi
+}
+
 fetch_package() {
   if ! [ -e /tmp/Packages ]; then
     . /etc/os-release
@@ -79,7 +85,7 @@ setup_libraries() {
       IFS=' ' read -r -a libraries_array <<<"$libraries"
       link_apt_fast
       echo "::group::Logs to set up required libraries"
-      sudo DEBIAN_FRONTEND=noninteractive apt-fast install --no-install-recommends --no-upgrade -y "${libraries_array[@]}"
+      sudo DEBIAN_FRONTEND=noninteractive apt-fast install --no-install-recommends --no-upgrade -y "${libraries_array[@]}" || (sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-fast install --no-install-recommends --no-upgrade -y "${libraries_array[@]}")
       ec="$?"
       echo "::endgroup::"
       if [ "$ec" -eq "0" ]; then mark="${tick:?}"; else mark="${cross:?}"; fi
@@ -92,6 +98,7 @@ setup_dependencies() {
   extensions=$1
   extension_dir=$2
   [[ -z "${extensions// }" ]] && return
+  add_sudo
   IFS=' ' read -r -a extensions_array <<<"$(echo "$extensions" | sed -e "s/pdo[_-]//g" -Ee "s/^|,\s*/ php$version-/g")"
   . /etc/os-release
   sudo rm -rf "${ext_config_directory:?}" || true
