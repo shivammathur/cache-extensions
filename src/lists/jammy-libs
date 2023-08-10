@@ -123,6 +123,7 @@ libdns-export1110
 libdpkg-perl
 libdrm-amdgpu1
 libdrm-common
+libdrm-intel1
 libdrm-nouveau2
 libdrm-radeon1
 libdrm2
@@ -545,6 +546,7 @@ libparted-fs-resize0
 libparted2
 libpcap0.8
 libpci3
+libpciaccess0
 libpcre16-3
 libpcre2-16-0
 libpcre2-32-0
@@ -728,6 +730,7 @@ libxcb-dri2-0
 libxcb-dri3-0
 libxcb-glx0
 libxcb-present0
+libxcb-randr0
 libxcb-render0
 libxcb-render0-dev
 libxcb-shm0
