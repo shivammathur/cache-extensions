@@ -84,12 +84,15 @@ libcgroup1
 libclang-common-12-dev
 libclang-common-13-dev
 libclang-common-14-dev
+libclang-common-15-dev
 libclang-cpp12
 libclang-cpp13
 libclang-cpp14
+libclang-cpp15
 libclang1-12
 libclang1-13
 libclang1-14
+libclang1-15
 libclone-perl
 libcolord2
 libcom-err2
@@ -292,6 +295,7 @@ libldap-common
 liblldb-12
 liblldb-13
 liblldb-14
+liblldb-15
 libllvm12
 libllvm13
 libllvm14
