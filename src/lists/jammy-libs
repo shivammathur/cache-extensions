@@ -81,12 +81,15 @@ libcc1-0
 libcgi-fast-perl
 libcgi-pm-perl
 libcgroup1
+libclang-common-12-dev
 libclang-common-13-dev
 libclang-common-14-dev
 libclang-common-15-dev
+libclang-cpp12
 libclang-cpp13
 libclang-cpp14
 libclang-cpp15
+libclang1-12
 libclang1-13
 libclang1-14
 libclang1-15
@@ -289,9 +292,11 @@ liblcms2-2
 liblcms2-dev
 libldap-2.5-0
 libldap-common
+liblldb-12
 liblldb-13
 liblldb-14
 liblldb-15
+libllvm12
 libllvm13
 libllvm14
 libllvm15
