@@ -177,6 +177,7 @@ libgcab-1.0-0
 libgcc-10-dev
 libgcc-11-dev
 libgcc-12-dev
+libgcc-13-dev
 libgcc-9-dev
 libgcc-s1
 libgconf-2-4
@@ -237,6 +238,7 @@ libhtml-template-perl
 libhttp-date-perl
 libhttp-message-perl
 libhunspell-1.7-0
+libhwasan0
 libice-dev
 libice6
 libicu-dev
@@ -641,6 +643,7 @@ libssl3
 libstdc++-10-dev
 libstdc++-11-dev
 libstdc++-12-dev
+libstdc++-13-dev
 libstdc++-9-dev
 libstdc++6
 libstemmer0d

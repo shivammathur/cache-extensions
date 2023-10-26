@@ -489,6 +489,7 @@ libnetplan0
 libnettle7
 libnewt0.52
 libnfnetlink0
+libnftables1
 libnftnl11
 libnghttp2-14
 libnginx-mod-http-image-filter
