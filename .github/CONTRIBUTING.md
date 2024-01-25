@@ -53,6 +53,7 @@ $ npm test
 Create a release before you push your changes.
 
 ```bash
+$ npm run build
 $ npm run release
 ```
 
