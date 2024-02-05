@@ -57,7 +57,7 @@ jobs:
             git commit -m "Updating lists"
           fi
           push_ref develop
-          semver=$(git tag --sort=-refname | awk 'match($0, /^[0-9]+\.[0-9]+\.[0-9]+$/)' | head -n 1)
+          semver=$(git for-each-ref --sort=version:refname --format '%(refname:short)' refs/tags | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 1)
           rolling=$(git tag --sort=-refname | awk 'match($0, /^v[0-9]/)' | head -n 1)
           for branch in master releases/$rolling; do
             git checkout $branch
