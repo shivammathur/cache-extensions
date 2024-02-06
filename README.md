@@ -34,22 +34,23 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 |7.1|`Stable`|`End of life`|
 |7.2|`Stable`|`End of life`|
 |7.3|`Stable`|`End of life`|
-|7.4|`Stable`|`Security fixes only`|
-|8.0|`Stable`|`Active`|
-|8.1|`Stable`|`Active`|
+|7.4|`Stable`|`End of life`|
+|8.0|`Stable`|`End of life`|
+|8.1|`Stable`|`Security fixes only`|
 |8.2|`Stable`|`Active`|
-|8.3|`Nightly`|`In development`|
+|8.3|`Stable`|`Active`|
+|8.4|`Nightly`|`In development`|
 
 ## :cloud: OS/Platform Support
 
-| Virtual environment  | YAML workflow label                |
-|----------------------|------------------------------------|
-| Ubuntu 22.04         | `ubuntu-22.04`                     |
-| Ubuntu 20.04         | `ubuntu-latest` or `ubuntu-20.04`  |
-| Windows Server 2022  | `windows-2022`                     |
-| Windows Server 2019  | `windows-latest` or `windows-2019` |
-| macOS Big Sur 12.x   | `macOS-12`                         |
-| macOS Big Sur 11.x   | `macos-latest` or `macOS-11`       |
+| Virtual environment | YAML workflow label                |
+|---------------------|------------------------------------|
+| Ubuntu 22.04        | `ubuntu-latest` or `ubuntu-22.04`  |
+| Ubuntu 20.04        | `ubuntu-20.04`                     |
+| Windows Server 2022 | `windows-latest` or `windows-2022` |
+| Windows Server 2019 | `windows-2019`                     |
+| macOS Ventura 13.x  | `macos-13`                         |
+| macOS Monterey 12.x | `macos-latest` or `macos-12`       |
 
 ## :memo: Usage
 
@@ -100,7 +101,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        php-versions: ['8.0', '8.1', '8.2', '8.3']
+        php-versions: ['8.1', '8.2', '8.3']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     env:
       extensions: intl, pcov
@@ -133,7 +134,7 @@ jobs:
 
 ### Thread Safe Setup
 
-If you set up both `TS` and `NTS` PHP versions on `Ubuntu` or `Windows` in your workflow, please add `${{ env.phpts }}` to `key` and `restore-keys` inputs in `actions/cache` step in the above workflow to avoid a conflicting cache.
+If you set up both `TS` and `NTS` PHP versions in your workflow, please add `${{ env.phpts }}` to `key` and `restore-keys` inputs in `actions/cache` step in the above workflow to avoid a conflicting cache.
 
 ```yaml
 - name: Cache extensions
