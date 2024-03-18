@@ -17,9 +17,9 @@ jobs:
           . /etc/os-release
           dpkg -l | awk '($1 == "ii") && ($2 ~ /^lib|lib$/) { print $2 }' | sed 's/:amd64//' > /tmp/"$VERSION_CODENAME"-libs
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: lists
+          name: lists-${{ matrix.os }}
           path: |
             /tmp/*-libs
 
@@ -29,14 +29,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: develop
           fetch-depth: 0
       - name: Download lists
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: lists
+          pattern: lists-*
+          merge-multiple: true
           path: src/lists
       - name: Add brew to PATH
         run: echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
