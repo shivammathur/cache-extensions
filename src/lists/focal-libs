@@ -657,6 +657,9 @@ libtinfo-dev
 libtinfo5
 libtinfo6
 libtinyxml2-6a
+libtirpc-common
+libtirpc-dev
+libtirpc3
 libtk8.6
 libtommath1
 libtool
