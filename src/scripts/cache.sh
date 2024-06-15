@@ -12,6 +12,7 @@ add_log() {
       printf "\033[32;1m%s \033[0m\033[34;1m%s \033[0m\033[90;1m%s\033[0m\n" "$mark" "$subject" "Added $subject"
     else
       printf "\033[31;1m%s \033[0m\033[34;1m%s \033[0m\033[90;1m%s\033[0m\n" "$mark" "$subject" "Failed to setup $subject"
+      [ "${fail_fast:?}" = "true" ] && exit 1
     fi
   done
 }
@@ -96,7 +97,7 @@ data() {
     dir='C:\\tools\\php\\ext'
   fi
   job="${GITHUB_REPOSITORY}-${GITHUB_WORKFLOW}-${GITHUB_JOB}"
-  key="$(echo -n "$extensions-$key-$job" | openssl dgst -sha256 | cut -d ' ' -f 2)"
+  key="$(echo -n "$extensions-$key-$job" | sha256sum | cut -d ' ' -f 1)"
   key="$os"-"$version"-"$key"-"$date"
   echo "$dir" > "${RUNNER_TEMP:?}"/dir
   echo "$key" > "${RUNNER_TEMP:?}"/key
@@ -106,16 +107,20 @@ data() {
 
 dependencies() {
   if [ "$os" = "Linux" ] || [ "$os" = "Darwin" ]; then
-    export tick="✓"
-    export cross="✗"
     export ext_config_directory="/tmp/extcache"
     export deps_cache_directory="${RUNNER_TOOL_CACHE}"/deps
     sudo mkdir -p "$deps_cache_directory"
-    script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
-    # shellcheck disable=SC1090
-    . "$script_dir/$(echo "$os" | tr '[:upper:]' '[:lower:]').sh"
     setup_dependencies "$extensions" "$(cat "${RUNNER_TEMP:?}"/dir)"
   fi
+}
+
+init() {
+  export tick="✓"
+  export cross="✗"
+  script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
+  # shellcheck disable=SC1090
+  . "$script_dir/$(echo "$os" | tr '[:upper:]' '[:lower:]').sh"
+  self_hosted_helper
 }
 
 run=$1
@@ -123,5 +128,5 @@ extensions=$2
 version=$3
 key=$4
 os=$(uname -s)
-
+init
 $run

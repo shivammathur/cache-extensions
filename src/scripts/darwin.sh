@@ -179,6 +179,10 @@ setup_dependencies() {
   fi
 }
 
+self_hosted_helper() {
+    :
+}
+
 export HOMEBREW_CHANGE_ARCH_TO_ARM=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_AUTO_UPDATE=1
