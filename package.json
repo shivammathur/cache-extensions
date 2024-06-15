@@ -19,7 +19,7 @@
     "lint": "eslint **/src/*.ts --cache --fix",
     "format": "prettier --write **/src/*.ts && git add .",
     "format-check": "prettier --check **/src/*.ts",
-    "release": "ncc build -o dist && git add -f dist/",
+    "release": "ncc build -m -o dist && git add -f dist/",
     "test": "jest"
   },
   "repository": {
