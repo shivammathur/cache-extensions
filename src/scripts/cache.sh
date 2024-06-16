@@ -97,7 +97,11 @@ data() {
     dir='C:\\tools\\php\\ext'
   fi
   job="${GITHUB_REPOSITORY}-${GITHUB_WORKFLOW}-${GITHUB_JOB}"
-  key="$(echo -n "$extensions-$key-$job" | sha256sum | cut -d ' ' -f 1)"
+  if command -v "sha256sum" >/dev/null; then
+    key="$(echo -n "$extensions-$key-$job" | sha256sum | cut -d ' ' -f 1)"
+  else
+    key="$(echo -n "$extensions-$key-$job" | openssl dgst -sha256 | cut -d ' ' -f 2)"
+  fi
   key="$os"-"$version"-"$key"-"$date"
   echo "$dir" > "${RUNNER_TEMP:?}"/dir
   echo "$key" > "${RUNNER_TEMP:?}"/key
