@@ -81,19 +81,21 @@ extension_dir_linux() {
 
 data() {
   old_versions="5.[3-5]"
-  date='20220831'
+  date='20240716'
+  arch=$(uname -m)
   if [ "$os" = "Linux" ]; then
-    . /etc/lsb-release
-    os=$os-$DISTRIB_CODENAME
+    . /etc/os-release
+    os=$os-$VERSION_CODENAME-$arch
     api_version=$(get_api_version)
     dir=$(extension_dir_linux "$api_version")
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
   elif [ "$os" = "Darwin" ]; then
+    os=$os-$arch
     api_version=$(get_api_version)
     dir=$(extension_dir_darwin "$api_version")
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
   else
-    os="Windows"
+    os="Windows-$arch"
     dir='C:\\tools\\php\\ext'
   fi
   job="${GITHUB_REPOSITORY}-${GITHUB_WORKFLOW}-${GITHUB_JOB}"
