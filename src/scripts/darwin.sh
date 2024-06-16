@@ -165,7 +165,7 @@ setup_dependencies() {
     add_brew_tap "$ext_tap"        
     for extension in "${extensions_array[@]}"; do
       IFS=' ' read -r -a dependency_array <<<"$(get_dependencies "$extension")"
-      IFS=' ' read -r -a extension_array <<<"$(echo "${dependency_array[@]}" | grep -Eo "[a-z]*@" | sed 's/@//' | tr '\n' ' ')"
+      IFS=' ' read -r -a extension_array <<<"$(echo "${dependency_array[@]}" | grep -Eo "shivammathur[a-z\/]*@" | cut -d '/' -f 3 | sed 's/@//' | tr '\n' ' ')"
       IFS=' ' read -r -a libraries_array <<<"${dependency_array[@]//shivammathur*/}"
       if [[ -n "${libraries_array[*]// /}" ]]; then
         step_log "Setup libraries for $extension"
