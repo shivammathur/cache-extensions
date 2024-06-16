@@ -82,6 +82,7 @@ setup_extensions() {
 add_library_helper() {
   dep_name=$1
   cache_dir=$2
+  [ -e "$cache_dir"/list ] && grep -Eq "^$dep_name" "$cache_dir"/list && return
   echo "$dep_name" | sudo tee -a "$cache_dir"/list >/dev/null 2>&1
   (
     cd "$brew_cellar" || exit 1
@@ -97,7 +98,7 @@ add_library() {
   lib=$1
   cache_dir=$2
   brew list "$lib" &>/dev/null || brew install "$lib"
-  IFS=' ' read -r -a deps_array <<<"$(brew deps "$lib" | tr '\n' ' ')"
+  IFS=' ' read -r -a deps_array <<<"$(brew deps --formula "$lib" | tr '\n' ' ')"
   to_wait=()
   for dep_name in "$lib" "${deps_array[@]}"; do
     add_library_helper "$dep_name" "$cache_dir" &
