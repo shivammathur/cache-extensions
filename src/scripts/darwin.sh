@@ -142,13 +142,13 @@ setup_libraries() {
   sudo cp -a "$tap_dir"/"$ext_tap"/.github/deps/"$extension"/*.rb "$tap_dir"/"$core_tap"/Formula/ 2>/dev/null || true
   sudo mkdir -p "$ext_deps_dir"
   echo "::group::Logs to set up libraries required for $extension"
-  for lib in "${libraries_array[@]}"; do
-    if ! [ -e "$ext_deps_dir"/list ]; then
+  if ! [ -e "$ext_deps_dir"/list ]; then
+    for lib in "${libraries_array[@]}"; do
       add_library "$lib" "$ext_deps_dir"
-    else
-      restore_library "$ext_deps_dir"
-    fi
-  done
+    done
+  else
+    restore_library "$ext_deps_dir"
+  fi
   echo "::endgroup::"
   add_log "$tick" "${libraries_array[@]}"
 }
