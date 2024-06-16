@@ -21,6 +21,13 @@ add_package() {
   fi
 }
 
+add_ppa_package() {
+  package=$1
+  package_link="$(get_package_link "$package")"
+  curl -o /tmp/"$package.deb" -sL "$package_link"
+  sudo DEBIAN_FRONTEND=noninteractive dpkg -i "/tmp/$package.deb"
+}
+
 link_apt_fast() {
   if ! command -v apt-fast >/dev/null; then
     sudo ln -sf /usr/bin/apt-get /usr/bin/apt-fast
@@ -101,15 +108,20 @@ setup_libraries() {
   libraries=$1
   if [[ -n "${libraries// /}" ]]; then
     libraries=$(filter_libraries "$libraries")
+    if [[ "$libraries" = *libgd* ]]; then
+      check_package 'libavif[0-9]*$' && libraries="$libraries libavif[0-9]*$"
+      check_package 'libheif[0-9]*$' && libraries="$libraries libheif[0-9]*$"
+    fi
     if [[ -n "${libraries// /}" ]]; then
       step_log "Setup libraries"
       IFS=' ' read -r -a libraries_array <<<"$libraries"
       echo "::group::Logs to set up required libraries"
       sudo DEBIAN_FRONTEND=noninteractive apt-fast install --no-install-recommends --no-upgrade -y "${libraries_array[@]}" || (sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-fast install --no-install-recommends --no-upgrade -y "${libraries_array[@]}")
       ec="$?"
+      [[ "$libraries" = *libgd* ]] && add_ppa_package libgd3
       echo "::endgroup::"
       if [ "$ec" -eq "0" ]; then mark="${tick:?}"; else mark="${cross:?}"; fi
-      add_log "$mark" "${libraries_array[@]}"
+      add_log "$mark" "${libraries_array[@]//\[0-9]*$/}"
     fi
   fi
 }
