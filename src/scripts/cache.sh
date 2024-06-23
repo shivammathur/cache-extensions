@@ -125,15 +125,17 @@ init() {
   export tick="✓"
   export cross="✗"
   script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
-  # shellcheck disable=SC1090
-  . "$script_dir/$(echo "$os" | tr '[:upper:]' '[:lower:]').sh"
-  self_hosted_helper
+  if [[ "$os" = "Linux" || "$os" = "Darwin" ]]; then
+    # shellcheck disable=SC1090
+    . "$script_dir/$(echo "$os" | tr '[:upper:]' '[:lower:]').sh"
+    self_hosted_helper
+  fi
 }
 
 run=$1
 extensions=$2
 version=$3
 key=$4
-os=$(uname -s)
+os="$(uname -s)"
 init
 $run
