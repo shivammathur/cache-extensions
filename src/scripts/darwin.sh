@@ -101,6 +101,7 @@ add_library() {
   IFS=' ' read -r -a deps_array <<<"$(brew deps --formula "$lib" | tr '\n' ' ')"
   to_wait=()
   for dep_name in "$lib" "${deps_array[@]}"; do
+    dep_name="$(basename "$dep_name")"
     add_library_helper "$dep_name" "$cache_dir" &
     to_wait+=($!)
   done
@@ -166,8 +167,16 @@ setup_dependencies() {
     add_brew_tap "$ext_tap"        
     for extension in "${extensions_array[@]}"; do
       IFS=' ' read -r -a dependency_array <<<"$(get_dependencies "$extension")"
-      IFS=' ' read -r -a extension_array <<<"$(echo "${dependency_array[@]}" | grep -Eo "shivammathur[a-z\/]*@" | cut -d '/' -f 3 | sed 's/@//' | tr '\n' ' ')"
-      IFS=' ' read -r -a libraries_array <<<"${dependency_array[@]//shivammathur*/}"
+      libraries_array=()
+      extension_array=()
+      for item in "${dependency_array[@]}"; do
+        if ! [[ "$item" == *"shivammathur"* ]]; then
+          libraries_array+=("$item")
+        else
+          formula_name="$(basename "$item")"
+          grep -q AbstractPhpExtension "$tap_dir/$ext_tap/Formula/$formula_name.rb" && extension_array+=("$item") || libraries_array+=("$item")
+        fi  
+      done
       if [[ -n "${libraries_array[*]// /}" ]]; then
         step_log "Setup libraries for $extension"
         setup_libraries "$extension" "${libraries_array[@]}"
