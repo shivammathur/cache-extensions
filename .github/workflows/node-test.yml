@@ -31,6 +31,9 @@ jobs:
       - name: Run npm audit
         run: npm audit
 
+      - name: Run npm test
+        run: npm test
+
       - name: Send Coverage
         uses: codecov/codecov-action@v4
         with:
