@@ -110,6 +110,8 @@ libdbusmenu-glib4
 libdbusmenu-gtk3-4
 libdconf1
 libdebconfclient0
+libdeflate-dev
+libdeflate0
 libdevmapper-event1.02.1
 libdevmapper1.02.1
 libdjvulibre-dev
@@ -549,6 +551,7 @@ libpgm-5.2-0
 libpipeline1
 libpixman-1-0
 libpixman-1-dev
+libpkgconf3
 libplymouth5
 libpng-dev
 libpng16-16

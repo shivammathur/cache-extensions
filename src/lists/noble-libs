@@ -52,7 +52,6 @@ libbz2-1.0
 libc-bin
 libc-client2007e
 libc-dev-bin
-libc-devtools
 libc6
 libc6-dev
 libc6-i386
@@ -202,7 +201,6 @@ libharfbuzz0b
 libhashkit2t64
 libhavege2
 libheif-plugin-aomdec
-libheif-plugin-aomenc
 libheif-plugin-libde265
 libheif1
 libhogweed6t64
