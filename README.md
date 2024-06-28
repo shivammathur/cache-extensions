@@ -45,12 +45,16 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 
 | Virtual environment | YAML workflow label                |
 |---------------------|------------------------------------|
+| Ubuntu 24.04        | `ubuntu-24.04`                     |
 | Ubuntu 22.04        | `ubuntu-latest` or `ubuntu-22.04`  |
 | Ubuntu 20.04        | `ubuntu-20.04`                     |
 | Windows Server 2022 | `windows-latest` or `windows-2022` |
 | Windows Server 2019 | `windows-2019`                     |
+| macOS Sonoma 14.x   | `macos-14`                         |
 | macOS Ventura 13.x  | `macos-13`                         |
 | macOS Monterey 12.x | `macos-latest` or `macos-12`       |
+
+**Note**: Support for self-hosted runners for the above operating systems is in beta. If you use this action on a self-hosted runner, please report any issues you find.
 
 ## :memo: Usage
 
@@ -155,10 +159,9 @@ Contributions are welcome! See [Contributor's Guide](.github/CONTRIBUTING.md "sh
 
 ## :sparkling_heart: Support This Project
 
-If this action helped you.
+This project is generously supported by many users and organisations via [GitHub Sponsors](https://github.com/sponsors/shivammathur).
 
-- Please star the project and share it. If you blog, please share your experience of using this action.
-- Please support our work by sponsoring using [GitHub sponsors](https://github.com/sponsors/shivammathur).
+<a href="https://github.com/sponsors/shivammathur"><img src="https://setup-php.com/sponsors.svg?" alt="Sponsor shivammathur"></a>
 
 ## :package: Dependencies
 
