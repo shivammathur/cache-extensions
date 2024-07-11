@@ -111,6 +111,8 @@ setup_libraries() {
     if [[ "$libraries" = *libgd* ]]; then
       check_package 'libavif[0-9]*$' && libraries="$libraries libavif[0-9]*$"
       check_package 'libheif[0-9]*$' && libraries="$libraries libheif[0-9]*$"
+      check_package 'libraqm[0-9]*$' && libraries="$libraries libraqm[0-9]*$"
+      check_package 'libraqm[0-9]*$' && libraries="$libraries libimagequant[0-9]*$"
     fi
     if [[ -n "${libraries// /}" ]]; then
       step_log "Setup libraries"
