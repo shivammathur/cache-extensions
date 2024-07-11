@@ -112,7 +112,7 @@ jobs:
       key: cache-v1 # can be any string, change to clear the extension cache.
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup cache environment
       id: extcache
@@ -123,7 +123,7 @@ jobs:
         key: ${{ env.key }}
 
     - name: Cache extensions
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.extcache.outputs.dir }}
         key: ${{ steps.extcache.outputs.key }}
@@ -142,7 +142,7 @@ If you set up both `TS` and `NTS` PHP versions in your workflow, please add `${{
 
 ```yaml
 - name: Cache extensions
-  uses: actions/cache@v3
+  uses: actions/cache@v4
   with:
     path: ${{ steps.extcache.outputs.dir }}
     key: ${{ steps.extcache.outputs.key }}-${{ env.phpts }}
