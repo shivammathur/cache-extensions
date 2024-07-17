@@ -243,6 +243,7 @@ libidn11
 libidn2-0
 libilmbase-dev
 libilmbase24
+libimagequant0
 libio-html-perl
 libip4tc2
 libip6tc2
@@ -580,6 +581,7 @@ libqmi-glib5
 libqmi-proxy
 libquadmath0
 librabbitmq4
+libraqm0
 libre2-5
 libreadline-dev
 libreadline5
