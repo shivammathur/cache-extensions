@@ -671,7 +671,6 @@ libtool
 libtsan0
 libtss2-esys0
 libtypes-serialiser-perl
-libu2f-udev
 libubsan1
 libuchardet0
 libucl1

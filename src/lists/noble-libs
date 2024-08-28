@@ -476,7 +476,6 @@ libtss2-tcti-device0t64
 libtss2-tcti-mssim0t64
 libtss2-tcti-swtpm0t64
 libtypes-serialiser-perl
-libu2f-udev
 libubsan1
 libuchardet0
 libudev1
