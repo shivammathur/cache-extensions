@@ -79,6 +79,13 @@ extension_dir_linux() {
   fi
 }
 
+linux_php_semver() {
+  local php_config=/usr/bin/php-config"${version:?}"
+  if [ -e "$php_config" ]; then
+    grep -Eo 'version="[0-9]+(\.[0-9]+){2}((-?[a-zA-Z]+([0-9]+)?)?){2}' "$php_config" | cut -d '"' -f 2
+  fi
+}
+
 data() {
   old_versions="5.[3-5]"
   date='20240716'
@@ -87,6 +94,7 @@ data() {
     . /etc/os-release
     os=$os-$VERSION_CODENAME-$arch
     api_version=$(get_api_version)
+    key="$key$(linux_php_semver)"
     dir=$(extension_dir_linux "$api_version")
     sudo mkdir -p "$dir/deps" && fix_ownership "$dir"
   elif [ "$os" = "Darwin" ]; then
