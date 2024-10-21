@@ -50,9 +50,9 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 | Ubuntu 20.04        | `ubuntu-20.04`                     |
 | Windows Server 2022 | `windows-latest` or `windows-2022` |
 | Windows Server 2019 | `windows-2019`                     |
-| macOS Sonoma 14.x   | `macos-14`                         |
+| macOS Sequoia 15.x  | `macos-15`                         |
+| macOS Sonoma 14.x   | `macos-latest` or `macos-14`       |
 | macOS Ventura 13.x  | `macos-13`                         |
-| macOS Monterey 12.x | `macos-latest` or `macos-12`       |
 
 **Note**: Support for self-hosted runners for the above operating systems is in beta. If you use this action on a self-hosted runner, please report any issues you find.
 
