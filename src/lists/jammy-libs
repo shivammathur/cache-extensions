@@ -248,8 +248,10 @@ libinih1
 libintl-perl
 libintl-xs-perl
 libio-html-perl
+libio-pty-perl
 libip4tc2
 libip6tc2
+libipc-run-perl
 libisc-export1105
 libisl23
 libisns0
