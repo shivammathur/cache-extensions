@@ -245,8 +245,10 @@ libilmbase-dev
 libilmbase24
 libimagequant0
 libio-html-perl
+libio-pty-perl
 libip4tc2
 libip6tc2
+libipc-run-perl
 libisc-export1105
 libisl22
 libisns0
