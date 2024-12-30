@@ -145,7 +145,7 @@ setup_dependencies() {
     extension_packages="$extension_packages ${dependency_extension_packages_array[*]}"
     extension_packages="${extension_packages//php$version-common/}"
     for dependency_extension in "${dependency_extension_packages_array[@]}"; do
-      if [ "${dependency_extension#*-}" != 'common' ]; then
+      if [[ "${dependency_extension#*-}" != 'common' && "$extension_package" != "$dependency_extension"* ]]; then
         mkdir -p "$ext_config_directory/${extension_package#*-}"
         add_config "${extension_package#*-}" "${dependency_extension#*-}"
       fi
