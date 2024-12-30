@@ -54,15 +54,16 @@ setup_extensions_helper() {
   dependent_extension=$1
   dependency_extension=$2
   extension_dir=$3
-  cached_extension="${deps_cache_directory:?}/$dependency_extension.so"
+  dependency_extension_name="$(basename "$(echo $dependency_extension | cut -d'@' -f 1)")"
+  cached_extension="${deps_cache_directory:?}/$dependency_extension_name.so"
   if ! [ -e "$cached_extension" ]; then
-    brew install "$dependency_extension@$version"
-    sudo find "$brew_cellar/$dependency_extension@${version:?}" -name "$dependency_extension.so" -exec cp {} "$cached_extension" \;
+    brew install "$dependency_extension"
+    sudo find "$brew_cellar/$dependency_extension_name@${version:?}" -name "$dependency_extension_name.so" -exec cp {} "$cached_extension" \;
   else
-    echo "Found $dependency_extension extension in cache"
+    echo "Found $dependency_extension_name extension in cache"
     sudo cp "$cached_extension" "$extension_dir/"
   fi
-  add_config "$dependent_extension" "$dependency_extension"
+  add_config "$dependent_extension" "$dependency_extension_name"
 }
 
 setup_extensions() {
