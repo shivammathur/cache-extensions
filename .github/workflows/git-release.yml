@@ -44,7 +44,7 @@ jobs:
       - name: Update darwin extensions list
         run: |
           brew tap shivammathur/extensions
-          find "$(brew --repository shivammathur/extensions)"/.github/deps -mindepth 1 -type d -name "*" -exec basename {} \; | sort > src/lists/darwin-extensions
+          find "$(brew --repository shivammathur/extensions)"/.github/deps -maxdepth 1 -type d -name "*" -exec basename {} \; | sort > src/lists/darwin-extensions
       - name: Update tags and branches
         run: |
           push_ref() {
