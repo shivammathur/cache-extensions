@@ -503,7 +503,6 @@ libnginx-mod-mail
 libnginx-mod-stream
 libnl-3-200
 libnorm1
-libnotify4
 libnpth0
 libnspr4
 libnss-systemd
@@ -703,8 +702,6 @@ libwind0-heimdal
 libwmf-dev
 libwmf0.2-7
 libwrap0
-libwxbase3.0-0v5
-libwxgtk3.0-gtk3-0v5
 libx11-6
 libx11-data
 libx11-dev
