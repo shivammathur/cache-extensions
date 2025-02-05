@@ -104,7 +104,6 @@ libdpkg-perl
 libdrm-amdgpu1
 libdrm-common
 libdrm-intel1
-libdrm-nouveau2
 libdrm-radeon1
 libdrm2
 libduktape207
@@ -249,6 +248,7 @@ liblldb-18
 libllvm16t64
 libllvm17t64
 libllvm18
+libllvm19
 liblmdb0
 liblocale-gettext-perl
 liblqr-1-0
