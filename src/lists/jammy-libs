@@ -676,6 +676,7 @@ libtirpc3
 libtk8.6
 libtommath1
 libtool
+libtraceevent1
 libtsan0
 libtsan2
 libtss2-esys-3.0.2-0
