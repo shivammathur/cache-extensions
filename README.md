@@ -4,7 +4,7 @@
   <a href="https://github.com/shivammathur/cache-extensions" title="Cache PHP extensions in GitHub Actions"><img alt="GitHub Actions status" src="https://github.com/shivammathur/cache-extensions/workflows/Node%20test%20workflow/badge.svg"></a>
   <a href="https://codecov.io/gh/shivammathur/cache-extensions" title="Code coverage"><img alt="Codecov Code Coverage" src="https://codecov.io/gh/shivammathur/cache-extensions/branch/master/graph/badge.svg"></a>
   <a href="https://github.com/shivammathur/cache-extensions/blob/master/LICENSE" title="license"><img alt="LICENSE" src="https://img.shields.io/badge/license-MIT-428f7e.svg?logo=open%20source%20initiative&logoColor=white&labelColor=555555"></a>
-  <a href="#tada-php-support" title="PHP Versions Supported"><img alt="PHP Versions Supported" src="https://img.shields.io/badge/php-5.3%20to%208.4-777bb3.svg?logo=php&logoColor=white&labelColor=555555"></a>
+  <a href="#tada-php-support" title="PHP Versions Supported"><img alt="PHP Versions Supported" src="https://img.shields.io/badge/php-5.3%20to%208.5-777bb3.svg?logo=php&logoColor=white&labelColor=555555"></a>
 </p>
 
 Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "GitHub Actions"). This action has to be used along with [shivammathur/setup-php](https://github.com/shivammathur/setup-php "Setup PHP") and [actions/cache](https://github.com/actions/cache "Cache in GitHub Actions") GitHub Actions. It configures the environment required to cache PHP extensions. Refer to [Usage](#memo-usage "How to use this") section for details and example workflow.
@@ -37,22 +37,26 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 |7.4|`Stable`|`End of life`|
 |8.0|`Stable`|`End of life`|
 |8.1|`Stable`|`Security fixes only`|
-|8.2|`Stable`|`Active`|
+|8.2|`Stable`|`Security fixes only`|
 |8.3|`Stable`|`Active`|
-|8.4|`Nightly`|`In development`|
+|8.4|`Stable`|`Active`|
+|8.5|`Nightly`|`In development`|
 
 ## :cloud: OS/Platform Support
 
-| Virtual environment | YAML workflow label                |
-|---------------------|------------------------------------|
-| Ubuntu 24.04        | `ubuntu-24.04`                     |
-| Ubuntu 22.04        | `ubuntu-latest` or `ubuntu-22.04`  |
-| Ubuntu 20.04        | `ubuntu-20.04`                     |
-| Windows Server 2022 | `windows-latest` or `windows-2022` |
-| Windows Server 2019 | `windows-2019`                     |
-| macOS Sequoia 15.x  | `macos-15`                         |
-| macOS Sonoma 14.x   | `macos-latest` or `macos-14`       |
-| macOS Ventura 13.x  | `macos-13`                         |
+| Virtual environment | Arch    | YAML workflow label                |
+|---------------------|---------|------------------------------------|
+| Ubuntu 24.04        | x86_64  | `ubuntu-latest` or `ubuntu-24.04`  |
+| Ubuntu 22.04        | x86_64  | `ubuntu-22.04`                     |
+| Ubuntu 20.04        | x86_64  | `ubuntu-20.04`                     |
+| Ubuntu 24.04        | aarch64 | `ubuntu-24.04-arm`                 |
+| Ubuntu 22.04        | aarch64 | `ubuntu-22.04-arm`                 |
+| Windows Server 2025 | x64     | `windows-2025`                     |
+| Windows Server 2022 | x64     | `windows-latest` or `windows-2022` |
+| Windows Server 2019 | x64     | `windows-2019`                     |
+| macOS Sequoia 15.x  | arm64   | `macos-15`                         |
+| macOS Sonoma 14.x   | arm64   | `macos-latest` or `macos-14`       |
+| macOS Ventura 13.x  | x86_64  | `macos-13`                         |
 
 **Note**: Support for self-hosted runners for the above operating systems is in beta. If you use this action on a self-hosted runner, please report any issues you find.
 
