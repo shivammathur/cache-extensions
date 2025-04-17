@@ -48,7 +48,6 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 |---------------------|---------|------------------------------------|
 | Ubuntu 24.04        | x86_64  | `ubuntu-latest` or `ubuntu-24.04`  |
 | Ubuntu 22.04        | x86_64  | `ubuntu-22.04`                     |
-| Ubuntu 20.04        | x86_64  | `ubuntu-20.04`                     |
 | Ubuntu 24.04        | aarch64 | `ubuntu-24.04-arm`                 |
 | Ubuntu 22.04        | aarch64 | `ubuntu-22.04-arm`                 |
 | Windows Server 2025 | x64     | `windows-2025`                     |
