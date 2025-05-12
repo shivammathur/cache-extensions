@@ -17,6 +17,10 @@ inputs:
   key:
     description: 'Key to version the cache hash.'
     required: true
+  enable-cross-workflow:
+    description: "Scope cache across workflows of the repo."
+    required: false
+    default: 'false'
 runs:
   using: 'node20'
   main: 'dist/index.js'

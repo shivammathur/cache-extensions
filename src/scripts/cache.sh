@@ -107,7 +107,11 @@ data() {
     os="Windows-$arch"
     dir='C:\\tools\\php\\ext'
   fi
-  job="${GITHUB_REPOSITORY}-${GITHUB_WORKFLOW}-${GITHUB_JOB}"
+  if [[ "$crossWorkflow" == "true" ]]; then
+    job="${GITHUB_REPOSITORY}"
+  else
+    job="${GITHUB_REPOSITORY}-${GITHUB_WORKFLOW}-${GITHUB_JOB}"
+  fi
   if command -v "sha256sum" >/dev/null; then
     key="$(echo -n "$extensions-$key-$job" | sha256sum | cut -d ' ' -f 1)"
   else
@@ -144,6 +148,7 @@ run=$1
 extensions=$2
 version=$3
 key=$4
+crossWorkflow=$5
 os="$(uname -s)"
 init
 $run

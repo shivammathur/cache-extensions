@@ -95,6 +95,11 @@ Use this GitHub Action when the extensions you are adding in [setup-php](https:/
 - Accepts any `string`. For example `cache-v1`.
 - Changing this would reset the cache.
 
+#### `enable-cross-workflow` (optional)
+
+- Enables sharing the cache across workflows of the repo.
+- Accepts a `string`, either `'true'` or `'false'`.
+
 See [action.yml](action.yml "Metadata for this GitHub Action") and usage below for more info.
 
 ### Workflow
@@ -124,6 +129,7 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: ${{ env.extensions }}
         key: ${{ env.key }}
+        enable-cross-workflow: 'false'
 
     - name: Cache extensions
       uses: actions/cache@v4
