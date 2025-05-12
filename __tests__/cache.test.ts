@@ -15,7 +15,15 @@ jest.mock('../src/cache', () => ({
       process.env['extensions'] || ''
     );
     const key: string = process.env['key'] || '';
-    return await utils.scriptCall('test', extensions, key, version);
+    const enableCrossWorkspace: string =
+      process.env['enable-cross-workspace'] === 'true' ? 'true' : 'false';
+    return await utils.scriptCall(
+      'test',
+      extensions,
+      key,
+      version,
+      enableCrossWorkspace
+    );
   })
 }));
 
@@ -29,11 +37,13 @@ jest.mock('../src/cache', () => ({
 function setEnv(
   version: string | number,
   extensions: string,
-  key: string
+  key: string,
+  enableCrossWorkspace?: string | undefined
 ): void {
   process.env['php-version'] = version.toString();
   process.env['extensions'] = extensions;
   process.env['key'] = key;
+  process.env['enable-cross-workspace'] = enableCrossWorkspace || '';
 }
 
 describe('Install', () => {
@@ -41,18 +51,34 @@ describe('Install', () => {
   it('Test Run', async () => {
     setEnv('7.0', 'xdebug, pcov', 'cache-v1');
     const script: string = '' + (await cache.run());
-    expect(script).toContain(`bash ${spath} test "xdebug, pcov" cache-v1 7.0`);
+    expect(script).toContain(
+      `bash ${spath} test "xdebug, pcov" cache-v1 7.0 false`
+    );
   });
 
   it('Test Run', async () => {
     setEnv('7.4', 'xdebug, zip', 'cache-v2');
     const script: string = '' + (await cache.run());
-    expect(script).toContain(`bash ${spath} test "xdebug, zip" cache-v2 7.4`);
+    expect(script).toContain(
+      `bash ${spath} test "xdebug, zip" cache-v2 7.4 false`
+    );
   });
 
   it('Test Run', async () => {
     setEnv('7.4', 'xdebug, :zip', 'cache-v2');
     const script: string = '' + (await cache.run());
-    expect(script).toContain(`bash ${spath} test "xdebug" cache-v2 7.4`);
+    expect(script).toContain(`bash ${spath} test "xdebug" cache-v2 7.4 false`);
+  });
+
+  it('Test Run', async () => {
+    setEnv('7.4', 'xdebug, :zip', 'cache-v2', 'any');
+    const script: string = '' + (await cache.run());
+    expect(script).toContain(`bash ${spath} test "xdebug" cache-v2 7.4 false`);
+  });
+
+  it('Test Run', async () => {
+    setEnv('7.4', 'xdebug, :zip', 'cache-v2', 'true');
+    const script: string = '' + (await cache.run());
+    expect(script).toContain(`bash ${spath} test "xdebug" cache-v2 7.4 true`);
   });
 });

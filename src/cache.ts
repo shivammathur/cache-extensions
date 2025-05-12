@@ -47,10 +47,23 @@ export async function run(): Promise<void> {
     const extensions: string = await utils.filterExtensions(
       await spu.getInput('extensions', true)
     );
-    core.info('enable-cross-workflow: ' + (await spu.getInput('enable-cross-workflow', false)));
-    const enableCrossWorkflow: string = (await spu.getInput('enable-cross-workflow', false)) === 'true' ? 'true' : 'false';
+    core.info(
+      `enable-cross-workflow: ${await spu.getInput('enable-cross-workflow', false)}`
+    );
+    const enableCrossWorkflow: string =
+      (await spu.getInput('enable-cross-workflow', false)) === 'true'
+        ? 'true'
+        : 'false';
     const key: string = await spu.getInput('key', true);
-    await exec(await utils.scriptCall('data', extensions, version, key, enableCrossWorkflow));
+    await exec(
+      await utils.scriptCall(
+        'data',
+        extensions,
+        version,
+        key,
+        enableCrossWorkflow
+      )
+    );
     await handleDependencies(extensions, version);
   } catch (error) {
     core.setFailed((error as Error).message);
