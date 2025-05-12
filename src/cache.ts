@@ -47,9 +47,6 @@ export async function run(): Promise<void> {
     const extensions: string = await utils.filterExtensions(
       await spu.getInput('extensions', true)
     );
-    core.info(
-      `enable-cross-workflow: ${await spu.getInput('enable-cross-workflow', false)}`
-    );
     const enableCrossWorkflow: string =
       (await spu.getInput('enable-cross-workflow', false)) === 'true'
         ? 'true'
