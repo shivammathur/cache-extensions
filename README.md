@@ -152,6 +152,12 @@ If you set up both `TS` and `NTS` PHP versions in your workflow, please add `${{
     restore-keys: ${{ steps.extcache.outputs.key }}-${{ env.phpts }}
 ```
 
+## :bookmark: Versioning
+
+- You can use the `v1` tag as `cache-extensions` version. It is a rolling tag and is synced with the latest minor and patch releases. With `v1` you automatically get the bug fixes, security patches, new features and support for latest PHP releases.
+- Semantic release versions can also be used. They are also rolling tags till there is a new release as we update the lists of packages installed on GitHub runners. It is recommended to [use dependabot](https://docs.github.com/en/github/administering-a-repository/keeping-your-actions-up-to-date-with-github-dependabot "Setup Dependabot with GitHub Actions") with semantic versioning to keep the actions in your workflows up to date.
+- Commit SHA can also be used, but it is not recommended to update them manually, please set up tooling like `dependabot` to update them with each release of the action.
+
 ## :scroll: License
 
 The code and documentation in this project are under the [MIT License](LICENSE "License for shivammathur/cache-extensions"). This project has multiple [dependencies](https://github.com/shivammathur/cache-extensions/network/dependencies "Dependencies for this PHP Action"). Their licenses can be found in their respective repositories.
