@@ -209,10 +209,8 @@ libinih1
 libintl-perl
 libintl-xs-perl
 libio-html-perl
-libio-pty-perl
 libip4tc2
 libip6tc2
-libipc-run-perl
 libisl23
 libisns0t64
 libitm1
@@ -307,6 +305,7 @@ libnpth0t64
 libnspr4
 libnss-systemd
 libnss3
+libnss3-tools
 libntfs-3g89t64
 libnuma1
 libnvme1t64
@@ -471,7 +470,6 @@ libvulkan1
 libwayland-client0
 libwayland-cursor0
 libwayland-egl1
-libwayland-server0
 libwbclient0
 libwebp7
 libwebpdemux2

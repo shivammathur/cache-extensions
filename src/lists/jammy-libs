@@ -247,10 +247,8 @@ libinih1
 libintl-perl
 libintl-xs-perl
 libio-html-perl
-libio-pty-perl
 libip4tc2
 libip6tc2
-libipc-run-perl
 libisc-export1105
 libisl23
 libisns0
@@ -303,6 +301,9 @@ liblqr-1-0-dev
 liblsan0
 libltdl-dev
 libltdl7
+liblttng-ust-common1
+liblttng-ust-ctl5
+liblttng-ust1
 liblua5.3-0
 liblvm2cmd2.03
 liblwp-mediatypes-perl
@@ -514,6 +515,7 @@ libnsl2
 libnspr4
 libnss-systemd
 libnss3
+libnss3-tools
 libntfs-3g89
 libnuma1
 libobjc-11-dev
@@ -643,7 +645,6 @@ libssl3
 libstdc++-10-dev
 libstdc++-11-dev
 libstdc++-12-dev
-libstdc++-9-dev
 libstdc++6
 libstemmer0d
 libsvn1
