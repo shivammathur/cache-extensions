@@ -4,7 +4,7 @@
   <a href="https://github.com/shivammathur/cache-extensions" title="Cache PHP extensions in GitHub Actions"><img alt="GitHub Actions status" src="https://github.com/shivammathur/cache-extensions/workflows/Node%20test%20workflow/badge.svg"></a>
   <a href="https://codecov.io/gh/shivammathur/cache-extensions" title="Code coverage"><img alt="Codecov Code Coverage" src="https://codecov.io/gh/shivammathur/cache-extensions/branch/master/graph/badge.svg"></a>
   <a href="https://github.com/shivammathur/cache-extensions/blob/master/LICENSE" title="license"><img alt="LICENSE" src="https://img.shields.io/badge/license-MIT-428f7e.svg?logo=open%20source%20initiative&logoColor=white&labelColor=555555"></a>
-  <a href="#tada-php-support" title="PHP Versions Supported"><img alt="PHP Versions Supported" src="https://img.shields.io/badge/php-5.3%20to%208.5-777bb3.svg?logo=php&logoColor=white&labelColor=555555"></a>
+  <a href="#tada-php-support" title="PHP Versions Supported"><img alt="PHP Versions Supported" src="https://img.shields.io/badge/php-5.3%20to%208.6-777bb3.svg?logo=php&logoColor=white&labelColor=555555"></a>
 </p>
 
 Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "GitHub Actions"). This action has to be used along with [shivammathur/setup-php](https://github.com/shivammathur/setup-php "Setup PHP") and [actions/cache](https://github.com/actions/cache "Cache in GitHub Actions") GitHub Actions. It configures the environment required to cache PHP extensions. Refer to [Usage](#memo-usage "How to use this") section for details and example workflow.
@@ -24,23 +24,24 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 
 ## :tada: PHP Support
 
-|PHP Version|Stability|Release Support|
-|--- |--- |--- |
-|5.3|`Stable`|`End of life`|
-|5.4|`Stable`|`End of life`|
-|5.5|`Stable`|`End of life`|
-|5.6|`Stable`|`End of life`|
-|7.0|`Stable`|`End of life`|
-|7.1|`Stable`|`End of life`|
-|7.2|`Stable`|`End of life`|
-|7.3|`Stable`|`End of life`|
-|7.4|`Stable`|`End of life`|
-|8.0|`Stable`|`End of life`|
-|8.1|`Stable`|`Security fixes only`|
-|8.2|`Stable`|`Security fixes only`|
-|8.3|`Stable`|`Active`|
-|8.4|`Stable`|`Active`|
-|8.5|`Nightly`|`In development`|
+| PHP Version |Stability|Release Support|
+|-------------|--- |--- |
+| 5.3         |`Stable`|`End of life`|
+| 5.4         |`Stable`|`End of life`|
+| 5.5         |`Stable`|`End of life`|
+| 5.6         |`Stable`|`End of life`|
+| 7.0         |`Stable`|`End of life`|
+| 7.1         |`Stable`|`End of life`|
+| 7.2         |`Stable`|`End of life`|
+| 7.3         |`Stable`|`End of life`|
+| 7.4         |`Stable`|`End of life`|
+| 8.0         |`Stable`|`End of life`|
+| 8.1         |`Stable`|`Security fixes only`|
+| 8.2         |`Stable`|`Security fixes only`|
+| 8.3         |`Stable`|`Active`|
+| 8.4         |`Stable`|`Active`|
+| 8.5         |`Stable`|`Active`|
+| 8.6         |`Nightly`|`In development`|
 
 ## :cloud: OS/Platform Support
 
@@ -52,11 +53,11 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 | Ubuntu 22.04        | aarch64 | `ubuntu-22.04-arm`                 |
 | Windows Server 2025 | x64     | `windows-2025`                     |
 | Windows Server 2022 | x64     | `windows-latest` or `windows-2022` |
-| Windows Server 2019 | x64     | `windows-2019`                     |
 | macOS Tahoe 26.x    | arm64   | `macos-26`                         |
 | macOS Sequoia 15.x  | arm64   | `macos-latest` or `macos-15`       |
 | macOS Sonoma 14.x   | arm64   | `macos-14`                         |
-| macOS Ventura 13.x  | x86_64  | `macos-13`                         |
+| macOS Tahoe 26.x    | x86_64  | `macos-26-intel`                   |
+| macOS Sequoia 15.x  | x86_64  | `macos-15-intel`                   |
 
 **Note**: Support for self-hosted runners for the above operating systems is in beta. If you use this action on a self-hosted runner, please report any issues you find.
 
@@ -69,7 +70,7 @@ Use this GitHub Action when the extensions you are adding in [setup-php](https:/
 #### `php-version` (optional)
 
 - Specify the PHP version you want to set up.
-- Accepts a `string`. For example `'8.0'`.
+- Accepts a `string`. For example `'8.5'`.
 - Accepts `latest` to set up the latest stable PHP version.
 - Accepts `nightly` to set up a nightly build from the master branch of PHP.
 - Accepts the format `d.x`, where `d` is the major version. For example `5.x`, `7.x` and `8.x`.
@@ -109,7 +110,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        php-versions: ['8.2', '8.3', '8.4']
+        php-versions: ['8.3', '8.4', '8.5']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     env:
       extensions: intl, pcov
