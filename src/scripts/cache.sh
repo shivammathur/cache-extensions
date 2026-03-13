@@ -90,7 +90,7 @@ linux_php_semver() {
 
 data() {
   old_versions="5.[3-5]"
-  date='20260313'
+  date='20260314'
   arch=$(uname -m)
   if [ "$os" = "Linux" ]; then
     . /etc/os-release

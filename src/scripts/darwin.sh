@@ -23,10 +23,40 @@ add_brew_tap() {
   fi
 }
 
+get_lookup_extension_name() {
+  extension=$1
+  case "$extension" in
+  http) echo "pecl_http" ;;
+  *) echo "$extension" ;;
+  esac
+}
+
+get_config_extension_name() {
+  extension=$1
+  case "$extension" in
+  http | pecl_http) echo "http" ;;
+  phalcon | phalcon3 | phalcon4 | phalcon5) echo "phalcon" ;;
+  redis | phpredis) echo "redis" ;;
+  xdebug | xdebug2) echo "xdebug" ;;
+  *) echo "$extension" ;;
+  esac
+}
+
+get_formula_name() {
+  extension="$(get_lookup_extension_name "$1")"
+  case "$extension" in
+  redis) echo "phpredis" ;;
+  firebird) echo "interbase" ;;
+  *) echo "$extension" ;;
+  esac
+}
+
 get_dependencies() {
   extension=$1
-  list_deps="$(grep "$extension" "${script_dir:?}"/../lists/darwin-deps | cut -d '=' -f 2)"
-  formula_file="$tap_dir/$ext_tap/Formula/$extension@${version:?}.rb"
+  extension_name="$(get_lookup_extension_name "$extension")"
+  list_deps="$(grep "^$extension_name=" "${script_dir:?}"/../lists/darwin-deps | cut -d '=' -f 2)"
+  formula_name="$(get_formula_name "$extension")"
+  formula_file="$tap_dir/$ext_tap/Formula/$formula_name@${version:?}.rb"
   if [ -e "$formula_file" ]; then
     formula_deps="$(grep "depends_on" "$formula_file" | cut -d '"' -f 2 | tr '\n' ' ')"
     formula_deps_from_macos="$(grep "uses_from_macos \"lib" "$formula_file" | cut -d '"' -f 2 | tr '\n' ' ')"
@@ -42,8 +72,9 @@ filter_extensions() {
   extensions_array=("$@")
   filtered_extensions=()
   for ext in "${extensions_array[@]}"; do
-    if grep -i -q -w "$ext" "${script_dir:?}"/../lists/darwin-extensions ||
-      grep -q "$ext=" "${script_dir:?}"/../lists/darwin-deps; then
+    extension_name="$(get_lookup_extension_name "$ext")"
+    if grep -i -q -w "$extension_name" "${script_dir:?}"/../lists/darwin-extensions ||
+      grep -q "^$extension_name=" "${script_dir:?}"/../lists/darwin-deps; then
       filtered_extensions+=("$ext")
     fi
   done
@@ -67,12 +98,13 @@ setup_extensions_helper() {
 }
 
 setup_extensions() {
-  dependent_extension=$1
+  requested_extension=$1
+  dependent_extension="$(get_config_extension_name "$requested_extension")"
   extension_dir=$2
   shift 2
   dependency_extensions_array=("$@")
-  sudo mkdir -p "$cache_directory"/"$extension"
-  echo "::group::Logs to set up extensions required for $extension"
+  sudo mkdir -p "$cache_directory"/"$dependent_extension"
+  echo "::group::Logs to set up extensions required for $requested_extension"
   for dependency_extension in "${dependency_extensions_array[@]}"; do
     setup_extensions_helper "$dependent_extension" "$dependency_extension" "$extension_dir"
   done
@@ -161,7 +193,7 @@ setup_dependencies() {
   extension_dir=$2
   cache_directory=/tmp/extcache
   [[ -z "${extensions// /}" ]] && return
-  IFS=' ' read -r -a extensions_array <<<"$(echo "$extensions" | sed -e "s/pdo[_-]//g" -Ee "s/^|,\s*/ /g")"
+  IFS=' ' read -r -a extensions_array <<<"$(echo "$extensions" | sed -Ee "s/^|,\s*/ /g")"
   IFS=' ' read -r -a extensions_array <<<"$(filter_extensions "${extensions_array[@]}")"
   if [[ -n "${extensions_array[*]// /}" ]]; then
     add_brew_tap "$php_tap"

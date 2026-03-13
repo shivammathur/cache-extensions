@@ -23,6 +23,7 @@ mcrypt
 memcache
 memcached
 mongodb
+mongodb1
 msgpack
 newrelic
 oauth
