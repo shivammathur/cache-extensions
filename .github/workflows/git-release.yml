@@ -50,7 +50,13 @@ jobs:
       - name: Update darwin extensions list
         run: |
           brew tap shivammathur/extensions
-          find "$(brew --repository shivammathur/extensions)"/.github/deps -maxdepth 1 -type d -name "*" -exec basename {} \; | sort > src/lists/darwin-extensions
+          formula_dir="$(brew --repository shivammathur/extensions)/Formula"
+          test -d "$formula_dir"
+          find "$formula_dir" -maxdepth 1 -type f -name '*.rb' -exec basename {} .rb \; \
+            | sed 's/@[0-9.]*$//' \
+            | sed 's/^phpredis$/redis/' \
+            | grep -Ev '^(firebird-client|imap-uw|libcouchbase|mongodb1)$' \
+            | sort -u > src/lists/darwin-extensions
       - name: Update tags and branches
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
