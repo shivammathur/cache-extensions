@@ -27,12 +27,18 @@ jobs:
     name: sync
     needs: update
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: develop
           fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.x'
       - name: Download lists
         uses: actions/download-artifact@v4
         with:
@@ -46,28 +52,70 @@ jobs:
           brew tap shivammathur/extensions
           find "$(brew --repository shivammathur/extensions)"/.github/deps -maxdepth 1 -type d -name "*" -exec basename {} \; | sort > src/lists/darwin-extensions
       - name: Update tags and branches
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          push_ref() {
+          push_branch() {
             ref=$1
-            git push -f https://${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git "$ref" || true
+            git push https://${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git "refs/heads/$ref:refs/heads/$ref"
+          }
+          push_tag() {
+            ref=$1
+            git push https://${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git "refs/tags/$ref"
+          }
+          force_tag() {
+            ref=$1
+            git push -f https://${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git "refs/tags/$ref"
           }
           git config --local user.email "$bot_user_id+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          if [ "$(git status --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
-            git add .
-            git commit -m "Updating lists"
+          git fetch --force --tags origin develop main releases/v1
+          semver=$(git for-each-ref --sort=version:refname --format '%(refname:short)' refs/tags | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 1 || true)
+          current_version=$(node -p "require('./package.json').version")
+          dirty=false
+          if [ "$(git status --porcelain=v1 2>/dev/null | wc -l | tr -d ' ')" != "0" ]; then
+            dirty=true
           fi
-          push_ref develop
-          semver=$(git for-each-ref --sort=version:refname --format '%(refname:short)' refs/tags | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 1)
-          rolling=$(git tag --sort=-refname | awk 'match($0, /^v[0-9]/)' | head -n 1)
+          needs_release=false
+          if [ "$dirty" = "true" ] || [ -z "$semver" ] || [ "$(git rev-parse HEAD)" != "$(git rev-list -n 1 "$semver")" ]; then
+            needs_release=true
+          fi
+          if [ "$needs_release" != "true" ]; then
+            exit 0
+          fi
+          release_tag=""
+          if [ "$dirty" = "false" ] && [ "$(git log -1 --pretty=%s)" = "Release $current_version" ] && [ -n "$semver" ] && [ "$(printf '%s\n%s\n' "$semver" "$current_version" | sort -V | tail -n 1)" = "$current_version" ] && [ "$current_version" != "$semver" ]; then
+            release_tag="$current_version"
+          else
+            base_version="$current_version"
+            if [ -n "$semver" ] && [ "$(printf '%s\n%s\n' "$current_version" "$semver" | sort -V | tail -n 1)" = "$semver" ]; then
+              base_version="$semver"
+            fi
+            release_tag=$(node -e "const version = process.argv[1].split('.').map(Number); version[2] += 1; console.log(version.join('.'));" "$base_version")
+            npm version "$release_tag" --no-git-tag-version
+          fi
+          if [ "$(git status --porcelain=v1 2>/dev/null | wc -l | tr -d ' ')" != "0" ]; then
+            git add .
+            git commit -m "Release $release_tag"
+          fi
+          push_branch develop
+          rolling="v$(echo "$release_tag" | cut -d. -f1)"
           for branch in main releases/$rolling; do
-            git checkout $branch
+            git checkout "$branch"
             if [ "$(git rev-parse "$branch")" != "$(git rev-parse develop)" ]; then
-              git merge --allow-unrelated-histories develop || true
-            fi  
-            push_ref "$branch"
+              git merge --ff-only develop || git merge --no-edit develop
+            fi
+            push_branch "$branch"
           done
-          for tag in $semver $rolling master; do
-            git tag -fa "$tag" -m "Update %1 tag"
-            push_ref "$tag"
-          done
+          main_ref=$(git rev-parse main)
+          git tag -fa "$rolling" "$main_ref" -m "Update $rolling tag"
+          force_tag "$rolling"
+          git tag -fa "master" "$main_ref" -m "Update master tag"
+          force_tag "master"
+          if ! git ls-remote --exit-code --tags origin "refs/tags/$release_tag" >/dev/null 2>&1; then
+            git tag -fa "$release_tag" "$main_ref" -m "Release $release_tag"
+            push_tag "$release_tag"
+          fi
+          if ! gh release view "$release_tag" >/dev/null 2>&1; then
+            gh release create "$release_tag" --target "$main_ref" --title "$release_tag" --generate-notes
+          fi
