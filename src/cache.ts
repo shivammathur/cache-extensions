@@ -1,10 +1,32 @@
 import {exec} from '@actions/exec';
 import * as cache from '@actions/cache';
 import * as core from '@actions/core';
-import * as spu from 'setup-php/lib/utils';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as utils from './utils';
+import * as spu from 'setup-php/lib/utils.js';
+import {existsSync} from 'node:fs';
+import {join, resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import * as utils from './utils.js';
+
+const DEPENDENCY_CACHE_DIR = 'deps';
+const DEPENDENCY_CACHE_PLATFORMS = new Set<NodeJS.Platform>([
+  'darwin',
+  'linux'
+]);
+const SKIP_DEPENDENCY_CACHE_VERSIONS = /^5\.[3-5]$/;
+
+export function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
+export function shouldHandleDependencies(
+  version: string,
+  platform: NodeJS.Platform = process.platform
+): boolean {
+  return (
+    !SKIP_DEPENDENCY_CACHE_VERSIONS.test(version) &&
+    DEPENDENCY_CACHE_PLATFORMS.has(platform)
+  );
+}
 
 /**
  * Handle dependencies
@@ -14,27 +36,35 @@ import * as utils from './utils';
  */
 export async function handleDependencies(
   extensions: string,
-  version: string
+  version: string,
+  platform: NodeJS.Platform = process.platform
 ): Promise<void> {
-  if (!/^5.[3-5]$/.test(version) && /linux|darwin/.test(process.platform)) {
-    const cache_key: string = (await utils.getOutput('key')) + '-deps';
-    const cache_dir: string = path.join(
-      await spu.readEnv('RUNNER_TOOL_CACHE'),
-      'deps'
-    );
-    const cache_hit: string | undefined = await cache.restoreCache(
-      [cache_dir],
-      cache_key,
-      [cache_key]
-    );
-    await exec(await utils.scriptCall('dependencies', extensions, version));
-    if (!cache_hit && fs.existsSync(cache_dir)) {
-      try {
-        await cache.saveCache([cache_dir], cache_key);
-      } catch {
-        await cache.saveCache([cache_dir], cache_key + '-take-2');
-      }
-    }
+  if (!shouldHandleDependencies(version, platform)) {
+    return;
+  }
+
+  const cacheKey = `${await utils.getOutput('key')}-deps`;
+  const cacheDir = join(
+    await spu.readEnv('RUNNER_TOOL_CACHE'),
+    DEPENDENCY_CACHE_DIR
+  );
+  const cacheHit = await cache.restoreCache([cacheDir], cacheKey, [cacheKey]);
+  const dependencyScript = utils.scriptCall(
+    'dependencies',
+    extensions,
+    version
+  );
+
+  await exec(dependencyScript.command, dependencyScript.args);
+
+  if (cacheHit || !existsSync(cacheDir)) {
+    return;
+  }
+
+  try {
+    await cache.saveCache([cacheDir], cacheKey);
+  } catch {
+    await cache.saveCache([cacheDir], `${cacheKey}-take-2`);
   }
 }
 
@@ -43,27 +73,57 @@ export async function handleDependencies(
  */
 export async function run(): Promise<void> {
   try {
-    const version: string = await spu.parseVersion(await spu.readPHPVersion());
-    const extensions: string = await utils.filterExtensions(
+    const version = await spu.parseVersion(await spu.readPHPVersion());
+    const extensions = utils.filterExtensions(
       await spu.getInput('extensions', true)
     );
-    const key: string = await spu.getInput('key', true);
-    await exec(await utils.scriptCall('data', extensions, version, key));
+    const key = await spu.getInput('key', true);
+    const dataScript = utils.scriptCall('data', extensions, version, key);
+
+    await exec(dataScript.command, dataScript.args);
     await handleDependencies(extensions, version);
   } catch (error) {
-    core.setFailed((error as Error).message);
+    core.setFailed(getErrorMessage(error));
   }
 }
 
-// call the run function
-(async () => {
-  await run();
-})().catch(error => {
-  if (error.name === cache.ValidationError.name) {
-    core.setFailed(error.message);
-  } else if (error.name === cache.ReserveCacheError.name) {
-    core.info(error.message);
-  } else {
-    core.warning(error.message);
+export async function main(
+  runAction: () => Promise<void> = run
+): Promise<void> {
+  try {
+    await runAction();
+  } catch (error) {
+    const message = getErrorMessage(error);
+
+    if (error instanceof cache.ValidationError) {
+      core.setFailed(message);
+      return;
+    }
+
+    if (error instanceof cache.ReserveCacheError) {
+      core.info(message);
+      return;
+    }
+
+    core.warning(message);
   }
-});
+}
+
+export function isMainModule(
+  argv1: string | undefined = process.argv[1],
+  moduleUrl: string = import.meta.url
+): boolean {
+  return !!argv1 && resolve(argv1) === fileURLToPath(moduleUrl);
+}
+
+export async function bootstrap(
+  argv1: string | undefined = process.argv[1],
+  moduleUrl: string = import.meta.url,
+  runAction: () => Promise<void> = main
+): Promise<void> {
+  if (isMainModule(argv1, moduleUrl)) {
+    await runAction();
+  }
+}
+
+await bootstrap();

@@ -140,9 +140,10 @@ init() {
   export tick="✓"
   export cross="✗"
   script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
+  platform_script="$script_dir/$(echo "$os" | tr '[:upper:]' '[:lower:]').sh"
   if [[ "$os" = "Linux" || "$os" = "Darwin" ]]; then
     # shellcheck disable=SC1090
-    . "$script_dir/$(echo "$os" | tr '[:upper:]' '[:lower:]').sh"
+    . "$platform_script"
     self_hosted_helper
   fi
 }

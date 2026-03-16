@@ -3,6 +3,10 @@
   "version": "1.14.1",
   "private": false,
   "description": "Cache PHP extensions in GitHub Actions",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
   "main": "lib/cache.js",
   "types": "lib/cache.d.ts",
   "directories": {
@@ -19,8 +23,8 @@
     "lint": "eslint **/src/*.ts --cache --fix",
     "format": "prettier --write **/src/*.ts && git add .",
     "format-check": "prettier --check **/src/*.ts",
-    "release": "ncc build -m -o dist && git add -f dist/",
-    "test": "jest"
+    "release": "ncc build src/cache.ts -m && git add -f dist/",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
@@ -35,26 +39,31 @@
   "author": "shivammathur",
   "license": "MIT",
   "dependencies": {
-    "@actions/cache": "^5.0.5",
-    "@actions/core": "^2.0.3",
-    "@actions/exec": "^2.0.0",
-    "setup-php": "2.36.0"
+    "@actions/cache": "^6.0.0",
+    "@actions/core": "^3.0.0",
+    "@actions/exec": "^3.0.0",
+    "setup-php": "^2.37.0"
   },
   "devDependencies": {
     "@eslint/compat": "^2.0.3",
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^10.0.1",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.5.0",
-    "@typescript-eslint/eslint-plugin": "^8.57.0",
-    "@typescript-eslint/parser": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^8.57.1",
+    "@typescript-eslint/parser": "^8.57.1",
     "@vercel/ncc": "^0.38.4",
-    "eslint": "^9.39.1",
+    "eslint": "^10.0.3",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-import": "^2.32.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import-x": "^4.16.2",
     "eslint-plugin-jest": "^29.15.0",
     "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.4.0",
     "jest": "^30.3.0",
     "jest-circus": "^30.3.0",
     "prettier": "^3.8.1",
+    "ts-node": "^10.9.2",
     "ts-jest": "^29.4.6",
     "typescript": "^5.9.3"
   },

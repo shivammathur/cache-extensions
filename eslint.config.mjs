@@ -24,9 +24,9 @@ export default [
       'eslint:recommended',
       'plugin:@typescript-eslint/eslint-recommended',
       'plugin:@typescript-eslint/recommended',
-      'plugin:import/errors',
-      'plugin:import/warnings',
-      'plugin:import/typescript',
+      'plugin:import-x/errors',
+      'plugin:import-x/warnings',
+      'plugin:import-x/typescript',
       'plugin:prettier/recommended',
       'prettier'
     )

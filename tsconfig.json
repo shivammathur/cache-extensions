@@ -3,17 +3,17 @@
     "declaration": true,
     "esModuleInterop": true,
     "lib": [
-      "ESNext"
+      "ES2024"
     ],
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "noImplicitAny": true,
     "outDir": "./lib",
     "removeComments": true,
     "rootDir": "./src",
     "sourceMap": true,
     "strict": true,
-    "target": "ESNext"
+    "target": "ES2024"
   },
-  "exclude": ["__tests__", "lib", "node_modules"]
+  "exclude": ["node_modules", "**/*.test.ts", "jest.config.ts", "__tests__", "lib"]
 }

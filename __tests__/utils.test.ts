@@ -1,33 +1,39 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as utils from '../src/utils';
-
-async function cleanup(path: string): Promise<void> {
-  fs.unlink(path, error => {
-    if (error) {
-      console.log(error);
-    }
-  });
-}
+import {mkdtempSync, rmSync, writeFileSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import * as utils from '../src/utils.js';
 
 describe('Utils tests', () => {
+  let runnerTemp: string;
+
+  beforeEach(() => {
+    runnerTemp = mkdtempSync(join(tmpdir(), 'cache-extensions-utils-'));
+    process.env['RUNNER_TEMP'] = runnerTemp;
+  });
+
+  afterEach(() => {
+    rmSync(runnerTemp, {recursive: true, force: true});
+  });
+
   it('checking getOutput', async () => {
-    const temp_dir: string = process.env['RUNNER_TEMP'] || '';
-    const file_path: string = path.join(temp_dir, 'test');
-    fs.writeFileSync(file_path, 'test', {mode: 0o755});
+    const file_path: string = join(runnerTemp, 'test');
+    writeFileSync(file_path, 'test');
     expect(await utils.getOutput('test')).toBe('test');
-    await cleanup(file_path);
   });
 
   it('checking filterExtensions', async () => {
-    expect(await utils.filterExtensions('a,:b,c')).toBe('"a,c"');
-    expect(await utils.filterExtensions('a, :b, c')).toBe('"a, c"');
+    expect(utils.filterExtensions('a,:b,c')).toBe('a,c');
+    expect(utils.filterExtensions('a, :b, c')).toBe('a, c');
   });
 
-  it('checking scriptCall', async () => {
-    const script: string = path.join(__dirname, '../src/scripts/cache.sh');
-    expect(await utils.scriptCall('test a b')).toBe(
-      ['bash', script, 'test', 'a', 'b'].join(' ')
-    );
+  it('checking SCRIPT_PATH', () => {
+    expect(utils.SCRIPT_PATH).toBe(join(import.meta.dirname, '../src/scripts/cache.sh'));
+  });
+
+  it('checking scriptCall', () => {
+    expect(utils.scriptCall('test', 'a', 'b')).toEqual({
+      command: 'bash',
+      args: [utils.SCRIPT_PATH, 'test', 'a', 'b']
+    });
   });
 });
