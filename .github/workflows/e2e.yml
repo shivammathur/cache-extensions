@@ -1,0 +1,145 @@
+name: E2E workflow
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PHP_VERSION: '8.4'
+  EXTENSIONS: memcached
+  # Keep the action-generated cache key stable across the seed/restore jobs.
+  RUNNER: e2e
+
+jobs:
+  seed-cache:
+    name: Seed cache (${{ matrix.operating-system }})
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+    env:
+      CACHE_BUSTER: e2e-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.operating-system }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup cache environment
+        id: extcache
+        uses: ./
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: ${{ env.EXTENSIONS }}
+          key: ${{ env.CACHE_BUSTER }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: ${{ env.EXTENSIONS }}
+
+      - name: Verify dependency cache contents
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          test -d "${RUNNER_TOOL_CACHE}/deps"
+          find "${RUNNER_TOOL_CACHE}/deps" -mindepth 1 -print -quit | grep -q .
+
+      - name: Persist cache metadata
+        shell: bash
+        run: |
+          printf '%s\n' '${{ steps.extcache.outputs.key }}' > cache-key.txt
+          printf '%s\n' '${{ steps.extcache.outputs.dir }}' > cache-dir.txt
+
+      - name: Upload cache metadata
+        uses: actions/upload-artifact@v7
+        with:
+          name: cache-metadata-${{ matrix.operating-system }}
+          path: |
+            cache-key.txt
+            cache-dir.txt
+
+      - name: Verify memcached works
+        run: >
+          php -r "if (!extension_loaded('memcached') || !class_exists('Memcached'))
+          {fwrite(STDERR, 'memcached is not available'.PHP_EOL); exit(1);}
+          echo phpversion('memcached'), PHP_EOL;"
+
+      - name: Save extension cache
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+
+  restore-cache:
+    name: Restore cache (${{ matrix.operating-system }})
+    needs: seed-cache
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+    env:
+      CACHE_BUSTER: e2e-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.operating-system }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download cache metadata
+        uses: actions/download-artifact@v8
+        with:
+          name: cache-metadata-${{ matrix.operating-system }}
+          path: .e2e
+
+      - name: Read cache metadata
+        id: metadata
+        shell: bash
+        run: |
+          key="$(tr -d '\r\n' < .e2e/cache-key.txt)"
+          dir="$(tr -d '\r\n' < .e2e/cache-dir.txt)"
+          echo "key=$key" >> "$GITHUB_OUTPUT"
+          echo "dir=$dir" >> "$GITHUB_OUTPUT"
+
+      - name: Setup cache environment
+        id: extcache
+        uses: ./
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: ${{ env.EXTENSIONS }}
+          key: ${{ env.CACHE_BUSTER }}
+
+      - name: Verify computed cache metadata
+        shell: bash
+        run: |
+          test '${{ steps.extcache.outputs.key }}' = '${{ steps.metadata.outputs.key }}'
+          test '${{ steps.extcache.outputs.dir }}' = '${{ steps.metadata.outputs.dir }}'
+
+      - name: Restore extension cache
+        id: extension-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          fail-on-cache-miss: true
+
+      - name: Verify dependency cache contents
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          test -d "${RUNNER_TOOL_CACHE}/deps"
+          find "${RUNNER_TOOL_CACHE}/deps" -mindepth 1 -print -quit | grep -q .
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: ${{ env.EXTENSIONS }}
+
+      - name: Verify memcached works
+        run: >
+          php -r "if (!extension_loaded('memcached') || !class_exists('Memcached'))
+          {fwrite(STDERR, 'memcached is not available'.PHP_EOL); exit(1);}
+          echo phpversion('memcached'), PHP_EOL;"
