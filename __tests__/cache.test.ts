@@ -1,4 +1,11 @@
-import {mkdirSync, mkdtempSync, rmSync, writeFileSync} from 'node:fs';
+import {
+  mkdirSync,
+  mkdtempSync,
+  realpathSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync
+} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join, resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -305,5 +312,28 @@ describe('cache.ts', () => {
     expect(cache.isMainModule(actionPath, toFileHref(otherPath))).toBe(false);
     expect(cache.isMainModule(actionPath)).toBe(false);
     expect(cache.isMainModule(undefined, toFileHref(actionPath))).toBe(false);
+  });
+
+  it('treats symlinked entrypoint paths as the main module', () => {
+    const realActionPath = resolve(dirs.root, 'real-action.js');
+    const symlinkActionPath = resolve(dirs.root, 'symlink-action.js');
+
+    writeFileSync(realActionPath, '');
+    expect(cache.normalizeModulePath(realActionPath)).toBe(
+      realpathSync(realActionPath)
+    );
+
+    if (process.platform === 'win32') {
+      return;
+    }
+
+    symlinkSync(realActionPath, symlinkActionPath, 'file');
+
+    expect(cache.normalizeModulePath(symlinkActionPath)).toBe(
+      realpathSync(realActionPath)
+    );
+    expect(
+      cache.isMainModule(symlinkActionPath, toFileHref(realActionPath))
+    ).toBe(true);
   });
 });

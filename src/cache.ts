@@ -2,7 +2,7 @@ import {exec} from '@actions/exec';
 import * as cache from '@actions/cache';
 import * as core from '@actions/core';
 import * as spu from 'setup-php/lib/utils.js';
-import {existsSync} from 'node:fs';
+import {existsSync, realpathSync} from 'node:fs';
 import {join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import * as utils from './utils.js';
@@ -16,6 +16,12 @@ const SKIP_DEPENDENCY_CACHE_VERSIONS = /^5\.[3-5]$/;
 
 export function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
+}
+
+export function normalizeModulePath(path: string): string {
+  const resolvedPath = resolve(path);
+
+  return existsSync(resolvedPath) ? realpathSync(resolvedPath) : resolvedPath;
 }
 
 export function shouldHandleDependencies(
@@ -113,7 +119,10 @@ export function isMainModule(
   argv1: string | undefined = process.argv[1],
   moduleUrl: string = import.meta.url
 ): boolean {
-  return !!argv1 && resolve(argv1) === fileURLToPath(moduleUrl);
+  return (
+    !!argv1 &&
+    normalizeModulePath(argv1) === normalizeModulePath(fileURLToPath(moduleUrl))
+  );
 }
 
 export async function bootstrap(

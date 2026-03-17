@@ -1,4 +1,5 @@
 export declare function getErrorMessage(error: unknown): string;
+export declare function normalizeModulePath(path: string): string;
 export declare function shouldHandleDependencies(version: string, platform?: NodeJS.Platform): boolean;
 export declare function handleDependencies(extensions: string, version: string, platform?: NodeJS.Platform): Promise<void>;
 export declare function run(): Promise<void>;
