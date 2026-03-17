@@ -17,6 +17,11 @@ inputs:
   key:
     description: 'Key to version the cache hash.'
     required: true
+outputs:
+  dir:
+    description: 'Directory containing the cached PHP extensions.'
+  key:
+    description: 'Cache key for the PHP extensions directory.'
 runs:
   using: 'node24'
   main: 'dist/index.js'
