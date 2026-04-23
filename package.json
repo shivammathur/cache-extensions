@@ -1,6 +1,6 @@
 {
   "name": "cache-extensions",
-  "version": "1.14.3",
+  "version": "1.14.4",
   "private": false,
   "description": "Cache PHP extensions in GitHub Actions",
   "type": "module",
