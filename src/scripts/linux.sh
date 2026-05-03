@@ -23,9 +23,8 @@ add_package() {
 
 add_ppa_package() {
   package=$1
-  package_link="$(get_package_link "$package")"
-  curl -o /tmp/"$package.deb" -sL "$package_link"
-  sudo DEBIAN_FRONTEND=noninteractive dpkg -i "/tmp/$package.deb"
+  download_ppa_package "$package" "/tmp/$package.deb" &&
+    sudo DEBIAN_FRONTEND=noninteractive dpkg -i "/tmp/$package.deb"
 }
 
 link_apt_fast() {
@@ -35,11 +34,34 @@ link_apt_fast() {
   fi
 }
 
+download_ppa_file() {
+  local file=$1
+  local target=$2
+  local root
+  local roots=()
+  if [[ -n "${preferred_ppa_root:-}" ]]; then
+    roots+=("$preferred_ppa_root")
+  fi
+  for root in "https://ppa.launchpadcontent.net" "https://ppa.setup-php.com"; do
+    [[ "$root" = "${preferred_ppa_root:-}" ]] && continue
+    roots+=("$root")
+  done
+  rm -f "$target"
+  for root in "${roots[@]}"; do
+    if curl -H "User-Agent: Debian APT-HTTP/GHA(ce)" --connect-timeout 5 -o "$target" -fsL "$root/$file"; then
+      preferred_ppa_root=$root
+      return 0
+    fi
+    rm -f "$target"
+  done
+  return 1
+}
+
 fetch_package() {
   if ! [ -e /tmp/Packages ]; then
     . /etc/os-release
     arch=$(dpkg --print-architecture)
-    curl -o /tmp/Packages.gz -sL "http://ppa.launchpad.net/ondrej/php/ubuntu/dists/$VERSION_CODENAME/main/binary-$arch/Packages.gz"
+    download_ppa_file "ondrej/php/ubuntu/dists/$VERSION_CODENAME/main/binary-$arch/Packages.gz" "/tmp/Packages.gz" || return 1
     gzip -df /tmp/Packages.gz
   fi
 }
@@ -55,11 +77,20 @@ get_dependencies() {
   echo "${deps[@]}"
 }
 
-get_package_link() {
+get_package_file() {
   package=$1
-  trunk="http://ppa.launchpad.net/ondrej/php/ubuntu"
-  file=$(sed -e '/Package:\s'"$package$"'/,/^\s*$/!d' /tmp/Packages | grep -Eo "^Filename.*" | cut -d' ' -f 2 | tr -d '\r')
-  echo "$trunk/$file"
+  awk -v package="$package" '
+    $1 == "Package:" && $2 == package { found = 1 }
+    found && $1 == "Filename:" { print $2; exit }
+    found && /^$/ { found = 0 }
+  ' /tmp/Packages | tr -d '\r'
+}
+
+download_ppa_package() {
+  package=$1
+  target=$2
+  file=$(get_package_file "$package")
+  download_ppa_file "ondrej/php/ubuntu/$file" "$target"
 }
 
 setup_extensions_helper() {
@@ -68,8 +99,7 @@ setup_extensions_helper() {
   cached_extension="${deps_cache_directory:?}/$dependency_extension.so"
   if ! [ -e "$extension_dir/$dependency_extension.so" ]; then
     if ! [ -e "$cached_extension" ]; then
-      extension_package_link="$(get_package_link "php${version:?}-$dependency_extension")"
-      sudo curl -H "User-Agent: Debian APT-HTTP/GHA(ce)" -o "/tmp/$dependency_extension".deb -sL "$extension_package_link"
+      download_ppa_package "php${version:?}-$dependency_extension" "/tmp/$dependency_extension".deb || return 1
       sudo dpkg-deb -x "/tmp/$dependency_extension".deb /
       sudo cp "$extension_dir/$dependency_extension.so" "$cached_extension"
       fix_ownership "$extension_dir"
@@ -139,7 +169,7 @@ setup_dependencies() {
   extension_packages=""
   for extension_package in "${extensions_array[@]}"; do
     [[ ! "$extension_package" =~ php[0-9]+\.[0-9]+-[a-zA-Z0-9]+$ ]] && continue
-    fetch_package
+    fetch_package || return 1
     libraries="$libraries $(get_dependencies "$extension_package" "lib")"
     IFS=' ' read -r -a dependency_extension_packages_array <<<"$(get_dependencies "$extension_package" "php$version-")"
     extension_packages="$extension_packages ${dependency_extension_packages_array[*]}"
