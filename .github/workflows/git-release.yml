@@ -50,6 +50,7 @@ jobs:
       - name: Update darwin extensions list
         run: |
           brew tap shivammathur/extensions
+          brew trust shivammathur/extensions || true
           formula_dir="$(brew --repository shivammathur/extensions)/Formula"
           test -d "$formula_dir"
           find "$formula_dir" -maxdepth 1 -type f -name '*.rb' -exec basename {} .rb \; \
