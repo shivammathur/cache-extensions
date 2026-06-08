@@ -108,6 +108,7 @@ data() {
   else
     os="Windows-$arch"
     dir='C:\\tools\\php\\ext'
+    [ "$version" = "8.6" ] && date='20260608'
   fi
   [[ ( -z "$ImageOS" && -z "$ImageVersion" ) ||
      ( -n "$RUNNER_ENVIRONMENT" && "$RUNNER_ENVIRONMENT" = "self-hosted" ) ||
