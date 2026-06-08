@@ -21,6 +21,7 @@ add_brew_tap() {
       fi
     fi
   fi
+  brew trust "$tap" >/dev/null 2>&1
 }
 
 get_lookup_extension_name() {
