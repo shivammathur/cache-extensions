@@ -38,11 +38,16 @@ download_ppa_file() {
   local file=$1
   local target=$2
   local root
+  local available_roots=("https://ppa.launchpadcontent.net" "https://ppa.setup-php.com")
+  if [[ "${VERSION_ID//./}" -ge 2604 ]]; then
+    available_roots=("https://packages.sury.org/php")
+    file="${file#ondrej/php/ubuntu/}"
+  fi
   local roots=()
   if [[ -n "${preferred_ppa_root:-}" ]]; then
     roots+=("$preferred_ppa_root")
   fi
-  for root in "https://ppa.launchpadcontent.net" "https://ppa.setup-php.com"; do
+  for root in "${available_roots[@]}"; do
     [[ "$root" = "${preferred_ppa_root:-}" ]] && continue
     roots+=("$root")
   done
@@ -124,7 +129,7 @@ setup_extensions() {
 
 filter_libraries() {
   libraries="$(echo "$1" | xargs -n1 | sort | uniq | xargs)"
-  if [ "$runner" = "github" ]; then
+  if [[ "$runner" = "github" && -f "${script_dir:?}/../lists/$VERSION_CODENAME-libs" ]]; then
     for library in $libraries; do
       if grep -i -q -w "$library" "${script_dir:?}"/../lists/"$VERSION_CODENAME"-libs; then
         libraries=${libraries//$library/}

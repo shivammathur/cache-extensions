@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        operating-system: [ubuntu-latest, ubuntu-26.04, windows-latest, macos-latest]
     env:
       CACHE_BUSTER: e2e-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.operating-system }}
     steps:
@@ -81,7 +81,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        operating-system: [ubuntu-latest, ubuntu-26.04, windows-latest, macos-latest]
     env:
       CACHE_BUSTER: e2e-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.operating-system }}
     steps:
