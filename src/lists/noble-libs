@@ -141,7 +141,7 @@ libfribidi0
 libfsverity0
 libftdi1-2
 libfuse3-3
-libfwupd2
+libfwupd3
 libgbm1
 libgc1
 libgcc-12-dev
@@ -183,7 +183,6 @@ libgstreamer1.0-0
 libgtk-3-0t64
 libgtk-3-common
 libgudev-1.0-0
-libgusb2
 libharfbuzz0b
 libhashkit2t64
 libhavege2
@@ -533,5 +532,6 @@ libzstd-dev
 libzstd1
 python3-launchpadlib
 python3-oauthlib
+python3-passlib
 python3-wadllib
 texinfo-lib
