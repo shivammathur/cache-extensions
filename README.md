@@ -4,7 +4,7 @@
   <a href="https://github.com/shivammathur/cache-extensions" title="Cache PHP extensions in GitHub Actions"><img alt="GitHub Actions status" src="https://github.com/shivammathur/cache-extensions/workflows/Node%20test%20workflow/badge.svg"></a>
   <a href="https://codecov.io/gh/shivammathur/cache-extensions" title="Code coverage"><img alt="Codecov Code Coverage" src="https://codecov.io/gh/shivammathur/cache-extensions/branch/master/graph/badge.svg"></a>
   <a href="https://github.com/shivammathur/cache-extensions/blob/master/LICENSE" title="license"><img alt="LICENSE" src="https://img.shields.io/badge/license-MIT-428f7e.svg?logo=open%20source%20initiative&logoColor=white&labelColor=555555"></a>
-  <a href="#tada-php-support" title="PHP Versions Supported"><img alt="PHP Versions Supported" src="https://img.shields.io/badge/php-5.3%20to%208.6-777bb3.svg?logo=php&logoColor=white&labelColor=555555"></a>
+  <a href="#tada-php-support" title="PHP Versions Supported"><img alt="PHP Versions Supported" src="https://img.shields.io/badge/php-5.3%20to%208.7-777bb3.svg?logo=php&logoColor=white&labelColor=555555"></a>
 </p>
 
 Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "GitHub Actions"). This action has to be used along with [shivammathur/setup-php](https://github.com/shivammathur/setup-php "Setup PHP") and [actions/cache](https://github.com/actions/cache "Cache in GitHub Actions") GitHub Actions. It configures the environment required to cache PHP extensions. Refer to [Usage](#memo-usage "How to use this") section for details and example workflow.
@@ -43,13 +43,16 @@ Cache PHP extensions in [GitHub Actions](https://github.com/features/actions "Gi
 | 8.4         |`Stable`|`Active`|
 | 8.5         |`Stable`|`Active`|
 | 8.6         |`Nightly`|`In development`|
+| 8.7         |`Nightly`|`In development`|
 
 ## :cloud: OS/Platform Support
 
 | Virtual environment | Arch    | YAML workflow label                |
 |---------------------|---------|------------------------------------|
+| Ubuntu 26.04        | x86_64  | `ubuntu-26.04`                     |
 | Ubuntu 24.04        | x86_64  | `ubuntu-latest` or `ubuntu-24.04`  |
 | Ubuntu 22.04        | x86_64  | `ubuntu-22.04`                     |
+| Ubuntu 26.04        | aarch64 | `ubuntu-26.04-arm`                 |
 | Ubuntu 24.04        | aarch64 | `ubuntu-24.04-arm`                 |
 | Ubuntu 22.04        | aarch64 | `ubuntu-22.04-arm`                 |
 | Windows Server 2025 | x64     | `windows-2025`                     |
@@ -73,7 +76,8 @@ Use this GitHub Action when the extensions you are adding in [setup-php](https:/
 - Specify the PHP version you want to set up.
 - Accepts a `string`. For example `'8.5'`.
 - Accepts `latest` to set up the latest stable PHP version.
-- Accepts `nightly` to set up a nightly build from the master branch of PHP.
+- Accepts `nightly` to set up a nightly build of the next PHP release.
+- Accepts `master` to set up a nightly build from the master branch of PHP.
 - Accepts the format `d.x`, where `d` is the major version. For example `5.x`, `7.x` and `8.x`.
 - See [PHP support](#tada-php-support) for the supported PHP versions.
 - If not specified, it looks for `php-version-file` input.
