@@ -83,6 +83,7 @@ libcom-err2
 libcommon-sense-perl
 libcompel1
 libcriu2
+libcrypt-dev
 libcrypt1
 libcryptsetup12
 libctf-nobfd0
