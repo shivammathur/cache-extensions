@@ -96,6 +96,8 @@ libdbusmenu-glib4
 libdbusmenu-gtk3-4
 libdconf1
 libdebconfclient0
+libdebuginfod-common
+libdebuginfod1t64
 libdeflate0
 libdevmapper-event1.02.1
 libdevmapper1.02.1
