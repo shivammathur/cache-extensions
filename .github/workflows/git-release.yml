@@ -28,6 +28,7 @@ jobs:
     needs: update
     runs-on: ubuntu-latest
     permissions:
+      actions: write
       contents: write
     steps:
       - name: Checkout
@@ -125,4 +126,5 @@ jobs:
           fi
           if ! gh release view "$release_tag" >/dev/null 2>&1; then
             gh release create "$release_tag" --target "$main_ref" --title "$release_tag" --generate-notes
+            gh workflow run node-release.yml --ref main -f tag="$release_tag"
           fi
