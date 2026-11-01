@@ -5,10 +5,13 @@ import jest from 'eslint-plugin-jest';
 import globals from 'globals';
 // eslint-disable-next-line import/no-unresolved
 import tsParser from '@typescript-eslint/parser';
+import {createRequire} from 'node:module';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import js from '@eslint/js';
-import {FlatCompat} from '@eslint/eslintrc';
+
+// Use the CommonJS entry point until eslintrc supports minimatch 11 ESM exports.
+const {FlatCompat} = createRequire(import.meta.url)('@eslint/eslintrc');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

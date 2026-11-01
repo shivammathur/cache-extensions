@@ -69,12 +69,15 @@
     "typescript": "npm:@typescript/typescript6@^6.0.2"
   },
   "overrides": {
+    "@actions/glob": "https://codeload.github.com/shivammathur/actions-glob/tar.gz/e8291fcebd288e5df38972b200cba8ac6943ce92",
     "@istanbuljs/load-nyc-config": {
       "js-yaml": "^4.3.2"
     },
     "brace-expansion@1.x": "^1.1.21",
+    "deepmerge": "https://codeload.github.com/shivammathur/deepmerge/tar.gz/9e04a97afa90b9d50883dd723f7d0fb0d2c16dca",
     "test-exclude": "^8.0.0",
-    "glob": "^13.0.6",
+    "glob": "^14.0.3",
+    "minimatch": "^11.0.3",
     "undici": "^6.29.1"
   },
   "bugs": {
