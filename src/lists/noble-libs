@@ -41,8 +41,6 @@ libblockdev-part3
 libblockdev-swap3
 libblockdev-utils3
 libblockdev3
-libboost-iostreams1.83.0
-libboost-thread1.83.0
 libbpf1
 libbpfcc
 libbrotli1
@@ -92,7 +90,6 @@ libcups2t64
 libcurl3t64-gnutls
 libcurl4t64
 libdatrie1
-libdaxctl1
 libdb5.3t64
 libdbus-1-3
 libdbusmenu-glib4
@@ -159,20 +156,16 @@ libgdbm-compat4t64
 libgdbm6t64
 libgdk-pixbuf-2.0-0
 libgdk-pixbuf2.0-common
-libgfapi0
 libgfortran-12-dev
 libgfortran-13-dev
 libgfortran-14-dev
 libgfortran5
-libgfrpc0
-libgfxdr0
 libgirepository-1.0-1
 libgl1
 libgl1-mesa-dri
 libglib2.0-0t64
 libglib2.0-bin
 libglib2.0-data
-libglusterfs0
 libglvnd0
 libglx-mesa0
 libglx0
@@ -245,6 +238,8 @@ liblcms2-2
 libldap-common
 libldap2
 liblerc4
+liblldb-16t64
+liblldb-17t64
 liblldb-18
 libllvm16t64
 libllvm17t64
@@ -290,11 +285,9 @@ libmpfr6
 libmspack0t64
 libmysqlclient-dev
 libmysqlclient21
-libnbd0
 libncurses-dev
 libncurses6
 libncursesw6
-libndctl6
 libnetfilter-conntrack3
 libnetplan1
 libnettle8t64
@@ -349,8 +342,6 @@ libpipeline1
 libpixman-1-0
 libpkgconf3
 libplymouth5
-libpmem1
-libpmemobj1
 libpng16-16t64
 libpolkit-agent-1-0
 libpolkit-gobject-1-0
@@ -375,10 +366,7 @@ libqmi-utils
 libqrtr-glib0
 libquadmath0
 librabbitmq4
-librados2
 libraw23t64
-librbd1
-librdmacm1t64
 libre2-10
 libreadline8t64
 libreiserfscore0t64
@@ -428,6 +416,7 @@ libsubid4
 libsybdb5
 libsystemd-shared
 libsystemd0
+libtalloc2
 libtasn1-6
 libtcl8.6
 libtdb1
@@ -454,6 +443,7 @@ libtracefs1
 libtsan2
 libtss2-esys-3.0.2-0t64
 libtss2-mu-4.0.1-0t64
+libtss2-rc0t64
 libtss2-sys1t64
 libtss2-tcti-cmd0t64
 libtss2-tcti-device0t64
@@ -479,6 +469,7 @@ libvulkan1
 libwayland-client0
 libwayland-cursor0
 libwayland-egl1
+libwbclient0
 libwebp7
 libwebpdemux2
 libwebpmux3
@@ -543,5 +534,6 @@ libzstd-dev
 libzstd1
 python3-launchpadlib
 python3-oauthlib
+python3-passlib
 python3-wadllib
 texinfo-lib
