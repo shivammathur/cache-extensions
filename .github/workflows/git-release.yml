@@ -4,8 +4,31 @@ on:
   schedule:
     - cron: '0 15 * * *'
 jobs:
+  check_release:
+    name: Check release window
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      should_release: ${{ steps.check.outputs.should_release }}
+    steps:
+      - name: Check last published release
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          latest_release=$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq -sr '[.[][] | select(.draft == false and .published_at != null) | .published_at] | max // empty')
+          if [ -n "$latest_release" ] && [ "$(date -u -d "$latest_release" +%s)" -gt "$(($(date -u +%s) - 15 * 24 * 60 * 60))" ]; then
+            echo "Skipping release: the last release was published at $latest_release."
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+          fi
+
   update:
     name: update
+    needs: check_release
+    if: needs.check_release.outputs.should_release == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
